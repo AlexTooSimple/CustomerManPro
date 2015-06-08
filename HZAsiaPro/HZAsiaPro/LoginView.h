@@ -14,7 +14,7 @@
 @interface LoginView : UIView
 {
     id<LoginViewDelegate> delegate;
-    NSInteger count;
+    CGFloat width;
 }
 @property (nonatomic ,assign) id<LoginViewDelegate> delegate;
 @end
