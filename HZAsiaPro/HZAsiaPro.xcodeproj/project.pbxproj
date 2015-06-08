@@ -11,6 +11,7 @@
 		02137C6B1ACA94E400C87B63 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 02137C671ACA94E400C87B63 /* MBProgressHUD.m */; };
 		02137C6C1ACA94E400C87B63 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02137C681ACA94E400C87B63 /* SVProgressHUD.bundle */; };
 		02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 02137C6A1ACA94E400C87B63 /* SVProgressHUD.m */; };
+		0214169E1B257F4C00248D48 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0214169D1B257F4C00248D48 /* ViewController.m */; };
 		022964521AA6AFE700D5BFE5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964511AA6AFE700D5BFE5 /* main.m */; };
 		022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964541AA6AFE700D5BFE5 /* AppDelegate.m */; };
 		022964571AA6AFE700D5BFE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 022964561AA6AFE700D5BFE5 /* Images.xcassets */; };
@@ -61,6 +62,8 @@
 		02137C681ACA94E400C87B63 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SVProgressHUD.bundle; path = Tools/SVProgressHUD/SVProgressHUD.bundle; sourceTree = SOURCE_ROOT; };
 		02137C691ACA94E400C87B63 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVProgressHUD.h; path = Tools/SVProgressHUD/SVProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		02137C6A1ACA94E400C87B63 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVProgressHUD.m; path = Tools/SVProgressHUD/SVProgressHUD.m; sourceTree = SOURCE_ROOT; };
+		0214169C1B257F4C00248D48 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0214169D1B257F4C00248D48 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		0229644C1AA6AFE700D5BFE5 /* HZAsiaPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HZAsiaPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		022964501AA6AFE700D5BFE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		022964511AA6AFE700D5BFE5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -287,6 +290,8 @@
 				022964991AA6B3F100D5BFE5 /* LoginView.m */,
 				0229649B1AA6B43100D5BFE5 /* LoginVC.h */,
 				0229649C1AA6B43100D5BFE5 /* LoginVC.m */,
+				0214169C1B257F4C00248D48 /* ViewController.h */,
+				0214169D1B257F4C00248D48 /* ViewController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -469,6 +474,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				028207701AB1889200951CB2 /* message.m in Sources */,
+				0214169E1B257F4C00248D48 /* ViewController.m in Sources */,
 				0229648F1AA6B2E000D5BFE5 /* AFURLRequestSerialization.m in Sources */,
 				0229649A1AA6B3F100D5BFE5 /* LoginView.m in Sources */,
 				02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */,
