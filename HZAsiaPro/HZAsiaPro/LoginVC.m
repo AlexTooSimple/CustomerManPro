@@ -9,6 +9,8 @@
 #import "LoginVC.h"
 #import "LoginView.h"
 #import "bussineDataService.h"
+#import "PureLayout.h"
+#import "AppDelegate.h"
 
 @interface LoginVC ()<LoginViewDelegate>
 
@@ -29,11 +31,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    LoginView *loginView = [[LoginView alloc] init];
+    LoginView *loginView = [[LoginView alloc] initForAutoLayout];
     loginView.delegate = self;
-    loginView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     loginView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:loginView];
+    
+    [loginView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [loginView release];
 }
 
@@ -57,12 +60,14 @@
 #pragma mark - LoginViewDelegate
 - (void)loginWithUserName:(NSString *)userName Passwd:(NSString *)passWd
 {
-    NSDictionary *paramer = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             userName,@"UserName",
-                             passWd,@"PassWd",nil];
+    [(AppDelegate *)([UIApplication sharedApplication].delegate) setHomeTabVC];
     
-    bussineDataService *bussineService = [bussineDataService sharedDataService];
-    [bussineService login:paramer];
-    [paramer release];
+//    NSDictionary *paramer = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                             userName,@"UserName",
+//                             passWd,@"PassWd",nil];
+//    
+//    bussineDataService *bussineService = [bussineDataService sharedDataService];
+//    [bussineService login:paramer];
+//    [paramer release];
 }
 @end

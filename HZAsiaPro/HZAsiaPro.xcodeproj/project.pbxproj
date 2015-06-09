@@ -11,6 +11,10 @@
 		02137C6B1ACA94E400C87B63 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 02137C671ACA94E400C87B63 /* MBProgressHUD.m */; };
 		02137C6C1ACA94E400C87B63 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02137C681ACA94E400C87B63 /* SVProgressHUD.bundle */; };
 		02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 02137C6A1ACA94E400C87B63 /* SVProgressHUD.m */; };
+		021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 021416A21B25867B00248D48 /* HomeTabBarController.m */; };
+		021416A91B25892A00248D48 /* SafeManageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 021416A81B25892A00248D48 /* SafeManageVC.m */; };
+		021416AC1B25894400248D48 /* CustomerManageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 021416AB1B25894400248D48 /* CustomerManageVC.m */; };
+		021416B01B25896100248D48 /* HomeInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 021416AF1B25896100248D48 /* HomeInfoVC.m */; };
 		022964521AA6AFE700D5BFE5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964511AA6AFE700D5BFE5 /* main.m */; };
 		022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964541AA6AFE700D5BFE5 /* AppDelegate.m */; };
 		022964571AA6AFE700D5BFE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 022964561AA6AFE700D5BFE5 /* Images.xcassets */; };
@@ -28,6 +32,10 @@
 		022964941AA6B2FF00D5BFE5 /* HttpConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964931AA6B2FF00D5BFE5 /* HttpConnector.m */; };
 		0229649A1AA6B3F100D5BFE5 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964991AA6B3F100D5BFE5 /* LoginView.m */; };
 		0229649D1AA6B43100D5BFE5 /* LoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0229649C1AA6B43100D5BFE5 /* LoginVC.m */; };
+		024C6B271B26DB7F00B19543 /* Icon-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 024C6B231B26DB7F00B19543 /* Icon-40@3x.png */; };
+		024C6B281B26DB7F00B19543 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 024C6B241B26DB7F00B19543 /* Icon-60@3x.png */; };
+		024C6B291B26DB7F00B19543 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 024C6B251B26DB7F00B19543 /* Icon.png */; };
+		024C6B2A1B26DB7F00B19543 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 024C6B261B26DB7F00B19543 /* Icon@2x.png */; };
 		0280D4801B009F7700993641 /* AlertShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0280D47F1B009F7700993641 /* AlertShowView.m */; };
 		028207631AB03EB900951CB2 /* JsonMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 028207621AB03EB900951CB2 /* JsonMessage.m */; };
 		028207661AB03F2400951CB2 /* XmlMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 028207651AB03F2400951CB2 /* XmlMessage.m */; };
@@ -61,6 +69,14 @@
 		02137C681ACA94E400C87B63 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SVProgressHUD.bundle; path = Tools/SVProgressHUD/SVProgressHUD.bundle; sourceTree = SOURCE_ROOT; };
 		02137C691ACA94E400C87B63 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SVProgressHUD.h; path = Tools/SVProgressHUD/SVProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		02137C6A1ACA94E400C87B63 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SVProgressHUD.m; path = Tools/SVProgressHUD/SVProgressHUD.m; sourceTree = SOURCE_ROOT; };
+		021416A11B25867B00248D48 /* HomeTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTabBarController.h; sourceTree = "<group>"; };
+		021416A21B25867B00248D48 /* HomeTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTabBarController.m; sourceTree = "<group>"; };
+		021416A71B25892A00248D48 /* SafeManageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SafeManageVC.h; sourceTree = "<group>"; };
+		021416A81B25892A00248D48 /* SafeManageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SafeManageVC.m; sourceTree = "<group>"; };
+		021416AA1B25894400248D48 /* CustomerManageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerManageVC.h; sourceTree = "<group>"; };
+		021416AB1B25894400248D48 /* CustomerManageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerManageVC.m; sourceTree = "<group>"; };
+		021416AE1B25896100248D48 /* HomeInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeInfoVC.h; sourceTree = "<group>"; };
+		021416AF1B25896100248D48 /* HomeInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeInfoVC.m; sourceTree = "<group>"; };
 		0229644C1AA6AFE700D5BFE5 /* HZAsiaPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HZAsiaPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		022964501AA6AFE700D5BFE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		022964511AA6AFE700D5BFE5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -96,6 +112,10 @@
 		022964991AA6B3F100D5BFE5 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		0229649B1AA6B43100D5BFE5 /* LoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginVC.h; sourceTree = "<group>"; };
 		0229649C1AA6B43100D5BFE5 /* LoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginVC.m; sourceTree = "<group>"; };
+		024C6B231B26DB7F00B19543 /* Icon-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@3x.png"; sourceTree = "<group>"; };
+		024C6B241B26DB7F00B19543 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
+		024C6B251B26DB7F00B19543 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		024C6B261B26DB7F00B19543 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		0280D47E1B009F7700993641 /* AlertShowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlertShowView.h; path = Tools/CommonTools/AlertShowView.h; sourceTree = SOURCE_ROOT; };
 		0280D47F1B009F7700993641 /* AlertShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlertShowView.m; path = Tools/CommonTools/AlertShowView.m; sourceTree = SOURCE_ROOT; };
 		028207601AB0300800951CB2 /* HZAsiaPro-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HZAsiaPro-Prefix.pch"; sourceTree = "<group>"; };
@@ -169,9 +189,51 @@
 			name = SVProgressHUD;
 			sourceTree = "<group>";
 		};
+		0214169F1B25857F00248D48 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				022964981AA6B3F100D5BFE5 /* LoginView.h */,
+				022964991AA6B3F100D5BFE5 /* LoginView.m */,
+				0229649B1AA6B43100D5BFE5 /* LoginVC.h */,
+				0229649C1AA6B43100D5BFE5 /* LoginVC.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		021416A41B2588D200248D48 /* home */ = {
+			isa = PBXGroup;
+			children = (
+				021416AE1B25896100248D48 /* HomeInfoVC.h */,
+				021416AF1B25896100248D48 /* HomeInfoVC.m */,
+			);
+			name = home;
+			sourceTree = "<group>";
+		};
+		021416A51B2588E100248D48 /* customerManage */ = {
+			isa = PBXGroup;
+			children = (
+				021416AA1B25894400248D48 /* CustomerManageVC.h */,
+				021416AB1B25894400248D48 /* CustomerManageVC.m */,
+			);
+			name = customerManage;
+			sourceTree = "<group>";
+		};
+		021416A61B2588F300248D48 /* safeManage */ = {
+			isa = PBXGroup;
+			children = (
+				021416A71B25892A00248D48 /* SafeManageVC.h */,
+				021416A81B25892A00248D48 /* SafeManageVC.m */,
+			);
+			name = safeManage;
+			sourceTree = "<group>";
+		};
 		022964431AA6AFE700D5BFE5 = {
 			isa = PBXGroup;
 			children = (
+				024C6B231B26DB7F00B19543 /* Icon-40@3x.png */,
+				024C6B241B26DB7F00B19543 /* Icon-60@3x.png */,
+				024C6B251B26DB7F00B19543 /* Icon.png */,
+				024C6B261B26DB7F00B19543 /* Icon@2x.png */,
 				0229644E1AA6AFE700D5BFE5 /* HZAsiaPro */,
 				022964621AA6AFE700D5BFE5 /* HZAsiaProTests */,
 				0229644D1AA6AFE700D5BFE5 /* Products */,
@@ -283,10 +345,12 @@
 		022964741AA6B21D00D5BFE5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				022964981AA6B3F100D5BFE5 /* LoginView.h */,
-				022964991AA6B3F100D5BFE5 /* LoginView.m */,
-				0229649B1AA6B43100D5BFE5 /* LoginVC.h */,
-				0229649C1AA6B43100D5BFE5 /* LoginVC.m */,
+				021416A61B2588F300248D48 /* safeManage */,
+				021416A51B2588E100248D48 /* customerManage */,
+				021416A41B2588D200248D48 /* home */,
+				0214169F1B25857F00248D48 /* Login */,
+				021416A11B25867B00248D48 /* HomeTabBarController.h */,
+				021416A21B25867B00248D48 /* HomeTabBarController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -448,8 +512,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				024C6B291B26DB7F00B19543 /* Icon.png in Resources */,
 				0229645A1AA6AFE700D5BFE5 /* LaunchScreen.xib in Resources */,
+				024C6B2A1B26DB7F00B19543 /* Icon@2x.png in Resources */,
+				024C6B281B26DB7F00B19543 /* Icon-60@3x.png in Resources */,
 				02137C6C1ACA94E400C87B63 /* SVProgressHUD.bundle in Resources */,
+				024C6B271B26DB7F00B19543 /* Icon-40@3x.png in Resources */,
 				022964571AA6AFE700D5BFE5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,17 +550,21 @@
 				02137C6B1ACA94E400C87B63 /* MBProgressHUD.m in Sources */,
 				022964911AA6B2E000D5BFE5 /* AFURLSessionManager.m in Sources */,
 				022964901AA6B2E000D5BFE5 /* AFURLResponseSerialization.m in Sources */,
+				021416A91B25892A00248D48 /* SafeManageVC.m in Sources */,
 				022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */,
+				021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */,
 				0229648B1AA6B2E000D5BFE5 /* AFHTTPSessionManager.m in Sources */,
 				0229648A1AA6B2E000D5BFE5 /* AFHTTPRequestOperationManager.m in Sources */,
 				029FE86B1AB9768C006882DE /* JSONKit.m in Sources */,
 				0203F6261AB2C77C004B6065 /* LoginMessage.m in Sources */,
+				021416B01B25896100248D48 /* HomeInfoVC.m in Sources */,
 				022964941AA6B2FF00D5BFE5 /* HttpConnector.m in Sources */,
 				028207631AB03EB900951CB2 /* JsonMessage.m in Sources */,
 				029FE86E1ABAAACC006882DE /* bussineDataService.m in Sources */,
 				0229648C1AA6B2E000D5BFE5 /* AFNetworkReachabilityManager.m in Sources */,
 				0229649D1AA6B43100D5BFE5 /* LoginVC.m in Sources */,
 				02D15D021AAECB34004B2746 /* ALView+PureLayout.m in Sources */,
+				021416AC1B25894400248D48 /* CustomerManageVC.m in Sources */,
 				0282076B1AB17BE100951CB2 /* GDataXMLNode.m in Sources */,
 				022964521AA6AFE700D5BFE5 /* main.m in Sources */,
 				028207661AB03F2400951CB2 /* XmlMessage.m in Sources */,
@@ -609,12 +681,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiang Xin Yu (7VNEARXQS5)";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
@@ -627,11 +700,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
