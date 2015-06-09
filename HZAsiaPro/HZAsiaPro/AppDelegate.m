@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginVC.h"
 #import "bussineDataService.h"
+#import "HomeTabBarController.h"
 
 @interface AppDelegate ()
 
@@ -18,6 +19,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -53,6 +55,21 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)setHomeTabVC
+{
+    if (self.window.rootViewController != nil && [self.window.rootViewController isKindOfClass:[LoginVC class]]) {
+        [self.window.rootViewController.view removeFromSuperview];
+        self.window.rootViewController = nil;
+    }
+    HomeTabBarController *homeTBC = [[HomeTabBarController alloc] init];
+    self.window.rootViewController = homeTBC;
+    [self.window addSubview:homeTBC.view];
+    [homeTBC release];
+    
+    [self.window makeKeyAndVisible];
+    
 }
 
 @end
