@@ -7,10 +7,11 @@
 //
 
 #import "CustomerListView.h"
-#import "PureLayout.h"
 
 #define CELL_NAME_LABEL_TAG         121
 #define CELL_PHONE_LABEL_TAG        122
+
+#define CELL_ROW_HEIGHT             44.0f
 
 
 @implementation CustomerListView
@@ -26,48 +27,94 @@
     [super dealloc];
 }
 
-- (void)layoutContentTable
+- (id)init
 {
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero
-                                                          style:UITableViewStylePlain];
-    tableView.backgroundColor = [UIColor whiteColor];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    tableView.separatorColor = [UIColor grayColor];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
-    self.contentTable = tableView;
-    [self addSubview:tableView];
-    [tableView release];
-    
+    self = [super init];
+    if (self) {
+        [self layoutContentTable];
+    }
+    return self;
 }
 
+- (void)layoutContentTable
+{
+    RefreshSingleView *singleView = [[RefreshSingleView alloc] initWithFrame:CGRectZero];
+    singleView.loadIndex = 10000;
+    singleView.pageNumLoad = 0;
+    singleView.dataSource = self;
+    singleView.delegate = self;
+    singleView.backgroundColor = [UIColor clearColor];
+    self.contentTable = singleView;
+    [self addSubview:singleView];
+    
+    self.contentTable.contentTable.separatorColor = [UIColor grayColor];
+    self.contentTable.contentTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    
+    [singleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+        make.size.equalTo(self);
+    }];
+    [singleView release];
+}
+
+- (void)reloadData:(NSArray *)itemData
+{
+    [self.contentTable resetViewDataStream];
+    [self.contentTable reloadViewData:itemData];
+}
 
 #pragma mark
 #pragma mark - UITableViewDelegate
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)refreshSingleView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *tableCellCode = @"CustomerCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableCellCode];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:tableCellCode] autorelease];
-        UILabel *nameLabel = [[UILabel alloc] initForAutoLayout];
+                                       reuseIdentifier:tableCellCode] autorelease];
+        UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textAlignment = NSTextAlignmentLeft;
         nameLabel.textColor = [UIColor blackColor];
         nameLabel.font = [UIFont systemFontOfSize:15.0f];
         nameLabel.tag = CELL_NAME_LABEL_TAG;
         [cell.contentView addSubview:nameLabel];
-        [nameLabel release];
         
-        UILabel *phoneLabel = [[UILabel alloc] initForAutoLayout];
+        
+        UILabel *phoneLabel = [[UILabel alloc] init];
         phoneLabel.backgroundColor = [UIColor clearColor];
         phoneLabel.textColor = [UIColor blackColor];
         phoneLabel.textAlignment = NSTextAlignmentLeft;
         phoneLabel.font = [UIFont systemFontOfSize:15.0f];
         phoneLabel.tag = CELL_PHONE_LABEL_TAG;
         [cell.contentView addSubview:phoneLabel];
+        
+        
+        UIImageView *arrowView = [[UIImageView alloc] init];
+        arrowView.backgroundColor = [UIColor clearColor];
+        arrowView.image = [UIImage imageNamed:@"icon_item_right.png"];
+        [cell.contentView addSubview:arrowView];
+        
+        
+        [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(cell.contentView).with.insets(UIEdgeInsetsMake(3.0f, 15.0f, 3.0f, cell.contentView.frame.size.width/2.0f-10.0f));
+        }];
+        [phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(cell.contentView).with.offset(3.0f);
+            make.bottom.equalTo(cell.contentView).with.offset(-3.0f);
+            make.left.equalTo(nameLabel.mas_right).with.offset(10.0f);
+            make.right.equalTo(cell.contentView).with.offset(-20.0f);
+        }];
+        
+        [arrowView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(cell.contentView.mas_centerY);
+            make.left.equalTo(phoneLabel.mas_right).with.offset(3.0f);
+            make.size.mas_equalTo(CGSizeMake(7.0f, 12.0f));
+        }];
+        
+        [nameLabel release];
         [phoneLabel release];
+        [arrowView release];
     }
     
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:CELL_NAME_LABEL_TAG];
@@ -82,7 +129,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)refreshSingleView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger row = [indexPath row];
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(customerListView:didSelectRow:)]) {
@@ -90,30 +137,32 @@
     }
 }
 
+- (void)DataChange:(NSMutableArray *)itemData
+{
+    self.customerList = itemData;
+}
+
 #pragma mark
-#pragma mark - UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma mark - refreshSingleViewDataSource
+
+- (CGFloat)refreshSingleView:(RefreshSingleView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 0.0f;
+}
+- (CGFloat)refreshSingleView:(RefreshSingleView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.0f;
+}
+- (CGFloat)refreshSingleView:(RefreshSingleView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CELL_ROW_HEIGHT;
+}
+- (NSInteger)refreshSingleView:(RefreshSingleView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.customerList count];
 }
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInRefreshSingleView:(RefreshSingleView *)tableView
 {
     return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 0.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 44.0f;
 }
 @end

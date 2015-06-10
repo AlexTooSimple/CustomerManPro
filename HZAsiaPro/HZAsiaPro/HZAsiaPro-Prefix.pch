@@ -13,6 +13,7 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
 #import "AlertShowView.h"
+#import "Masonry.h"
 
 #define service_IP                  @"http://42.121.57.229:8080"
 #define service_url                 service_IP@"/dealer/MAPPService"
