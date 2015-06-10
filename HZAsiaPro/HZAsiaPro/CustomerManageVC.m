@@ -41,6 +41,8 @@
     // Do any additional setup after loading the view.
     self.title = @"客户管理";
     
+    [self setNavBarSearchItem];
+    
     CustomerListView *listView = [[CustomerListView alloc] init];
     listView.backgroundColor = [UIColor whiteColor];
     self.customerView = listView;
@@ -60,6 +62,21 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setNavBarSearchItem
+{
+    UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchBtn.frame = CGRectMake(0, 0, 74/2.0f, 83/2.0f);
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"FirstPage_25.png"]
+                         forState:UIControlStateNormal];
+    [searchBtn addTarget:self
+                  action:@selector(search:)
+        forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *searchItem = [[UIBarButtonItem alloc] initWithCustomView:searchBtn];
+    self.navigationItem.leftBarButtonItem = searchItem;
+    [searchItem release];
 }
 
 - (void)initData
@@ -128,6 +145,13 @@
     [row10 release];
     [row11 release];
     [row12 release];
+}
+
+#pragma mark
+#pragma mark - UIAction
+- (void)search:(id)sender
+{
+    
 }
 
 #pragma mark
