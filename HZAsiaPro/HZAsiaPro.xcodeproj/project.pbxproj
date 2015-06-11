@@ -63,6 +63,8 @@
 		02D15D021AAECB34004B2746 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFA1AAECB34004B2746 /* ALView+PureLayout.m */; };
 		02D15D031AAECB34004B2746 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFC1AAECB34004B2746 /* NSArray+PureLayout.m */; };
 		02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFE1AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m */; };
+		183185001B29A95200618CE1 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183184FF1B29A95200618CE1 /* UserView.m */; };
+		183185031B29B47C00618CE1 /* KehuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183185021B29B47C00618CE1 /* KehuView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +195,10 @@
 		02D15CFF1AAECB34004B2746 /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PureLayout.h; path = Tools/PureLayout/PureLayout.h; sourceTree = SOURCE_ROOT; };
 		02D15D001AAECB34004B2746 /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PureLayout+Internal.h"; path = "Tools/PureLayout/PureLayout+Internal.h"; sourceTree = SOURCE_ROOT; };
 		02D15D011AAECB34004B2746 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PureLayoutDefines.h; path = Tools/PureLayout/PureLayoutDefines.h; sourceTree = SOURCE_ROOT; };
+		183184FE1B29A95200618CE1 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserView.h; sourceTree = "<group>"; };
+		183184FF1B29A95200618CE1 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserView.m; sourceTree = "<group>"; };
+		183185011B29B47C00618CE1 /* KehuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KehuView.h; sourceTree = "<group>"; };
+		183185021B29B47C00618CE1 /* KehuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KehuView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +259,10 @@
 			children = (
 				021416AE1B25896100248D48 /* HomeInfoVC.h */,
 				021416AF1B25896100248D48 /* HomeInfoVC.m */,
+				183184FE1B29A95200618CE1 /* UserView.h */,
+				183184FF1B29A95200618CE1 /* UserView.m */,
+				183185011B29B47C00618CE1 /* KehuView.h */,
+				183185021B29B47C00618CE1 /* KehuView.m */,
 			);
 			name = home;
 			sourceTree = "<group>";
@@ -640,6 +650,7 @@
 				025760E71B288BE500CE588A /* ComponentsFactory.m in Sources */,
 				028207701AB1889200951CB2 /* message.m in Sources */,
 				0229648F1AA6B2E000D5BFE5 /* AFURLRequestSerialization.m in Sources */,
+				183185001B29A95200618CE1 /* UserView.m in Sources */,
 				0229649A1AA6B3F100D5BFE5 /* LoginView.m in Sources */,
 				02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */,
@@ -653,6 +664,7 @@
 				0229648D1AA6B2E000D5BFE5 /* AFSecurityPolicy.m in Sources */,
 				02C09D251B27D350009E823C /* MASCompositeConstraint.m in Sources */,
 				02D15D031AAECB34004B2746 /* NSArray+PureLayout.m in Sources */,
+				183185031B29B47C00618CE1 /* KehuView.m in Sources */,
 				022964891AA6B2E000D5BFE5 /* AFHTTPRequestOperation.m in Sources */,
 				02137C6B1ACA94E400C87B63 /* MBProgressHUD.m in Sources */,
 				022964911AA6B2E000D5BFE5 /* AFURLSessionManager.m in Sources */,
