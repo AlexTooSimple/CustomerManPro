@@ -61,6 +61,11 @@
 		02C09D2C1B27D350009E823C /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D201B27D350009E823C /* NSLayoutConstraint+MASDebugAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D2D1B27D350009E823C /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D221B27D350009E823C /* View+MASAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C86A131B2AEA5C00C37CE7 /* SearchConditionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C86A121B2AEA5C00C37CE7 /* SearchConditionView.m */; };
+		02C86A161B2AFD3A00C37CE7 /* DetailInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C86A151B2AFD3A00C37CE7 /* DetailInfoVC.m */; };
+		02C86A191B2AFD5900C37CE7 /* DetailInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C86A181B2AFD5900C37CE7 /* DetailInfoView.m */; };
+		02C86A1C1B2C161A00C37CE7 /* ConcactHistoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C86A1B1B2C161A00C37CE7 /* ConcactHistoryView.m */; };
+		02C86A201B2C1A8600C37CE7 /* th.png in Resources */ = {isa = PBXBuildFile; fileRef = 02C86A1E1B2C1A8600C37CE7 /* th.png */; };
+		02C86A211B2C1A8600C37CE7 /* th@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 02C86A1F1B2C1A8600C37CE7 /* th@2x.png */; };
 		02D15D021AAECB34004B2746 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFA1AAECB34004B2746 /* ALView+PureLayout.m */; };
 		02D15D031AAECB34004B2746 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFC1AAECB34004B2746 /* NSArray+PureLayout.m */; };
 		02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFE1AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m */; };
@@ -189,6 +194,14 @@
 		02C09D231B27D350009E823C /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "View+MASShorthandAdditions.h"; path = "Tools/Masonry/View+MASShorthandAdditions.h"; sourceTree = SOURCE_ROOT; };
 		02C86A111B2AEA5C00C37CE7 /* SearchConditionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchConditionView.h; sourceTree = "<group>"; };
 		02C86A121B2AEA5C00C37CE7 /* SearchConditionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchConditionView.m; sourceTree = "<group>"; };
+		02C86A141B2AFD3A00C37CE7 /* DetailInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailInfoVC.h; sourceTree = "<group>"; };
+		02C86A151B2AFD3A00C37CE7 /* DetailInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailInfoVC.m; sourceTree = "<group>"; };
+		02C86A171B2AFD5900C37CE7 /* DetailInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailInfoView.h; sourceTree = "<group>"; };
+		02C86A181B2AFD5900C37CE7 /* DetailInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailInfoView.m; sourceTree = "<group>"; };
+		02C86A1A1B2C161A00C37CE7 /* ConcactHistoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConcactHistoryView.h; sourceTree = "<group>"; };
+		02C86A1B1B2C161A00C37CE7 /* ConcactHistoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcactHistoryView.m; sourceTree = "<group>"; };
+		02C86A1E1B2C1A8600C37CE7 /* th.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = th.png; path = image/th.png; sourceTree = SOURCE_ROOT; };
+		02C86A1F1B2C1A8600C37CE7 /* th@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "th@2x.png"; path = "image/th@2x.png"; sourceTree = SOURCE_ROOT; };
 		02D15CF91AAECB34004B2746 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ALView+PureLayout.h"; path = "Tools/PureLayout/ALView+PureLayout.h"; sourceTree = SOURCE_ROOT; };
 		02D15CFA1AAECB34004B2746 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ALView+PureLayout.m"; path = "Tools/PureLayout/ALView+PureLayout.m"; sourceTree = SOURCE_ROOT; };
 		02D15CFB1AAECB34004B2746 /* NSArray+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+PureLayout.h"; path = "Tools/PureLayout/NSArray+PureLayout.h"; sourceTree = SOURCE_ROOT; };
@@ -273,6 +286,7 @@
 		021416A51B2588E100248D48 /* customerManage */ = {
 			isa = PBXGroup;
 			children = (
+				02C86A1D1B2C161E00C37CE7 /* infoDetail */,
 				02C86A111B2AEA5C00C37CE7 /* SearchConditionView.h */,
 				02C86A121B2AEA5C00C37CE7 /* SearchConditionView.m */,
 				021416AA1B25894400248D48 /* CustomerManageVC.h */,
@@ -451,6 +465,8 @@
 		025760DA1B286BF900CE588A /* image */ = {
 			isa = PBXGroup;
 			children = (
+				02C86A1E1B2C1A8600C37CE7 /* th.png */,
+				02C86A1F1B2C1A8600C37CE7 /* th@2x.png */,
 				025760DB1B286C1C00CE588A /* FirstPage_25@2x.png */,
 				025760DC1B286C1C00CE588A /* icon_item_right@2x.png */,
 			);
@@ -526,6 +542,19 @@
 				02C09D231B27D350009E823C /* View+MASShorthandAdditions.h */,
 			);
 			name = Masonry;
+			sourceTree = "<group>";
+		};
+		02C86A1D1B2C161E00C37CE7 /* infoDetail */ = {
+			isa = PBXGroup;
+			children = (
+				02C86A141B2AFD3A00C37CE7 /* DetailInfoVC.h */,
+				02C86A151B2AFD3A00C37CE7 /* DetailInfoVC.m */,
+				02C86A171B2AFD5900C37CE7 /* DetailInfoView.h */,
+				02C86A181B2AFD5900C37CE7 /* DetailInfoView.m */,
+				02C86A1A1B2C161A00C37CE7 /* ConcactHistoryView.h */,
+				02C86A1B1B2C161A00C37CE7 /* ConcactHistoryView.m */,
+			);
+			name = infoDetail;
 			sourceTree = "<group>";
 		};
 		02D15CF81AAECAC7004B2746 /* PureLayout */ = {
@@ -624,11 +653,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02C86A211B2C1A8600C37CE7 /* th@2x.png in Resources */,
 				024C6B291B26DB7F00B19543 /* Icon.png in Resources */,
 				0229645A1AA6AFE700D5BFE5 /* LaunchScreen.xib in Resources */,
 				024C6B2A1B26DB7F00B19543 /* Icon@2x.png in Resources */,
 				025760DD1B286C1C00CE588A /* FirstPage_25@2x.png in Resources */,
 				024C6B281B26DB7F00B19543 /* Icon-60@3x.png in Resources */,
+				02C86A201B2C1A8600C37CE7 /* th.png in Resources */,
 				02137C6C1ACA94E400C87B63 /* SVProgressHUD.bundle in Resources */,
 				025760DE1B286C1C00CE588A /* icon_item_right@2x.png in Resources */,
 				024C6B271B26DB7F00B19543 /* Icon-40@3x.png in Resources */,
@@ -660,6 +691,7 @@
 				02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				02C86A131B2AEA5C00C37CE7 /* SearchConditionView.m in Sources */,
 				02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */,
+				02C86A1C1B2C161A00C37CE7 /* ConcactHistoryView.m in Sources */,
 				0229648E1AA6B2E000D5BFE5 /* AFURLConnectionOperation.m in Sources */,
 				02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */,
 				0280D4801B009F7700993641 /* AlertShowView.m in Sources */,
@@ -681,6 +713,7 @@
 				022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */,
 				021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */,
 				02C09D261B27D350009E823C /* MASConstraint.m in Sources */,
+				02C86A191B2AFD5900C37CE7 /* DetailInfoView.m in Sources */,
 				0229648B1AA6B2E000D5BFE5 /* AFHTTPSessionManager.m in Sources */,
 				0229648A1AA6B2E000D5BFE5 /* AFHTTPRequestOperationManager.m in Sources */,
 				029FE86B1AB9768C006882DE /* JSONKit.m in Sources */,
@@ -689,6 +722,7 @@
 				022964941AA6B2FF00D5BFE5 /* HttpConnector.m in Sources */,
 				028207631AB03EB900951CB2 /* JsonMessage.m in Sources */,
 				029FE86E1ABAAACC006882DE /* bussineDataService.m in Sources */,
+				02C86A161B2AFD3A00C37CE7 /* DetailInfoVC.m in Sources */,
 				0229648C1AA6B2E000D5BFE5 /* AFNetworkReachabilityManager.m in Sources */,
 				0229649D1AA6B43100D5BFE5 /* LoginVC.m in Sources */,
 				02C09D281B27D350009E823C /* MASLayoutConstraint.m in Sources */,

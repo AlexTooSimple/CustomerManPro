@@ -8,6 +8,7 @@
 
 #import "CustomerManageVC.h"
 #import "CustomerListView.h"
+#import "DetailInfoVC.h"
 
 @interface CustomerManageVC ()<CustomerListViewDelegate>
 @property (nonatomic, retain)CustomerListView *customerView;
@@ -45,6 +46,7 @@
     
     CustomerListView *listView = [[CustomerListView alloc] init];
     listView.backgroundColor = [UIColor whiteColor];
+    listView.delegate = self;
     self.customerView = listView;
     [self.view addSubview:customerView];
     
@@ -117,6 +119,20 @@
     NSDictionary *row12 = [[NSDictionary alloc] initWithObjectsAndKeys:
                           @"李四",CUSTOMER_DIC_NAME_KEY,
                           @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
+    NSDictionary *row13 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           @"张三",CUSTOMER_DIC_NAME_KEY,
+                           @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
+    NSDictionary *row14 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           @"李四",CUSTOMER_DIC_NAME_KEY,
+                           @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
+
+    NSDictionary *row15 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           @"张三",CUSTOMER_DIC_NAME_KEY,
+                           @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
+    NSDictionary *row16 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           @"李四",CUSTOMER_DIC_NAME_KEY,
+                           @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
+
     NSArray *itemList = [[NSArray alloc] initWithObjects:
                          row1,
                          row2,
@@ -130,6 +146,10 @@
                          row10,
                          row11,
                          row12,
+                         row13,
+                         row14,
+                         row15,
+                         row16,
                          nil];
     self.customerDataList = itemList;
     [itemList release];
@@ -145,6 +165,10 @@
     [row10 release];
     [row11 release];
     [row12 release];
+    [row13 release];
+    [row14 release];
+    [row15 release];
+    [row16 release];
 }
 
 #pragma mark
@@ -158,8 +182,9 @@
 #pragma mark - CustomerListViewDelegate
 - (void)customerListView:(CustomerListView *)listView didSelectRow:(NSInteger)row
 {
-
+    DetailInfoVC *VC = [[DetailInfoVC alloc] init];
+    [self.navigationController pushViewController:VC animated:YES];
+    [VC release];
 }
-
 
 @end

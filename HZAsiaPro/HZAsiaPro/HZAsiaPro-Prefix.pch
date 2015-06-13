@@ -22,5 +22,11 @@
 #define DEVICE_MAINSCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 #define DEVICE_MAINSCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 
+#define IS_IOS_8_LATER  ([[[UIDevice currentDevice].systemVersion substringToIndex:1] integerValue] >= 8)
+
+#define DATA_SHOW_TITLE_COLUM       @"key"
+#define DATA_SHOW_VALUE_COLUM       @"value"
+
+#define DEVICE_TABBAR_HEIGTH   44.0f
 
 #endif
