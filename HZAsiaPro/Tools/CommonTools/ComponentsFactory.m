@@ -98,7 +98,6 @@
     NSArray *matches = [regex matchesInString:matchStr
                                       options:0
                                         range:NSMakeRange(0, [matchStr length])];
-    NSLog(@"%d",[matches count]);
     return matches && [matches count]>0;
 }
 

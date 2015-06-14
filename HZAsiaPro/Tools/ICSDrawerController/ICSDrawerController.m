@@ -25,7 +25,7 @@
 #import "ICSDrawerController.h"
 #import "ICSDropShadowView.h"
 
-static const CGFloat kICSDrawerControllerDrawerDepth = 260.0f;
+static const CGFloat kICSDrawerControllerDrawerDepth = 270.0f;
 static const CGFloat kICSDrawerControllerLeftViewInitialOffset = -60.0f;
 static const NSTimeInterval kICSDrawerControllerAnimationDuration = 0.5;
 static const CGFloat kICSDrawerControllerOpeningAnimationSpringDamping = 0.7f;
@@ -54,7 +54,6 @@ typedef NS_ENUM(NSUInteger, ICSDrawerControllerState)
 @property(nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property(nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 @property(nonatomic, assign) CGPoint panGestureStartLocation;
-
 @property(nonatomic, assign) ICSDrawerControllerState drawerState;
 
 @end
@@ -370,7 +369,7 @@ typedef NS_ENUM(NSUInteger, ICSDrawerControllerState)
 - (void)open
 {
     NSParameterAssert(self.drawerState == ICSDrawerControllerStateClosed);
-
+    
     [self willOpen];
     
     [self animateOpening];

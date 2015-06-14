@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ICSDrawerController.h"
+@interface ModelCustomerNavVC : UINavigationController<ICSDrawerControllerChild, ICSDrawerControllerPresenting>
 
-@interface ModelCustomerNavVC : UINavigationController
+@property(nonatomic, weak) ICSDrawerController *drawer;
 
 @end

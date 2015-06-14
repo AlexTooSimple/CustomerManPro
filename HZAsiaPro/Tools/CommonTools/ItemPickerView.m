@@ -36,7 +36,7 @@
         selectRow = -1;
         
         openRect = frame;
-        closeRect = CGRectMake(openRect.origin.x, APP_BASE_HEIGHT, openRect.size.width, openRect.size.height);
+        closeRect = CGRectMake(openRect.origin.x, DEVICE_MAINSCREEN_HEIGHT, openRect.size.width, openRect.size.height);
         self.frame = closeRect;
         
         isShow = NO;
@@ -57,14 +57,15 @@
         nav.barStyle = UIBarStyleBlack;
         UINavigationItem *item=[[UINavigationItem alloc] init];
         
-        UIBarButtonItem *btnOK = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Sale_Confirm_String", nil)
+        UIBarButtonItem *btnOK = [[UIBarButtonItem alloc] initWithTitle:@"确定"
                                                                   style:UIBarButtonItemStyleDone
                                                                  target:self
                                                                  action:@selector(clickSubmit)];
         
-        UIBarButtonItem *btnCancel= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                  target:self
-                                                                                  action:@selector(clickCancel)];
+        UIBarButtonItem *btnCancel= [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                                     style:UIBarButtonItemStyleDone
+                                                                    target:self
+                                                                    action:@selector(clickCancel)];
         item.rightBarButtonItem=btnOK;
         item.leftBarButtonItem=btnCancel;
         

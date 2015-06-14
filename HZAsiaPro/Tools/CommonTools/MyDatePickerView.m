@@ -23,7 +23,7 @@
         self.dateFomarter = NSLocalizedString(@"Date_Format", nil);
         
         openRect = frame;
-        closeRect = CGRectMake(openRect.origin.x, APP_BASE_HEIGHT-20-44, openRect.size.width, openRect.size.height);
+        closeRect = CGRectMake(openRect.origin.x, DEVICE_MAINSCREEN_HEIGHT, openRect.size.width, openRect.size.height);
         self.frame = closeRect;
         isShow = NO;
         float y = 44;
@@ -33,35 +33,24 @@
         
         datePicker=[[UIDatePicker alloc] initWithFrame:CGRectMake(0,y, width, height)];
         datePicker.date = [NSDate date];
-//        datePicker.maximumDate = [NSDate date];
         [datePicker setDatePickerMode:UIDatePickerModeDate];
         [datePicker setBackgroundColor:[UIColor whiteColor]];
         [datePicker setDatePickerMode:UIDatePickerModeDate];
         [self addSubview:datePicker];
         
         UINavigationBar *nav=[[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, width, y)];
-       // nav.translucent = YES;
         nav.barStyle = UIBarStyleBlack;
         UINavigationItem *item=[[UINavigationItem alloc] init];
-        //[nav setBackgroundColor:[UIColor redColor]];
         
-        
-        UIBarButtonItem *btnOK = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Sale_Confirm_String", nil)
+        UIBarButtonItem *btnOK = [[UIBarButtonItem alloc] initWithTitle:@"确定"
                                                                   style:UIBarButtonItemStyleDone
                                                                  target:self
                                                                  action:@selector(clickSubmit)];
-        int version = ((AppDelegate*)[UIApplication sharedApplication].delegate).systemVersion;
-        if(4 < version){
-            //btnOK.tintColor = [UIColor redColor];
-        }
         
-//        UIBarButtonItem *btnCancel= [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Sale_Cancel_String", nil)
-//                                                                     style:UIBarButtonItemStyleDone
-//                                                                    target:self
-//                                                                    action:@selector(clickCancel)];
-        
-        UIBarButtonItem *btnCancel= [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(clickCancel)];
-       // [btnCancel setTag:TAG_BTN_CANCEL];
+        UIBarButtonItem *btnCancel= [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                                     style:UIBarButtonItemStyleDone
+                                                                    target:self
+                                                                    action:@selector(clickCancel)];
         item.rightBarButtonItem=btnOK;
         item.leftBarButtonItem=btnCancel;
         
@@ -91,9 +80,9 @@
     if (minDate != nil) {
         datePicker.minimumDate = minDate;
     }else{
-        NSInteger yyyy = 1900;
-        NSInteger mm = 1;
-        NSInteger dd = 1;
+        unsigned int yyyy = 1900;
+        unsigned int mm = 1;
+        unsigned int dd = 1;
         NSDate *valiteData = [NSDate dateFromString:[NSString stringWithFormat:@"%d-%02d-%02d",yyyy,mm,dd]
                                          withFormat:@"yyyy-MM-dd"];
         datePicker.minimumDate = valiteData;

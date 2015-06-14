@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SearchConditionVC : UIViewController
-
+- (void)closeConditionViewResponse;
 @end

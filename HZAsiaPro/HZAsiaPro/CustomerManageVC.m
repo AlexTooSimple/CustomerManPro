@@ -9,6 +9,7 @@
 #import "CustomerManageVC.h"
 #import "CustomerListView.h"
 #import "DetailInfoVC.h"
+#import "SearchConditionView.h"
 
 @interface CustomerManageVC ()<CustomerListViewDelegate>
 @property (nonatomic, retain)CustomerListView *customerView;
