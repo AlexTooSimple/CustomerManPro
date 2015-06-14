@@ -7,6 +7,7 @@
 //
 
 #import "ModelConditionNavVC.h"
+#import "SearchConditionVC.h"
 
 @interface ModelConditionNavVC ()
 
@@ -33,5 +34,31 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark
+#pragma mark - ICSDrawerControllerPresenting
+- (void)drawerControllerWillOpen:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = NO;
+}
+
+- (void)drawerControllerDidOpen:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = YES;
+}
+
+- (void)drawerControllerWillClose:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = NO;
+    if ([(SearchConditionVC *)self.visibleViewController respondsToSelector:@selector(closeConditionViewResponse)]) {
+        [(SearchConditionVC *)self.visibleViewController performSelector:@selector(closeConditionViewResponse)];
+    }
+}
+
+- (void)drawerControllerDidClose:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = YES;
+}
+
 
 @end

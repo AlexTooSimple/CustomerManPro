@@ -22,8 +22,12 @@
 
 - (void)dealloc
 {
-    [customerView release];
-    [customerDataList release];
+    if (customerDataList != nil) {
+        [customerDataList release];
+    }
+    if (customerView != nil) {
+        [customerView release];
+    }
     
     [super dealloc];
 }
@@ -40,6 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
     self.title = @"客户管理";
     
     [self setNavBarSearchItem];
@@ -175,7 +180,8 @@
 #pragma mark - UIAction
 - (void)search:(id)sender
 {
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_DRAWER_NOTIFATION
+                                                        object:nil];
 }
 
 #pragma mark
@@ -186,5 +192,7 @@
     [self.navigationController pushViewController:VC animated:YES];
     [VC release];
 }
+
+
 
 @end

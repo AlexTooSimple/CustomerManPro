@@ -17,6 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(responseNotification)
+                                                 name:CUSTOMER_DRAWER_NOTIFATION
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +28,23 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)responseNotification
+{
+    [self.drawer open];
 }
-*/
+
+#pragma mark
+#pragma mark - ICSDrawerControllerPresenting
+- (void)drawerControllerWillOpen:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = NO;
+}
+
+- (void)drawerControllerDidClose:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = YES;
+}
+
+
 
 @end

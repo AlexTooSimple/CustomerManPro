@@ -10,6 +10,10 @@
 #import "HomeInfoVC.h"
 #import "CustomerManageVC.h"
 #import "SafeManageVC.h"
+#import "SearchConditionVC.h"
+#import "ICSDrawerController.h"
+#import "ModelCustomerNavVC.h"
+#import "ModelConditionNavVC.h"
 
 @interface HomeTabBarController ()
 @end
@@ -34,10 +38,22 @@
     
     //客户管理页面
     CustomerManageVC *customerVC = [[CustomerManageVC alloc] init];
-    UINavigationController *customerNav = [[UINavigationController alloc] initWithRootViewController:customerVC];
+    SearchConditionVC *conditionVC = [[SearchConditionVC alloc] init];
+    
+    ModelCustomerNavVC *customerNav = [[ModelCustomerNavVC alloc] initWithRootViewController:customerVC];
     customerNav.navigationBar.barTintColor = [UIColor blackColor];
     customerNav.navigationBar.titleTextAttributes = NavTitleAttribute;
+    
+    ModelConditionNavVC *coditionNav = [[ModelConditionNavVC alloc] initWithRootViewController:conditionVC];
+    coditionNav.navigationBar.barTintColor = [UIColor blackColor];
+    coditionNav.navigationBar.titleTextAttributes = NavTitleAttribute;
+    
+    ICSDrawerController *drawer = [[ICSDrawerController alloc] initWithLeftViewController:coditionNav
+                                                                     centerViewController:customerNav];
     [customerVC release];
+    [conditionVC release];
+    [customerNav release];
+    [coditionNav release];
     
     //安全管理页面
     SafeManageVC *safeVC = [[SafeManageVC alloc] init];
@@ -46,11 +62,12 @@
     safeNav.navigationBar.titleTextAttributes = NavTitleAttribute;
     [safeVC release];
     
-    NSArray *controllers = [[NSArray alloc] initWithObjects:homeNav,customerNav,safeNav, nil];
+    NSArray *controllers = [[NSArray alloc] initWithObjects:homeNav,drawer,safeNav, nil];
     
     [homeNav release];
-    [customerNav release];
+    [drawer release];
     [safeNav release];
+    
     [NavTitleAttribute release];
     
     [self setViewControllers:controllers animated:YES];
