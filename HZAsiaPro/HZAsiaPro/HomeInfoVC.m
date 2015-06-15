@@ -9,6 +9,7 @@
 #import "HomeInfoVC.h"
 #import "UserView.h"
 #import "KehuView.h"
+#import "DetailInfoVC.h"
 
 @interface HomeInfoVC ()<UIScrollViewDelegate>
 
@@ -17,10 +18,47 @@
 @property(nonatomic,strong)UIPageControl *page;
 @property(nonatomic,strong)KehuView *kehuNoCall;
 @property(nonatomic,strong)KehuView *kehuTimeUp;
+@property(nonatomic,strong)NSMutableArray *titleMArr;
 
 @end
 
 @implementation HomeInfoVC
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setUpView];
+}
+
+- (void)setUpView {
+    [self.titleMArr removeAllObjects];
+    CGFloat width = 0.0;
+    if([[NSUserDefaults standardUserDefaults] objectForKey:UserInfo]){
+        self.userV.hidden = NO;
+        self.userV.frame = CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
+        width += DEVICE_MAINSCREEN_WIDTH;
+        [self.titleMArr addObject:@"首页"];
+    } else {
+        self.userV.hidden = YES;
+    }
+    if([[NSUserDefaults standardUserDefaults] objectForKey:Nocontent]){
+        self.kehuNoCall.hidden = NO;
+        self.kehuNoCall.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
+        width += DEVICE_MAINSCREEN_WIDTH;
+        [self.titleMArr addObject:@"未联系客户"];
+    } else {
+        self.kehuNoCall.hidden = YES;
+    }
+    if([[NSUserDefaults standardUserDefaults] objectForKey:TimeUp]){
+        self.kehuTimeUp.hidden = NO;
+        self.kehuTimeUp.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
+        width += DEVICE_MAINSCREEN_WIDTH;
+        [self.titleMArr addObject:@"到期客户"];
+    } else {
+        self.kehuTimeUp.hidden = YES;
+    }
+    self.scvHome.contentSize = CGSizeMake(width, DEVICE_MAINSCREEN_HEIGHT-64-50);
+    self.page.numberOfPages = width/DEVICE_MAINSCREEN_WIDTH;
+}
 
 - (void)loadView
 {
@@ -91,8 +129,15 @@
     self.kehuNoCall = [[KehuView alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds))];
     [self.scvHome addSubview:self.kehuNoCall];
     
+    self.kehuNoCall.tapBlk = ^(UIViewController *VC){
+        [self.navigationController pushViewController:VC animated:YES];
+    };
+    
     self.kehuTimeUp = [[KehuView alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH*2, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds))];
     [self.scvHome addSubview:self.kehuTimeUp];
+    self.kehuTimeUp.tapBlk = ^(UIViewController *VC){
+        [self.navigationController pushViewController:VC animated:YES];
+    };
     [self setUpdata];
     
     
@@ -102,11 +147,18 @@
     self.page.pageIndicatorTintColor = [UIColor grayColor];
     self.page.numberOfPages = 3;
     [self.view addSubview:self.page];
+    
+    self.titleMArr = [[NSMutableArray alloc] initWithCapacity:0];
+    [self.titleMArr setArray:@[@"首页",@"未联系客户",@"到期客户"]];
 }
 
 - (void)dealloc {
     [self.userV release];
     [self.scvHome release];
+    [self.titleMArr release];
+    [self.page release];
+    [self.kehuNoCall release];
+    [self.kehuTimeUp release];
     [super dealloc];
 }
 
@@ -122,20 +174,18 @@
         CGFloat pageWidth = scrollView.frame.size.width;
         int page1 = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
         self.page.currentPage = page1;
+        self.navigationItem.title = [self.titleMArr objectAtIndex:page1];
         switch (page1) {
             case 0:{
-                self.navigationItem.title = @"首页";
                 [self.kehuNoCall.scbHome resignFirstResponder];
                 [self.kehuTimeUp.scbHome resignFirstResponder];
                 break;
             }
             case 1:{
-                self.navigationItem.title = @"未联系客户";
                 [self.kehuTimeUp.scbHome resignFirstResponder];
                 break;
             }
             case 2:{
-                self.navigationItem.title = @"到期客户";
                 [self.kehuNoCall.scbHome resignFirstResponder];
                 break;
             }

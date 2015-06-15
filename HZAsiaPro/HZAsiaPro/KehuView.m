@@ -7,6 +7,7 @@
 //
 
 #import "KehuView.h"
+#import "DetailInfoVC.h"
 
 #define labOneTag   111
 #define labTwoTag   222
@@ -85,7 +86,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if(self.tapBlk){
+        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+        self.tapBlk(detail);
+    }
 }
 
 @end
