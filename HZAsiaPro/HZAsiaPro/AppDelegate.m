@@ -28,6 +28,19 @@
     [self.window addSubview:loginVC.view];
     [loginVC release];
     
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:UserInfo]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:UserInfo];
+    }
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:Nocontent]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:Nocontent];
+    }
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:TimeUp]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:TimeUp];
+    }
+    
     [self.window makeKeyAndVisible];
     return YES;
 }

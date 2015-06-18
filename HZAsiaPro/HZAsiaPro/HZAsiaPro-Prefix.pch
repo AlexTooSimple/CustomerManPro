@@ -18,6 +18,10 @@
 #define service_IP                  @"http://42.121.57.229:8080"
 #define service_url                 service_IP@"/dealer/MAPPService"
 
+#define UserInfo    @"userInfo"     //用户信息
+#define Nocontent   @"Nocontent"    //未联系客户
+#define TimeUp      @"TimeUp"       //到期客户
+
 #define DEVICE_MAINSCREEN [UIScreen mainScreen].bounds
 #define DEVICE_MAINSCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 #define DEVICE_MAINSCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
