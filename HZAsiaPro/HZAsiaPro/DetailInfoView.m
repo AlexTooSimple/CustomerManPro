@@ -7,11 +7,13 @@
 //
 
 #import "DetailInfoView.h"
+#import "ComponentsFactory.h"
 
 #define CELL_ROW_HEIGHT                 44.0f
 
 #define CELL_ROW_TITLW_LABEL_TAG        101
 #define CELL_ROW_VALUE_LABEL_TAG        102
+#define CELL_ROW_SEPER_VIEW_TAG         103
 
 
 @implementation DetailInfoView
@@ -44,12 +46,13 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.pagingEnabled = NO;
-    tableView.separatorColor = [UIColor grayColor];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    tableView.separatorColor = [UIColor clearColor];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:tableView];
     self.contentTable = tableView;
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
+        make.top.equalTo(self);
+        make.left.equalTo(self);
         make.size.equalTo(self);
     }];
     [tableView release];
@@ -198,10 +201,19 @@
         }];
         [valueLabel release];
         
+        UIView *seperView = [[UIView alloc] initWithFrame:CGRectZero];
+        seperView.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
+        seperView.tag = CELL_ROW_SEPER_VIEW_TAG;
+        [cell.contentView addSubview:seperView];
+        [seperView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(CELL_ROW_HEIGHT-1, 0, 0, 0));
+        }];
+        [seperView release];
     }
     
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:CELL_ROW_TITLW_LABEL_TAG];
     UILabel *valueLabel = (UILabel *)[cell.contentView viewWithTag:CELL_ROW_VALUE_LABEL_TAG];
+    UIView *seperView = (UIView *)[cell.contentView viewWithTag:CELL_ROW_SEPER_VIEW_TAG];
     
     NSInteger row = indexPath.row;
     NSDictionary *data = [self.itemDatas objectAtIndex:row];
@@ -215,6 +227,26 @@
         valueLabel.text = [data objectForKey:DATA_SHOW_VALUE_COLUM];
     }
     
+    NSString *textStr = [data objectForKey:DATA_SHOW_VALUE_COLUM];
+    
+    
+    NSDictionary *attribute = [[NSDictionary alloc] initWithObjectsAndKeys:
+                               [UIFont systemFontOfSize:15.0f],NSFontAttributeName,nil];
+    CGFloat height = DEVICE_MAINSCREEN_WIDTH/2-10.0f+30.0f;
+    CGRect rect = [textStr boundingRectWithSize:CGSizeMake(height, MAXFLOAT)
+                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading |NSStringDrawingTruncatesLastVisibleLine
+                                     attributes:attribute
+                                        context:nil];
+    [attribute release];
+    if (rect.size.height > CELL_ROW_HEIGHT) {
+        [seperView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake((rect.size.height+10-1), 0, 0, 0));
+        }];
+    }else{
+        [seperView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(CELL_ROW_HEIGHT-1, 0, 0, 0));
+        }];
+    }
     return cell;
 }
 

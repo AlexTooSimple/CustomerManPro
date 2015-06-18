@@ -7,6 +7,7 @@
 //
 
 #import "CustomerListView.h"
+#import "ComponentsFactory.h"
 
 #define CELL_NAME_LABEL_TAG         121
 #define CELL_PHONE_LABEL_TAG        122
@@ -22,7 +23,9 @@
 - (void)dealloc
 {
     [contentTable release];
-    [customerList release];
+    if (customerList != nil) {
+        [customerList release];
+    }
     
     [super dealloc];
 }
@@ -47,8 +50,8 @@
     self.contentTable = singleView;
     [self addSubview:singleView];
     
-    self.contentTable.contentTable.separatorColor = [UIColor grayColor];
-    self.contentTable.contentTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.contentTable.contentTable.separatorColor = [UIColor clearColor];
+    self.contentTable.contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [singleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
@@ -72,6 +75,13 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                        reuseIdentifier:tableCellCode] autorelease];
+        
+        UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        iconView.backgroundColor = [UIColor clearColor];
+        iconView.image = [UIImage imageNamed:@"icon_login_account.png"];
+        [cell.contentView addSubview:iconView];
+        
+        
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.backgroundColor = [UIColor clearColor];
         nameLabel.textAlignment = NSTextAlignmentLeft;
@@ -95,9 +105,14 @@
         arrowView.image = [UIImage imageNamed:@"icon_item_right.png"];
         [cell.contentView addSubview:arrowView];
         
+        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(cell.contentView).with.offset(10.0f);
+            make.top.equalTo(cell.contentView).with.offset((CELL_ROW_HEIGHT-29)/2.0f);
+            make.size.mas_equalTo(CGSizeMake(29, 29));
+        }];
         
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView).with.insets(UIEdgeInsetsMake(3.0f, 15.0f, 3.0f, cell.contentView.frame.size.width/2.0f-10.0f));
+            make.edges.equalTo(cell.contentView).with.insets(UIEdgeInsetsMake(3.0f, 50.0f, 3.0f, cell.contentView.frame.size.width/2.0f-10.0f));
         }];
         [phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(cell.contentView).with.offset(3.0f);
@@ -112,9 +127,19 @@
             make.size.mas_equalTo(CGSizeMake(7.0f, 12.0f));
         }];
         
+        [iconView release];
         [nameLabel release];
         [phoneLabel release];
         [arrowView release];
+        
+        
+        UIView *seperView = [[UIView alloc] initWithFrame:CGRectZero];
+        seperView.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
+        [cell.contentView addSubview:seperView];
+        [seperView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(CELL_ROW_HEIGHT-1, 0, 0, 0));
+        }];
+        [seperView release];
     }
     
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:CELL_NAME_LABEL_TAG];

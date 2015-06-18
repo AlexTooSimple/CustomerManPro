@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(responseNotification)
                                                  name:CUSTOMER_DRAWER_NOTIFATION

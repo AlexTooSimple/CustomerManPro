@@ -7,6 +7,7 @@
 //
 
 #import "ConcactHistoryView.h"
+#import "ComponentsFactory.h"
 
 #define CELL_ROW_HEIGHT                 44.0f
 #define CELL_SECTION_HEIGHT             10.0f
@@ -46,12 +47,13 @@
     tableView.pagingEnabled = YES;
     tableView.delegate = self;
     tableView.dataSource = self;
-    tableView.separatorColor = [UIColor grayColor];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    tableView.separatorColor = [UIColor clearColor];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:tableView];
     self.contentTable = tableView;
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
+        make.top.equalTo(self);
+        make.left.equalTo(self);
         make.size.equalTo(self);
     }];
     [tableView release];
@@ -184,6 +186,14 @@
             make.right.equalTo(cell.contentView).with.offset(-10.0f);
         }];
         [valueLabel release];
+        
+        UIView *seperView = [[UIView alloc] initWithFrame:CGRectZero];
+        seperView.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
+        [cell.contentView addSubview:seperView];
+        [seperView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(CELL_ROW_HEIGHT-1, 0, 0, 0));
+        }];
+        [seperView release];
         
     }
     

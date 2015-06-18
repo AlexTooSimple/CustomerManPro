@@ -21,4 +21,5 @@
 @protocol SearchConditionViewDelegate <NSObject>
 - (void)searchConditionViewDidShowItemPicker:(NSArray *)itemList;
 - (void)searchConditionViewDidShowDatePicker;
+- (void)searchConditionViewDidShowTextField;
 @end

@@ -9,7 +9,8 @@
 #import "CustomerManageVC.h"
 #import "CustomerListView.h"
 #import "DetailInfoVC.h"
-#import "SearchConditionView.h"
+#import "AddCustomerVC.h"
+#import "ADDPictureView.h"
 
 @interface CustomerManageVC ()<CustomerListViewDelegate>
 @property (nonatomic, retain)CustomerListView *customerView;
@@ -49,6 +50,7 @@
     self.title = @"客户管理";
     
     [self setNavBarSearchItem];
+    [self setNavBarInsertItem];
     
     CustomerListView *listView = [[CustomerListView alloc] init];
     listView.backgroundColor = [UIColor whiteColor];
@@ -72,11 +74,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setNavBarInsertItem
+{
+    UIButton *insertBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    insertBtn.frame = CGRectMake(0, 0, 20.0f, 20.0f);
+    [insertBtn setBackgroundImage:[UIImage imageNamed:@"icon-plus.png"]
+                         forState:UIControlStateNormal];
+    [insertBtn addTarget:self
+                  action:@selector(insertCustomer:)
+        forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *insertItem = [[UIBarButtonItem alloc] initWithCustomView:insertBtn];
+    self.navigationItem.rightBarButtonItem = insertItem;
+    [insertItem release];
+}
+
 - (void)setNavBarSearchItem
 {
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(0, 0, 74/2.0f, 83/2.0f);
-    [searchBtn setBackgroundImage:[UIImage imageNamed:@"FirstPage_25.png"]
+    searchBtn.frame = CGRectMake(0, 0, 20, 20);
+    [searchBtn setBackgroundImage:[UIImage imageNamed:@"iconSearch.png"]
                          forState:UIControlStateNormal];
     [searchBtn addTarget:self
                   action:@selector(search:)
@@ -183,6 +200,13 @@
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_DRAWER_NOTIFATION
                                                         object:nil];
+}
+
+- (void)insertCustomer:(id)sender
+{
+    AddCustomerVC *VC = [[AddCustomerVC alloc] init];
+    [self.navigationController pushViewController:VC animated:YES];
+    [VC release];
 }
 
 #pragma mark

@@ -35,11 +35,14 @@ typedef enum ClickedDateType{
 #define CONDITION__FIELD_TAG                101
 #define CONDITION__LABEL_TAG                103
 
+#define CELL_IMAGE_VIEW_TAG                 151
+#define CELL_TITLE_VIEW_TAG                 152
+
 #define SINGLE_CLICKED_BUTTON_BASE_TAG      200
 
 #define DATE_CLICKED_BUTTON_BASE_TAG        300
 
-@interface SearchConditionView()<UITableViewDataSource,UITableViewDelegate>
+@interface SearchConditionView()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 {
     UITableView *contentTable;
     
@@ -59,12 +62,16 @@ typedef enum ClickedDateType{
     UILabel *clientTypeLabel;
     UILabel *saleStatusLabel;
     
-    UILabel *purposeLabel;
+    NSString *purposeShowStr;
     
     
     //中间缓冲变量
     BussineType clickedBussiness;
     ClickedDateType dateType;
+    BOOL isShowPurpose;
+    
+    //选择条件数据
+    NSMutableArray *purposeData;
 }
 @property (nonatomic ,retain)UITableView *contentTable;
 @property (nonatomic ,assign)BOOL isChangeCustomer;
@@ -80,10 +87,12 @@ typedef enum ClickedDateType{
 @property (nonatomic ,retain)UILabel *salesmanLabel;
 @property (nonatomic ,retain)UILabel *clientTypeLabel;
 @property (nonatomic ,retain)UILabel *saleStatusLabel;
-@property (nonatomic ,retain)UILabel *purposeLabel;
+@property (nonatomic ,retain)NSString *purposeShowStr;
 
 @property (nonatomic ,assign)BussineType clickedBussiness;
 @property (nonatomic ,assign)ClickedDateType dateType;
+
+@property (nonatomic ,retain)NSMutableArray *purposeData;
 
 @end
 
@@ -104,12 +113,14 @@ typedef enum ClickedDateType{
 @synthesize clientTypeLabel;
 @synthesize saleStatusLabel;
 
-@synthesize purposeLabel;
+@synthesize purposeShowStr;
 
 @synthesize clickedBussiness;
 @synthesize dateType;
 
 @synthesize delegate;
+
+@synthesize purposeData;
 
 - (void)dealloc
 {
@@ -125,9 +136,15 @@ typedef enum ClickedDateType{
     [salesmanLabel release];
     [clientTypeLabel release];
     
-    [purposeLabel release];
+    if (purposeShowStr != nil) {
+        [purposeShowStr release];
+    }
     
     [contentTable release];
+    
+    if (purposeData != nil) {
+        [purposeData release];
+    }
     [super dealloc];
 }
 
@@ -135,9 +152,45 @@ typedef enum ClickedDateType{
 {
     if (self = [super init]) {
         isChangeCustomer = NO;
+        isShowPurpose = NO;
+        [self initData];
+        
         [self layoutContentView];
     }
     return self;
+}
+
+- (void)initData
+{
+    
+    NSMutableArray *itemData = [[NSMutableArray alloc] initWithCapacity:0];
+    NSMutableDictionary *purData1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                     @"初步意向",@"title",
+                                     @"0",@"select",nil];
+    [itemData addObject:purData1];
+    [purData1 release];
+    
+    NSMutableDictionary *purData2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                     @"决定购买",@"title",
+                                     @"0",@"select",nil];
+    [itemData addObject:purData2];
+    [purData2 release];
+    
+    NSMutableDictionary *purData3 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                     @"强烈意向",@"title",
+                                     @"0",@"select",nil];
+    [itemData addObject:purData3];
+    [purData3 release];
+    
+    NSMutableDictionary *purData4 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                     @"多次来访",@"title",
+                                     @"0",@"select",nil];
+    [itemData addObject:purData4];
+    [purData4 release];
+    
+    
+    self.purposeData = itemData;
+    [itemData release];
 }
 
 - (void)layoutContentView
@@ -163,7 +216,65 @@ typedef enum ClickedDateType{
 #pragma mark - UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = nil;
+    static NSString *staticPurposeCell = @"staticPurposeCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:staticPurposeCell];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:staticPurposeCell] autorelease];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        UIImageView *selectView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        selectView.backgroundColor = [UIColor clearColor];
+        selectView.tag = CELL_IMAGE_VIEW_TAG;
+        [cell.contentView addSubview:selectView];
+        [selectView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(cell.contentView.mas_right).with.offset(-44.0f);
+            make.top.equalTo(cell.contentView).with.offset((SECTION_CONTNET_HEIGHT - 20)/2.0f);
+            make.width.mas_equalTo(20.0f);
+            make.height.mas_equalTo(20.0f);
+        }];
+        [selectView release];
+        
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.tag = CELL_TITLE_VIEW_TAG;
+        titleLabel.textAlignment = NSTextAlignmentLeft;
+        titleLabel.font = [UIFont systemFontOfSize:13.0f];
+        titleLabel.textColor = [ComponentsFactory createColorByHex:@"#F9C600"];
+        [cell.contentView addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(cell.contentView).with.offset(8);
+            make.right.equalTo(cell.contentView).with.offset(-50);
+            make.top.equalTo(cell.contentView);
+            make.bottom.equalTo(cell.contentView);
+        }];
+        [titleLabel release];
+        
+        UIView *seperView = [[UIView alloc] initWithFrame:CGRectZero];
+        seperView.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
+        [cell.contentView addSubview:seperView];
+        [seperView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(SECTION_CONTNET_HEIGHT -1, 0, 0, 0));
+        }];
+        [seperView release];
+    }
+    
+    UIImageView *selectView = (UIImageView *)[cell.contentView viewWithTag:CELL_IMAGE_VIEW_TAG];
+    UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:CELL_TITLE_VIEW_TAG];
+    
+    NSInteger row = [indexPath row];
+    NSDictionary *data = [self.purposeData objectAtIndex:row];
+    
+    titleLabel.text = [data objectForKey:@"title"];
+    
+    NSString *selectFlag = [data objectForKey:@"select"];
+    if ([selectFlag isEqualToString:@"0"]) {
+        selectView.image = [UIImage imageNamed:@"bg_content_select_n.png"];
+    }else{
+        selectView.image = [UIImage imageNamed:@"bg_content_select_hover.png"];
+    }
+    
     return cell;
 }
 
@@ -198,9 +309,11 @@ typedef enum ClickedDateType{
         {
             //购买意向
             sectionView = [self customerSectionChangeViewWithTitle:@"购买意向:"];
-            if (self.purposeLabel == nil) {
-                UILabel *txtField = (UILabel *)[sectionView viewWithTag:CONDITION__LABEL_TAG];
-                self.purposeLabel = txtField;
+            UILabel *txtField = (UILabel *)[sectionView viewWithTag:CONDITION__LABEL_TAG];
+            if (self.purposeShowStr == nil) {
+                txtField.text = @"";
+            }else{
+                txtField.text = self.purposeShowStr;
             }
         }
             break;
@@ -310,7 +423,42 @@ typedef enum ClickedDateType{
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    if (section == 2) {
+        NSMutableDictionary *data = [self.purposeData objectAtIndex:row];
+        NSString *selectFlag = [data objectForKey:@"select"];
+        if ([selectFlag isEqualToString:@"0"]) {
+            [data setValue:@"1" forKey:@"select"];
+        }else{
+            [data setValue:@"0" forKey:@"select"];
+        }
+        
+        NSMutableString *purposeStr = [[NSMutableString alloc] initWithCapacity:0];
+        NSInteger cnt = [self.purposeData count];
+        for (int i=0; i<cnt; i++) {
+            NSDictionary *updateData = [self.purposeData objectAtIndex:i];
+            if ([[updateData objectForKey:@"select"] isEqualToString:@"1"]) {
+                if ([purposeStr length] == 0) {
+                    [purposeStr appendFormat:@"%@",[updateData objectForKey:@"title"]];
+                }else{
+                    [purposeStr appendFormat:@",%@",[updateData objectForKey:@"title"]];
+                }
+            }else{
+                continue;
+            }
+        }
+        if ([purposeStr length] > 0) {
+            self.purposeShowStr = purposeStr;
+        }
+        [purposeStr release];
+        
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+        
+//        NSIndexPath *updatePath = [NSIndexPath indexPathForRow:row inSection:section];
+//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:updatePath]
+//                         withRowAnimation:UITableViewRowAnimationNone];
+    }
 }
 
 #pragma mark
@@ -322,9 +470,11 @@ typedef enum ClickedDateType{
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if (section == 2) {
-//        return 4;
-//    }
+    if (section == 2) {
+        if (isShowPurpose) {
+            return [self.purposeData count];
+        }
+    }
     return 0;
 }
 
@@ -335,6 +485,12 @@ typedef enum ClickedDateType{
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSInteger section = indexPath.section;
+    if (section == 2) {
+        if (isShowPurpose) {
+            return SECTION_CONTNET_HEIGHT;
+        }
+    }
     return 0.0f;
 }
 
@@ -371,7 +527,7 @@ typedef enum ClickedDateType{
     [txtField setBackgroundColor:[UIColor clearColor]];
     [txtField setBorderStyle:UITextBorderStyleNone];
     txtField.tag = CONDITION__FIELD_TAG;
-//    [txtField setDelegate:self];
+    [txtField setDelegate:self];
     [txtField setReturnKeyType:UIReturnKeyDone];
     [txtField setFont:[UIFont systemFontOfSize:13.0f]];
     [txtField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
@@ -476,6 +632,7 @@ typedef enum ClickedDateType{
 - (UIView *)customerSectionSelectViewWithTitle:(NSString *)title withTag:(NSInteger)tag
 {
     UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, CONDITION_VIEW_WIDTH, SECTION_VIEW_HEIGHT)] autorelease];
+    sectionView.backgroundColor = [UIColor whiteColor];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 65, SECTION_VIEW_HEIGHT)];
     titleLabel.backgroundColor = [UIColor clearColor];
@@ -540,7 +697,6 @@ typedef enum ClickedDateType{
     
     UILabel *valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 0, CONDITION_VIEW_WIDTH-70-30, SECTION_VIEW_HEIGHT)];
     valueLabel.backgroundColor = [UIColor clearColor];
-    valueLabel.text = title;
     valueLabel.tag = CONDITION__LABEL_TAG;
     valueLabel.textAlignment = NSTextAlignmentRight;
     valueLabel.font = [UIFont systemFontOfSize:13.0f];
@@ -553,6 +709,14 @@ typedef enum ClickedDateType{
     downArrowView.image = [UIImage imageNamed:@"down.png"];
     [sectionView addSubview:downArrowView];
     [downArrowView release];
+    
+    UIButton  *clickedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    clickedBtn.backgroundColor = [UIColor clearColor];
+    clickedBtn.frame = CGRectMake(0, 0, CONDITION_VIEW_WIDTH, SECTION_VIEW_HEIGHT);
+    [clickedBtn addTarget:self
+                   action:@selector(clickedPurpose:)
+         forControlEvents:UIControlEventTouchUpInside];
+    [sectionView addSubview:clickedBtn];
     
     return sectionView;
 }
@@ -645,12 +809,14 @@ typedef enum ClickedDateType{
 #pragma mark - UIAction
 - (void)switchClicked:(id)sender
 {
+    [self hiddleKeyWindows];
     UISwitch *switchBtn = (UISwitch *)sender;
     self.isChangeCustomer = switchBtn.isOn;
 }
 
 - (void)clickedFromDate:(id)sender
 {
+    [self hiddleKeyWindows];
     UIButton *clickBtn = (UIButton *)sender;
     self.dateType = (ClickedDateType)(clickBtn.tag - DATE_CLICKED_BUTTON_BASE_TAG);
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(searchConditionViewDidShowDatePicker)]) {
@@ -660,6 +826,7 @@ typedef enum ClickedDateType{
 
 - (void)clickedToDate:(id)sender
 {
+    [self hiddleKeyWindows];
     UIButton *clickBtn = (UIButton *)sender;
     self.dateType = (ClickedDateType)(clickBtn.tag - DATE_CLICKED_BUTTON_BASE_TAG);
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(searchConditionViewDidShowDatePicker)]) {
@@ -669,6 +836,7 @@ typedef enum ClickedDateType{
 
 - (void)selectBtnClicked:(id)sender
 {
+    [self hiddleKeyWindows];
     UIButton *clickedBtn = (UIButton *)sender;
     NSInteger index = clickedBtn.tag - SINGLE_CLICKED_BUTTON_BASE_TAG;
     NSArray *itemList = nil;
@@ -676,6 +844,7 @@ typedef enum ClickedDateType{
         case 0:
         {
             self.clickedBussiness = click_visit_type;
+            itemList = [[NSArray alloc] initWithObjects:@"全部",@"来访",@"来电",@"去电",@"来函",@"其他类型", nil];
         }
             break;
         case 1:
@@ -686,11 +855,13 @@ typedef enum ClickedDateType{
         case 2:
         {
             self.clickedBussiness = click_client_type;
+            itemList = [[NSArray alloc] initWithObjects:@"全部",@"个人客户",@"企业客户",nil];
         }
             break;
         case 3:
         {
             self.clickedBussiness = click_sale_status;
+            itemList = [[NSArray alloc] initWithObjects:@"全部",@"预约客户",@"小订客户",@"大订客户",@"合同客户", nil];
         }
             break;
         default:
@@ -702,5 +873,40 @@ typedef enum ClickedDateType{
     
     [itemList release];
 }
+
+- (void)clickedPurpose:(id)sender
+{
+    [self hiddleKeyWindows];
+    isShowPurpose = !isShowPurpose;
+    [self.contentTable reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+
+- (void)hiddleKeyWindows
+{
+    if ([self.phoneField isFirstResponder]) {
+        [self.phoneField resignFirstResponder];
+    }
+    if ([self.nameField isFirstResponder]) {
+        [self.nameField resignFirstResponder];
+    }
+}
+
+#pragma mark
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(searchConditionViewDidShowTextField)]) {
+        [self.delegate searchConditionViewDidShowTextField];
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 
 @end

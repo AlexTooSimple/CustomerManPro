@@ -68,13 +68,13 @@
     [conditionView release];
     
     
-    ItemPickerView *searchItemPicker = [[ItemPickerView alloc] initWithFrame:CGRectMake(0, DEVICE_MAINSCREEN_HEIGHT-220-DEVICE_TABBAR_HEIGTH, DEVICE_MAINSCREEN_WIDTH, 220)];
+    ItemPickerView *searchItemPicker = [[ItemPickerView alloc] initWithFrame:CGRectMake(0, DEVICE_MAINSCREEN_HEIGHT-220-DEVICE_TABBAR_HEIGTH+9, DEVICE_MAINSCREEN_WIDTH, 220)];
     searchItemPicker.delegate = self;
     self.itemPicker = searchItemPicker;
     [self.view addSubview:searchItemPicker];
     [searchItemPicker release];
     
-    MyDatePickerView *datePickerView = [[MyDatePickerView alloc]initWithFrame:CGRectMake(0, DEVICE_MAINSCREEN_HEIGHT-220-DEVICE_TABBAR_HEIGTH, DEVICE_MAINSCREEN_WIDTH, 220)];
+    MyDatePickerView *datePickerView = [[MyDatePickerView alloc]initWithFrame:CGRectMake(0, DEVICE_MAINSCREEN_HEIGHT-220-DEVICE_TABBAR_HEIGTH+9, DEVICE_MAINSCREEN_WIDTH, 220)];
     datePickerView.delegate = self;
     self.datePicker = datePickerView;
     [self.view addSubview:datePickerView];
@@ -170,6 +170,11 @@
     
     [self.datePicker show];
     [[[UIApplication sharedApplication].windows firstObject] addSubview:self.datePicker];
+}
+
+- (void)searchConditionViewDidShowTextField
+{
+    [self closeConditionViewResponse];
 }
 
 - (void)closeConditionViewResponse

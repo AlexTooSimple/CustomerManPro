@@ -76,19 +76,21 @@
     [self.view addSubview:scrollView];
     
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        if (IS_IOS_8_LATER) {
-            make.top.equalTo(self.view);
-        }else{
-            make.top.equalTo(self.view).with.offset(32.0f);
-        }
-        if (IS_IOS_8_LATER) {
-            make.bottom.equalTo(self.view).with.offset(-DEVICE_TABBAR_HEIGTH-10);
-        }else{
-            make.bottom.equalTo(self.view).with.offset(-DEVICE_TABBAR_HEIGTH);
-        }
-        
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
+//        if (IS_IOS_8_LATER) {
+//            make.top.equalTo(self.view);
+//        }else{
+//            make.top.equalTo(self.view).with.offset(32.0f);
+//        }
+//        if (IS_IOS_8_LATER) {
+//            make.bottom.equalTo(self.view).with.offset(-DEVICE_TABBAR_HEIGTH-10);
+//        }else{
+//            make.bottom.equalTo(self.view).with.offset(-DEVICE_TABBAR_HEIGTH);
+//        }
+//        
+//        make.left.equalTo(self.view);
+//        make.right.equalTo(self.view);
+        make.center.equalTo(self.view);
+        make.size.equalTo(self.view);
     }];
     [scrollView release];
     
@@ -130,8 +132,10 @@
     detailView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:detailView];
     [detailView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.contentView);
-        make.size.equalTo(self.contentView);
+        make.top.equalTo(self.contentView);
+        make.left.equalTo(self.contentView);
+        make.width.equalTo(self.contentView);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     
     [detailView reloadViewData:self.customerInfoDataList];
@@ -144,7 +148,8 @@
     [historyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(detailView.mas_right);
         make.top.equalTo(self.contentView);
-        make.size.equalTo(self.contentView);
+        make.width.equalTo(self.contentView);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     [historyView reloadViewData:self.customerHistoryList];
     
