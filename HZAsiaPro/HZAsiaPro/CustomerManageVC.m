@@ -10,8 +10,10 @@
 #import "CustomerListView.h"
 #import "DetailInfoVC.h"
 #import "VerifyCustomerVC.h"
+#import <MessageUI/MessageUI.h>
+#import "AlertShowView.h"
 
-@interface CustomerManageVC ()<CustomerListViewDelegate>
+@interface CustomerManageVC ()<CustomerListViewDelegate,MFMessageComposeViewControllerDelegate>
 @property (nonatomic, retain)CustomerListView *customerView;
 @property (nonatomic, retain)NSArray *customerDataList;
 @end
@@ -236,6 +238,95 @@
     [VC release];
 }
 
+- (void)customerDidSendSMS:(NSArray *)phoneList
+{
+    BOOL canSendSMS = [MFMessageComposeViewController canSendText];
+    if (canSendSMS) {
+        MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+        picker.messageComposeDelegate = self;
+        picker.body = nil;
+        picker.recipients = phoneList;
+        [self presentViewController:picker
+                           animated:YES
+                         completion:nil];
+        [picker release];
+    }
+}
+
+#pragma mark
+#pragma mark - MFMessageComposeViewControllerDelegate
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+        {
+            [controller dismissViewControllerAnimated:YES
+                                           completion:nil];
+        }
+            break;
+        case MessageComposeResultSent:
+        {
+            [controller dismissViewControllerAnimated:YES
+                                           completion:nil];
+            AlertShowView  *alert = [[AlertShowView alloc] initWithAlertViewTitle:nil
+                                                                          message:@"短信发送成功"
+                                                                         delegate:self
+                                                                              tag:0
+                                                                cancelButtonTitle:nil
+                                                                otherButtonTitles:nil];
+            [alert show];
+            [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                             target:self
+                                           selector:@selector(cancelAlterTimer:)
+                                           userInfo:alert
+                                            repeats:NO];
+            [alert release];
+
+    
+        }
+            break;
+        case MessageComposeResultFailed:
+        {
+            [controller dismissViewControllerAnimated:YES
+                                           completion:nil];
+            AlertShowView  *alert = [[AlertShowView alloc] initWithAlertViewTitle:nil
+                                                                          message:@"短信发送失败"
+                                                                         delegate:self
+                                                                              tag:0
+                                                                cancelButtonTitle:nil
+                                                                otherButtonTitles:nil];
+            [alert show];
+            [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                             target:self
+                                           selector:@selector(cancelAlterTimer:)
+                                           userInfo:alert
+                                            repeats:NO];
+            [alert release];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    
+}
+
+#pragma mark
+#pragma mark - AlertShowViewDelegate
+- (void)alertViewWillPresent:(UIAlertController *)alertController
+{
+    [self presentViewController:alertController
+                            animated:YES
+                          completion:nil];
+}
+
+#pragma mark
+#pragma mark -  取消显示Alert
+- (void)cancelAlterTimer:(NSTimer *)timer
+{
+    AlertShowView *alter = (AlertShowView *)[timer userInfo];
+    [alter dismiss];
+}
 
 
 @end

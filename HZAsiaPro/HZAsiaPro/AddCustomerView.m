@@ -773,9 +773,10 @@
 #pragma mark - AlertShowViewDelegate
 - (void)alertViewWillPresent:(UIAlertController *)alertController
 {
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(customerViewDidShowAlertView:)]) {
-        [self.delegate customerViewDidShowAlertView:alertController];
-    }
+    UIViewController *currentVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [currentVC presentViewController:alertController
+                            animated:YES
+                          completion:nil];
 }
 
 @end

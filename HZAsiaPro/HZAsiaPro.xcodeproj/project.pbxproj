@@ -23,6 +23,9 @@
 		021684101B2DA4AD00E94A47 /* ItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0216840F1B2DA4AD00E94A47 /* ItemPickerView.m */; };
 		021684131B2DB50700E94A47 /* MyDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 021684121B2DB50700E94A47 /* MyDatePickerView.m */; };
 		021684161B2DBB0100E94A47 /* NSDate-Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 021684151B2DBB0100E94A47 /* NSDate-Helper.m */; };
+		0222056E1B397D12005B827A /* tools_call.png in Resources */ = {isa = PBXBuildFile; fileRef = 0222056D1B397D12005B827A /* tools_call.png */; };
+		022205711B398000005B827A /* ActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 022205701B398000005B827A /* ActionSheetView.m */; };
+		022205731B3995DA005B827A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022205721B3995DA005B827A /* MessageUI.framework */; };
 		0224E98D1B38EDC60080067A /* VerifyCustomerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0224E98C1B38EDC60080067A /* VerifyCustomerVC.m */; };
 		022964521AA6AFE700D5BFE5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964511AA6AFE700D5BFE5 /* main.m */; };
 		022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964541AA6AFE700D5BFE5 /* AppDelegate.m */; };
@@ -141,6 +144,10 @@
 		021684121B2DB50700E94A47 /* MyDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyDatePickerView.m; path = Tools/CommonTools/MyDatePickerView.m; sourceTree = SOURCE_ROOT; };
 		021684141B2DBB0100E94A47 /* NSDate-Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate-Helper.h"; path = "Tools/CommonTools/NSDate-Helper.h"; sourceTree = SOURCE_ROOT; };
 		021684151B2DBB0100E94A47 /* NSDate-Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate-Helper.m"; path = "Tools/CommonTools/NSDate-Helper.m"; sourceTree = SOURCE_ROOT; };
+		0222056D1B397D12005B827A /* tools_call.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tools_call.png; path = image/tools_call.png; sourceTree = SOURCE_ROOT; };
+		0222056F1B398000005B827A /* ActionSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetView.h; path = Tools/CommonTools/ActionSheetView.h; sourceTree = SOURCE_ROOT; };
+		022205701B398000005B827A /* ActionSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionSheetView.m; path = Tools/CommonTools/ActionSheetView.m; sourceTree = SOURCE_ROOT; };
+		022205721B3995DA005B827A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0224E98B1B38EDC60080067A /* VerifyCustomerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerifyCustomerVC.h; sourceTree = "<group>"; };
 		0224E98C1B38EDC60080067A /* VerifyCustomerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyCustomerVC.m; sourceTree = "<group>"; };
 		0229644C1AA6AFE700D5BFE5 /* HZAsiaPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HZAsiaPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +293,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				022205731B3995DA005B827A /* MessageUI.framework in Frameworks */,
 				028310111AB6C655004364F7 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,6 +564,7 @@
 		025760DA1B286BF900CE588A /* image */ = {
 			isa = PBXGroup;
 			children = (
+				0222056D1B397D12005B827A /* tools_call.png */,
 				02EB31101B3455FE00F3AB3F /* input_moreline_bg.png */,
 				0293A8461B2EF6FC0086C602 /* icon-plus.png */,
 				0293A8471B2EF6FC0086C602 /* icon-plus@2x.png */,
@@ -592,6 +601,8 @@
 				025760E01B28828400CE588A /* RefreshSingleView.m */,
 				0280D47E1B009F7700993641 /* AlertShowView.h */,
 				0280D47F1B009F7700993641 /* AlertShowView.m */,
+				0222056F1B398000005B827A /* ActionSheetView.h */,
+				022205701B398000005B827A /* ActionSheetView.m */,
 			);
 			name = CommonTools;
 			sourceTree = "<group>";
@@ -608,6 +619,7 @@
 		028310121AB6C6A2004364F7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				022205721B3995DA005B827A /* MessageUI.framework */,
 				028310101AB6C654004364F7 /* libxml2.dylib */,
 			);
 			name = Frameworks;
@@ -789,6 +801,7 @@
 				02C86A2C1B2D4FDA00C37CE7 /* down.png in Resources */,
 				0229645A1AA6AFE700D5BFE5 /* LaunchScreen.xib in Resources */,
 				02C86A291B2D4FDA00C37CE7 /* bg_content_select_hover@2x.png in Resources */,
+				0222056E1B397D12005B827A /* tools_call.png in Resources */,
 				024C6B2A1B26DB7F00B19543 /* Icon@2x.png in Resources */,
 				0293A8491B2EF6FC0086C602 /* icon-plus@2x.png in Resources */,
 				024C6B281B26DB7F00B19543 /* Icon-60@3x.png in Resources */,
@@ -829,6 +842,7 @@
 				0229649A1AA6B3F100D5BFE5 /* LoginView.m in Sources */,
 				02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				02C86A131B2AEA5C00C37CE7 /* SearchConditionView.m in Sources */,
+				022205711B398000005B827A /* ActionSheetView.m in Sources */,
 				0293A8451B2EF4100086C602 /* ADDPictureView.m in Sources */,
 				021684071B2D7BCF00E94A47 /* ICSDropShadowView.m in Sources */,
 				02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */,

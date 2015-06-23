@@ -69,6 +69,5 @@
 - (void)customerView:(AddCustomerView *)addCustomerView DidShowItemPickerWithRow:(NSInteger)row WithSource:(NSArray *)sourceList;
 - (void)customerView:(AddCustomerView *)addCustomerView DidShowDate:(UIDatePickerMode )pickerMode;
 - (void)customerViewDidShowTextField:(AddCustomerView *)addCustomerView;
-- (void)customerViewDidShowAlertView:(UIAlertController *)alertController;
 @end
 

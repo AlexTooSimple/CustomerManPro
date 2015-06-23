@@ -602,12 +602,4 @@
 {
     [self closeViewResponse];
 }
-
-- (void)customerViewDidShowAlertView:(UIAlertController *)alertController
-{
-    [self presentViewController:alertController
-                       animated:YES
-                     completion:nil];
-}
-
 @end

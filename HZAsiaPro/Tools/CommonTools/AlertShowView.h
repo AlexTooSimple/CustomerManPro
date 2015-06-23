@@ -17,13 +17,16 @@
     id<AlertShowViewDelegate> alertDelegate;
     NSInteger index;  //视图的tag
     
+    UIAlertView *alertView;
     UIAlertController *contentAlert;
 }
 #if !__has_feature(objc_arc)
+@property (nonatomic ,retain) UIAlertView *alertView;
 @property (nonatomic ,retain) UIAlertController *contentAlert;
 @property (nonatomic ,assign) NSInteger index;
 @property (nonatomic ,assign) id<AlertShowViewDelegate> alertDelegate;
 #else
+@property (nonatomic ,strong) UIAlertView *alertView;
 @property (nonatomic ,strong) UIAlertController *contentAlert;
 @property (nonatomic ,assign) NSInteger index;
 @property (nonatomic ,weak) id<AlertShowViewDelegate> alertDelegate;
@@ -36,7 +39,7 @@
                     cancelButtonTitle:(NSString*)cancelButtonTitle
                     otherButtonTitles:(NSString*)otherButtonTitles,...;
 - (void)show;
-
+- (void)dismiss;
 @end
 
 

@@ -8,16 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "RefreshSingleView.h"
+#import "ActionSheetView.h"
 
 #define CUSTOMER_DIC_NAME_KEY           @"name"
 #define CUSTOMER_DIC_PHONE_KEY          @"phone"
 
 @protocol CustomerListViewDelegate;
 
-@interface CustomerListView : UIView<RefreshSingleViewDataSource,RefreshSingleViewDelegate>
+@interface CustomerListView : UIView<RefreshSingleViewDataSource,
+                                     RefreshSingleViewDelegate,
+                                     ActionSheetViewDelegate>
 {
     RefreshSingleView *contentTable;
     NSArray  *customerList;
+    
+    NSInteger selectRow;
     
     id<CustomerListViewDelegate> delegate;
 }
@@ -31,4 +36,5 @@
 
 @protocol CustomerListViewDelegate <NSObject>
 - (void)customerListView:(CustomerListView *)listView didSelectRow:(NSInteger) row;
+- (void)customerDidSendSMS:(NSArray *)phoneList;
 @end

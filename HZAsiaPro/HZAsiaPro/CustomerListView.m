@@ -9,6 +9,7 @@
 #import "CustomerListView.h"
 #import "ComponentsFactory.h"
 
+
 #define CELL_NAME_LABEL_TAG         121
 #define CELL_PHONE_LABEL_TAG        122
 
@@ -34,6 +35,7 @@
 {
     self = [super init];
     if (self) {
+        selectRow = -1;
         [self layoutContentTable];
     }
     return self;
@@ -62,6 +64,7 @@
 
 - (void)reloadData:(NSArray *)itemData
 {
+    selectRow = -1;
     [self.contentTable resetViewDataStream];
     [self.contentTable reloadViewData:itemData];
 }
@@ -104,7 +107,7 @@
         
         UIImageView *arrowView = [[UIImageView alloc] init];
         arrowView.backgroundColor = [UIColor clearColor];
-        arrowView.image = [UIImage imageNamed:@"icon_item_right.png"];
+        arrowView.image = [UIImage imageNamed:@"tools_call.png"];
         [cell.contentView addSubview:arrowView];
         
         [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -120,13 +123,13 @@
             make.top.equalTo(cell.contentView).with.offset(3.0f);
             make.bottom.equalTo(cell.contentView).with.offset(-3.0f);
             make.left.equalTo(nameLabel.mas_right).with.offset(10.0f);
-            make.right.equalTo(cell.contentView).with.offset(-20.0f);
+            make.right.equalTo(cell.contentView).with.offset(-40.0f);
         }];
         
         [arrowView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cell.contentView.mas_centerY);
             make.left.equalTo(phoneLabel.mas_right).with.offset(3.0f);
-            make.size.mas_equalTo(CGSizeMake(7.0f, 12.0f));
+            make.size.mas_equalTo(CGSizeMake(20.0f, 20.0f));
         }];
         
         [iconView release];
@@ -158,12 +161,22 @@
 
 - (void)refreshSingleView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    selectRow = indexPath.row;
+    ActionSheetView *sheet = [[ActionSheetView alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:@"拨打电话"
+                                                  otherButtonTitles:@"发送短信",nil];
+    [sheet show];
+}
+
+- (void)refreshSingleView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
     NSInteger row = [indexPath row];
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(customerListView:didSelectRow:)]) {
         [self.delegate customerListView:self didSelectRow:row];
     }
 }
-
 
 
 - (void)DataChange:(NSMutableArray *)itemData
@@ -194,4 +207,51 @@
 {
     return 1;
 }
+
+#pragma mark
+#pragma mark - ActionSheetViewDelegate
+- (void)actionSheetView:(ActionSheetView *)sheetView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+        {
+            //拨打电话
+            UIWebView *callWebView = [[UIWebView alloc] init];
+            NSString *phone = [[self.customerList objectAtIndex:selectRow] objectForKey:CUSTOMER_DIC_PHONE_KEY];
+            NSString *telStr = [[NSString alloc] initWithFormat:@"tel:%@",phone];
+            NSURL *telURL = [NSURL URLWithString:telStr];
+            [telStr release];
+            
+            [callWebView loadRequest:[NSURLRequest requestWithURL:telURL]];
+            
+        }
+            break;
+        case 1:
+        {
+            //发送短信
+            NSString *phone = [[self.customerList objectAtIndex:selectRow] objectForKey:CUSTOMER_DIC_PHONE_KEY];
+            NSArray *phones = [[NSArray alloc] initWithObjects:phone, nil];
+            if (self.delegate != nil && [self.delegate respondsToSelector:@selector(customerDidSendSMS:)]) {
+                [self.delegate customerDidSendSMS:phones];
+            }
+            [phones release];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)actionSheetViewWillPresent:(UIAlertController *)alertController
+{
+    UIViewController  *currentVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [currentVC presentViewController:alertController
+                            animated:YES
+                          completion:nil];
+}
+
+
+#pragma mark
+#pragma mark -
+
 @end

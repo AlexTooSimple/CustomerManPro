@@ -11,8 +11,9 @@
 #import "ConcactHistoryView.h"
 #import "OperationClientContactVC.h"
 #import "OperationClientBasicInfoVC.h"
+#import "ActionSheetView.h"
 
-@interface DetailInfoVC ()<UIScrollViewDelegate,UIActionSheetDelegate>
+@interface DetailInfoVC ()<UIScrollViewDelegate,ActionSheetViewDelegate>
 {
     UIScrollView *contentView;
     UIPageControl *contentControl;
@@ -128,24 +129,25 @@
 
 - (void)operateClicked:(id)sender
 {
-    UIActionSheet *sheetView = [[UIActionSheet alloc] initWithTitle:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:@"取消"
-                                             destructiveButtonTitle:@"修改客户基本信息"
-                                                  otherButtonTitles:@"登记联系信息",@"删除",nil];
-    [sheetView showInView:self.view];
+    ActionSheetView *sheetView = [[ActionSheetView alloc] initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"取消"
+                                                 destructiveButtonTitle:@"删除"
+                                                      otherButtonTitles:@"登记联系信息",@"修改客户基本信息",nil];
+    [sheetView show];
     [sheetView release];
 }
 
+
 #pragma mark
-#pragma mark - UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+#pragma mark - ActionSheetViewDelegate
+- (void)actionSheetView:(ActionSheetView *)sheetView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     switch (buttonIndex) {
         case 0:
         {
-            //修改客户基本信息
-            [self gotoOperatClientBaiscInfoVC];
+            //删除客户
+            [self deleteClient];
         }
             break;
         case 1:
@@ -156,14 +158,23 @@
             break;
         case 2:
         {
-            //删除客户
-            [self deleteClient];
+            //修改客户基本信息
+            [self gotoOperatClientBaiscInfoVC];
         }
             break;
         default:
             break;
     }
 }
+
+- (void)actionSheetViewWillPresent:(UIAlertController *)alertController
+{
+    UIViewController  *currentVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [currentVC presentViewController:alertController
+                            animated:YES
+                          completion:nil];
+}
+
 
 #pragma mark
 #pragma mark - actionSheet对应的操作

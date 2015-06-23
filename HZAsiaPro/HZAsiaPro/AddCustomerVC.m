@@ -777,13 +777,6 @@ typedef enum ClickedView {
     [self closeViewResponse];
 }
 
-- (void)customerViewDidShowAlertView:(UIAlertController *)alertController
-{
-    [self presentViewController:alertController
-                       animated:YES
-                     completion:nil];
-}
-
 #pragma mark
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

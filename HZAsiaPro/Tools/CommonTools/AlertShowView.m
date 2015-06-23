@@ -13,6 +13,7 @@
 @synthesize alertDelegate;
 @synthesize index;
 @synthesize contentAlert;
+@synthesize alertView;
 
 - (void)dealloc
 {
@@ -20,6 +21,11 @@
     if (contentAlert != nil) {
         [contentAlert release];
     }
+    
+    if (alertView != nil) {
+        [alertView release];
+    }
+    
     [super dealloc];
 #endif
 }
@@ -66,15 +72,17 @@
                 [alert addAction:alertCancel];
             }
             
+            NSInteger buttonIndex = 1;
             if (otherButtonTitles != nil && ![otherButtonTitles isEqualToString:@""]) {
                 UIAlertAction *alertFirst = [UIAlertAction actionWithTitle:otherButtonTitles
                                                                       style:UIAlertActionStyleDefault
                                                                     handler:^(UIAlertAction *action) {
                                                                         if (self.alertDelegate != nil && [self.alertDelegate respondsToSelector:@selector(alertShowView:didDismissWithButtonIndex:)]) {
-                                                                            [self.alertDelegate alertShowView:self didDismissWithButtonIndex:1];
+                                                                            [self.alertDelegate alertShowView:self didDismissWithButtonIndex:buttonIndex];
                                                                         }
                                                                     }];
                 [alert addAction:alertFirst];
+                buttonIndex++;
             }
             
             for(int i=0; i<[argsArray count]; i++){
@@ -82,10 +90,11 @@
                                                                      style:UIAlertActionStyleDefault
                                                                    handler:^(UIAlertAction *action) {
                                                                        if (self.alertDelegate != nil && [self.alertDelegate respondsToSelector:@selector(alertShowView:didDismissWithButtonIndex:)]) {
-                                                                           [self.alertDelegate alertShowView:self didDismissWithButtonIndex:i+2];
+                                                                           [self.alertDelegate alertShowView:self didDismissWithButtonIndex:buttonIndex];
                                                                        }
                                                                    }];
                 [alert addAction:alertOther];
+                buttonIndex++;
             }
             
             self.contentAlert = alert;
@@ -100,6 +109,7 @@
             for(int i = 0; i < [argsArray count]; i++){
                 [alert addButtonWithTitle:[argsArray objectAtIndex:i]];
             }
+            self.alertView = alert;
             [alert show];
 #if !__has_feature(objc_arc)
             [alert release];
@@ -112,6 +122,15 @@
     return self;
 }
 
+- (void)dismiss
+{
+    if (self.alertView != nil) {
+        [self.alertView dismissWithClickedButtonIndex:0 animated:YES];
+    }else{
+        [self.contentAlert dismissViewControllerAnimated:YES
+                                              completion:nil];
+    }
+}
 
 - (void)show
 {
