@@ -16,15 +16,14 @@
     CGRect closeRect;
     BOOL isShow;
     int myTag;
-    NSString *dateFomarter;
 }
-@property(nonatomic,retain) NSString *dateFomarter;
 @property(nonatomic,retain) UIDatePicker *datePicker;
 @property(nonatomic,retain) id<MyDatePickerViewDelegate> delegate;
 @property(nonatomic,assign) BOOL isShow;
 @property(nonatomic,assign) int myTag;
 -(void)setMaxDate:(NSDate *)maxDate;
 -(void)setMinDate:(NSDate *)minDate;
+-(void)setDateMode:(UIDatePickerMode)pickerMode;
 -(void)show;
 -(void)dismiss;
 @end

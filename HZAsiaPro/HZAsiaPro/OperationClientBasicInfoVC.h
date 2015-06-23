@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface OperationClientBasicInfoVC : UIViewController
-
+- (void)reloadInitData:(NSArray *)sourceInitData;
 @end

@@ -115,9 +115,13 @@
 
 - (void)show
 {
-    if (self.contentAlert != nil) {
-        if (self.alertDelegate != nil && [self.alertDelegate respondsToSelector:@selector(alertViewWillPresent:)]) {
-            [self.alertDelegate alertViewWillPresent:self.contentAlert];
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    NSInteger systemVersion = [[currentDevice.systemVersion substringToIndex:1] integerValue];
+    if (systemVersion >= 8) {
+        if (self.contentAlert != nil) {
+            if (self.alertDelegate != nil && [self.alertDelegate respondsToSelector:@selector(alertViewWillPresent:)]) {
+                [self.alertDelegate alertViewWillPresent:self.contentAlert];
+            }
         }
     }
 }

@@ -43,8 +43,6 @@
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero
                                                           style:UITableViewStyleGrouped];
     tableView.backgroundColor = [UIColor clearColor];
-    tableView.scrollEnabled = YES;
-    tableView.pagingEnabled = YES;
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.separatorColor = [UIColor clearColor];

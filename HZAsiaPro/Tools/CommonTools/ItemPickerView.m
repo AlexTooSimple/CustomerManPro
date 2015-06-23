@@ -33,7 +33,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        selectRow = -1;
+        selectRow = 0;
         
         openRect = frame;
         closeRect = CGRectMake(openRect.origin.x, DEVICE_MAINSCREEN_HEIGHT, openRect.size.width, openRect.size.height);
@@ -90,7 +90,7 @@
 #pragma mark - 刷新数据
 - (void)reloadPickerData:(NSArray *)itemDatas
 {
-    selectRow = -1;
+    selectRow = 0;
     self.itemAry = itemDatas;
     [self.itemPicker reloadAllComponents];
 }

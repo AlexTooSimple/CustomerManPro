@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface OperationClientContactVC : UIViewController
-
+- (void)reloadInitData:(NSDictionary *)sourceInitData;
 @end

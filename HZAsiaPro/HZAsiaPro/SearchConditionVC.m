@@ -11,6 +11,7 @@
 #import "ItemPickerView.h"
 #import "MyDatePickerView.h"
 #import "AlertShowView.h"
+#import "ModelConditionNavVC.h"
 
 @interface SearchConditionVC ()<SearchConditionViewDelegate,ItemPickerDelegate,MyDatePickerViewDelegate,AlertShowViewDelegate>
 {
@@ -104,6 +105,12 @@
 - (void)search:(id)sender
 {
     NSLog(@"search");
+    NSDictionary *condition = [self.contentView getSearchCondition];
+    
+    [((ModelConditionNavVC *)(self.navigationController)).drawer close];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_VC_SEARCH_DONE_NOTIFATION
+                                                        object:condition];
 }
 
 #pragma mark
@@ -114,7 +121,7 @@
 }
 - (void)itemPickerView:(ItemPickerView *)itemPicker selectRow:(NSInteger)row selectData:(NSString *)itemStr
 {
-    [self.contentView reloadViewShowData:itemStr];
+    [self.contentView reloadViewShowData:itemStr selectRow:row];
 }
 
 #pragma mark
@@ -123,10 +130,11 @@
 {
     [[[UIApplication sharedApplication].windows firstObject] willRemoveSubview:self.datePicker];
 }
+
 -(void)clickMyDatePickerViewOk:(NSString*)selectedDate
 {
     NSDateFormatter *df = [[NSDateFormatter alloc]init];
-    df.dateFormat = @"yyyy-mm-dd";
+    df.dateFormat = @"yyyy-MM-dd";
     if ([[df dateFromString:selectedDate] compare:[NSDate date]] == NSOrderedDescending) {
         AlertShowView *alertView = [[AlertShowView alloc] initWithAlertViewTitle:@"提示消息"
                                                                          message:@"输入的时间不能大于今天"
@@ -155,10 +163,12 @@
 
 #pragma mark
 #pragma mark - SearchConditionViewDelegate
-- (void)searchConditionViewDidShowItemPicker:(NSArray *)itemList
+- (void)searchConditionViewDidShowItemPicker:(NSArray *)itemList WithSelectRow:(NSInteger)selectRow
 {
     [[[UIApplication sharedApplication].windows firstObject] addSubview:self.itemPicker];
     [self.itemPicker reloadPickerData:itemList];
+    
+    [self.itemPicker selectPickerRow:selectRow];
     
     [self.itemPicker show];
 }

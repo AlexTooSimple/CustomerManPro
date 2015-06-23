@@ -9,17 +9,19 @@
 #import <UIKit/UIKit.h>
 
 @protocol SearchConditionViewDelegate;
+
 @interface SearchConditionView : UIView
 {
     id<SearchConditionViewDelegate> delegate;
 }
 @property (nonatomic ,assign)id<SearchConditionViewDelegate> delegate;
 - (void)reloadViewDate:(NSString *)showDate;
-- (void)reloadViewShowData:(NSString *)showData;
+- (void)reloadViewShowData:(NSString *)showData selectRow:(NSInteger)selectRow;
+- (NSDictionary *)getSearchCondition;
 @end
 
 @protocol SearchConditionViewDelegate <NSObject>
-- (void)searchConditionViewDidShowItemPicker:(NSArray *)itemList;
+- (void)searchConditionViewDidShowItemPicker:(NSArray *)itemList WithSelectRow:(NSInteger)selectRow;
 - (void)searchConditionViewDidShowDatePicker;
 - (void)searchConditionViewDidShowTextField;
 @end

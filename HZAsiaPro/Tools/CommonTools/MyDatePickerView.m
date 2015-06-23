@@ -14,14 +14,11 @@
 @synthesize delegate;
 @synthesize isShow;
 @synthesize myTag;
-@synthesize dateFomarter;
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.dateFomarter = NSLocalizedString(@"Date_Format", nil);
-        
         openRect = frame;
         closeRect = CGRectMake(openRect.origin.x, DEVICE_MAINSCREEN_HEIGHT, openRect.size.width, openRect.size.height);
         self.frame = closeRect;
@@ -33,7 +30,6 @@
         
         datePicker=[[UIDatePicker alloc] initWithFrame:CGRectMake(0,y, width, height)];
         datePicker.date = [NSDate date];
-        [datePicker setDatePickerMode:UIDatePickerModeDate];
         [datePicker setBackgroundColor:[UIColor whiteColor]];
         [datePicker setDatePickerMode:UIDatePickerModeDate];
         [self addSubview:datePicker];
@@ -65,6 +61,11 @@
     return self;
 }
 
+-(void)setDateMode:(UIDatePickerMode)pickerMode
+{
+    self.datePicker.datePickerMode = pickerMode;
+}
+
 -(void)setMaxDate:(NSDate *)maxDate
 {
     if (maxDate != nil) {
@@ -80,12 +81,14 @@
     if (minDate != nil) {
         datePicker.minimumDate = minDate;
     }else{
-        unsigned int yyyy = 1900;
-        unsigned int mm = 1;
-        unsigned int dd = 1;
-        NSDate *valiteData = [NSDate dateFromString:[NSString stringWithFormat:@"%d-%02d-%02d",yyyy,mm,dd]
-                                         withFormat:@"yyyy-MM-dd"];
-        datePicker.minimumDate = valiteData;
+        if (self.datePicker.datePickerMode == UIDatePickerModeDate) {
+            unsigned int yyyy = 1900;
+            unsigned int mm = 1;
+            unsigned int dd = 1;
+            NSDate *valiteData = [NSDate dateFromString:[NSString stringWithFormat:@"%d-%02d-%02d",yyyy,mm,dd]
+                                             withFormat:@"yyyy-MM-dd"];
+            datePicker.minimumDate = valiteData;
+        }
     }
     
 }
@@ -93,20 +96,20 @@
 {
     [self dismiss];
     NSDateFormatter *df = [[NSDateFormatter alloc]init];
-    if (dateFomarter == nil || [@"" isEqualToString:dateFomarter]) {
-        [df setDateFormat:@"dd/MM/yyyy"];
-    } else {
-        [df setDateFormat:dateFomarter];
+    if (self.datePicker.datePickerMode == UIDatePickerModeTime) {
+        [df setDateFormat:@"hh:mm"];
+    }else if(self.datePicker.datePickerMode == UIDatePickerModeDate){
+        [df setDateFormat:@"yyyy-MM-dd"];
     }
     
 
     NSString *s = [df stringFromDate:[self.datePicker date]];
-    NSLog(@"Date:%@",s);
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickMyDatePickerViewOk:)]) {
         [self.delegate clickMyDatePickerViewOk:s];
     }
     [df release];
 }
+
 -(void)clickCancel
 {
     [self dismiss];
@@ -114,6 +117,7 @@
         [self.delegate clickMyDatePickerViewCancel];
     }
 }
+
 -(void)show
 {
     if (isShow == NO) {
@@ -144,7 +148,6 @@
 
 - (void)dealloc {
     [datePicker release];
-    [dateFomarter release];
     [super dealloc];
 }
 @end

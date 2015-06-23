@@ -56,14 +56,10 @@ typedef enum ClickedDateType{
     UITextField *endDateFromField;
     UITextField *endDateToField;
     
-    
-    UILabel *visitTypeLabel;
-    UILabel *salesmanLabel;
-    UILabel *clientTypeLabel;
-    UILabel *saleStatusLabel;
-    
     NSString *purposeShowStr;
-    
+    NSInteger visitSelectRow;
+    NSInteger saleStateSelectRow;
+    NSInteger clientTypeSelectRow;
     
     //中间缓冲变量
     BussineType clickedBussiness;
@@ -71,7 +67,10 @@ typedef enum ClickedDateType{
     BOOL isShowPurpose;
     
     //选择条件数据
-    NSMutableArray *purposeData;
+    NSArray *purposeData;
+    NSArray *visitDataSource;
+    NSArray *saleStatesDataSource;
+    NSArray *clientTypeDataSource;
 }
 @property (nonatomic ,retain)UITableView *contentTable;
 @property (nonatomic ,assign)BOOL isChangeCustomer;
@@ -83,16 +82,15 @@ typedef enum ClickedDateType{
 @property (nonatomic ,retain)UITextField *endDateFromField;
 @property (nonatomic ,retain)UITextField *endDateToField;
 
-@property (nonatomic ,retain)UILabel *visitTypeLabel;
-@property (nonatomic ,retain)UILabel *salesmanLabel;
-@property (nonatomic ,retain)UILabel *clientTypeLabel;
-@property (nonatomic ,retain)UILabel *saleStatusLabel;
 @property (nonatomic ,retain)NSString *purposeShowStr;
 
 @property (nonatomic ,assign)BussineType clickedBussiness;
 @property (nonatomic ,assign)ClickedDateType dateType;
 
-@property (nonatomic ,retain)NSMutableArray *purposeData;
+@property (nonatomic ,retain)NSArray *purposeData;
+@property (nonatomic ,retain)NSArray *visitDataSource;
+@property (nonatomic ,retain)NSArray *saleStatesDataSource;
+@property (nonatomic ,retain)NSArray *clientTypeDataSource;
 
 @end
 
@@ -108,11 +106,6 @@ typedef enum ClickedDateType{
 @synthesize endDateFromField;
 @synthesize endDateToField;
 
-@synthesize visitTypeLabel;
-@synthesize salesmanLabel;
-@synthesize clientTypeLabel;
-@synthesize saleStatusLabel;
-
 @synthesize purposeShowStr;
 
 @synthesize clickedBussiness;
@@ -121,6 +114,9 @@ typedef enum ClickedDateType{
 @synthesize delegate;
 
 @synthesize purposeData;
+@synthesize visitDataSource;
+@synthesize saleStatesDataSource;
+@synthesize clientTypeDataSource;
 
 - (void)dealloc
 {
@@ -131,11 +127,6 @@ typedef enum ClickedDateType{
     [endDateToField release];
     [endDateFromField release];
     
-    [visitTypeLabel release];
-    [saleStatusLabel release];
-    [salesmanLabel release];
-    [clientTypeLabel release];
-    
     if (purposeShowStr != nil) {
         [purposeShowStr release];
     }
@@ -145,6 +136,16 @@ typedef enum ClickedDateType{
     if (purposeData != nil) {
         [purposeData release];
     }
+    if (visitDataSource != nil) {
+        [visitDataSource release];
+    }
+    if (saleStatesDataSource != nil) {
+        [saleStatesDataSource release];
+    }
+    if (clientTypeDataSource != nil) {
+        [clientTypeDataSource release];
+    }
+    
     [super dealloc];
 }
 
@@ -153,6 +154,11 @@ typedef enum ClickedDateType{
     if (self = [super init]) {
         isChangeCustomer = NO;
         isShowPurpose = NO;
+        
+        clientTypeSelectRow = 0;
+        saleStateSelectRow = 0;
+        visitSelectRow = 0;
+        
         [self initData];
         
         [self layoutContentView];
@@ -162,7 +168,7 @@ typedef enum ClickedDateType{
 
 - (void)initData
 {
-    
+    //购买意向数据源
     NSMutableArray *itemData = [[NSMutableArray alloc] initWithCapacity:0];
     NSMutableDictionary *purData1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                      @"初步意向",@"title",
@@ -188,9 +194,108 @@ typedef enum ClickedDateType{
     [itemData addObject:purData4];
     [purData4 release];
     
-    
     self.purposeData = itemData;
     [itemData release];
+    
+    //来访模式数据源
+    NSMutableArray *visitDatas = [[NSMutableArray alloc] initWithCapacity:0];
+    NSDictionary *visitData1 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"0",@"key",
+                                @"全部",@"value",nil];
+    [visitDatas addObject:visitData1];
+    [visitData1 release];
+    
+    NSDictionary *visitData2 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"1",@"key",
+                                @"来访",@"value",nil];
+    [visitDatas addObject:visitData2];
+    [visitData2 release];
+    
+    NSDictionary *visitData3 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"2",@"key",
+                                @"来电",@"value",nil];
+    [visitDatas addObject:visitData3];
+    [visitData3 release];
+    
+    NSDictionary *visitData4 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"3",@"key",
+                                @"去电",@"value",nil];
+    [visitDatas addObject:visitData4];
+    [visitData4 release];
+    
+    NSDictionary *visitData5 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"4",@"key",
+                                @"来函",@"value",nil];
+    [visitDatas addObject:visitData5];
+    [visitData5 release];
+    
+    NSDictionary *visitData6 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"5",@"key",
+                                @"其他类型",@"value",nil];
+    [visitDatas addObject:visitData6];
+    [visitData6 release];
+    
+    self.visitDataSource = visitDatas;
+    [visitDatas release];
+    
+    //客户类型数据源
+    NSMutableArray *clientTypeDatas = [[NSMutableArray alloc] initWithCapacity:0];
+    NSDictionary *clientTypeData1 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"0",@"key",
+                                @"全部",@"value",nil];
+    [clientTypeDatas addObject:clientTypeData1];
+    [clientTypeData1 release];
+    
+    NSDictionary *clientTypeData2 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"1",@"key",
+                                @"个人客户",@"value",nil];
+    [clientTypeDatas addObject:clientTypeData2];
+    [clientTypeData2 release];
+    
+    NSDictionary *clientTypeData3 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"2",@"key",
+                                @"企业客户",@"value",nil];
+    [clientTypeDatas addObject:clientTypeData3];
+    [clientTypeData3 release];
+    
+    self.clientTypeDataSource = clientTypeDatas;
+    [clientTypeDatas release];
+    
+    //销售状态数据源
+    NSMutableArray *saleStateDatas = [[NSMutableArray alloc] initWithCapacity:0];
+    NSDictionary *saleStateData1 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     @"0",@"key",
+                                     @"全部",@"value",nil];
+    [saleStateDatas addObject:saleStateData1];
+    [saleStateData1 release];
+    
+    NSDictionary *saleStateData2 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     @"1",@"key",
+                                     @"预约客户",@"value",nil];
+    [saleStateDatas addObject:saleStateData2];
+    [saleStateData2 release];
+    
+    NSDictionary *saleStateData3 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     @"2",@"key",
+                                     @"小订客户",@"value",nil];
+    [saleStateDatas addObject:saleStateData3];
+    [saleStateData3 release];
+    
+    NSDictionary *saleStateData4 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    @"1",@"key",
+                                    @"大订客户",@"value",nil];
+    [saleStateDatas addObject:saleStateData4];
+    [saleStateData4 release];
+    
+    NSDictionary *saleStateData5 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    @"2",@"key",
+                                    @"合同客户",@"value",nil];
+    [saleStateDatas addObject:saleStateData5];
+    [saleStateData5 release];
+
+    self.saleStatesDataSource = saleStateDatas;
+    [saleStateDatas release];
+    
 }
 
 - (void)layoutContentView
@@ -287,10 +392,12 @@ typedef enum ClickedDateType{
             sectionView = [self customeSectionWithTextFieldWithTitle:@"客户姓名:"
                                                             WithDesc:@"请输入客户姓名"];
             
+            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+            UITextField *txtField = (UITextField *)[inputView viewWithTag:CONDITION__FIELD_TAG];
             if (self.nameField == nil) {
-                UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-                UITextField *txtField = (UITextField *)[inputView viewWithTag:CONDITION__FIELD_TAG];
                 self.nameField = txtField;
+            }else{
+                txtField.text = self.nameField.text;
             }
         }
             break;
@@ -298,10 +405,12 @@ typedef enum ClickedDateType{
         {
             sectionView = [self customeSectionWithTextFieldWithTitle:@"手机号码:"
                                                             WithDesc:@"请输入手机号码"];
+            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+            UITextField *txtField = (UITextField *)[inputView viewWithTag:CONDITION__FIELD_TAG];
             if (self.phoneField == nil) {
-                UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-                UITextField *txtField = (UITextField *)[inputView viewWithTag:CONDITION__FIELD_TAG];
                 self.phoneField = txtField;
+            }else{
+                txtField.text = self.phoneField.text;
             }
         }
             break;
@@ -356,22 +465,17 @@ typedef enum ClickedDateType{
         {
             sectionView = [self customerSectionSelectViewWithTitle:@"访问类型:"
                                                            withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_visit_type];
-            if (self.visitTypeLabel == nil) {
-                UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-                UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
-                self.visitTypeLabel = txtField;
-            }
+            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
+            txtField.text = [[self.visitDataSource objectAtIndex:visitSelectRow] objectForKey:@"value"];
         }
             break;
         case 6:
         {
             sectionView = [self customerSectionSelectViewWithTitle:@"业务员:"
                                                            withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_sale_man];
-            if (self.salesmanLabel == nil) {
-                UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-                UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
-                self.salesmanLabel = txtField;
-            }
+            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
         }
             break;
         case 7:
@@ -384,22 +488,18 @@ typedef enum ClickedDateType{
         {
             sectionView = [self customerSectionSelectViewWithTitle:@"客户类别:"
                                                            withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_client_type];
-            if (self.clientTypeLabel == nil) {
-                UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-                UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
-                self.clientTypeLabel = txtField;
-            }
+            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
+            txtField.text = [[self.clientTypeDataSource objectAtIndex:clientTypeSelectRow] objectForKey:@"value"];
         }
             break;
         case 9:
         {
             sectionView = [self customerSectionSelectViewWithTitle:@"销售情况:"
                                                            withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_sale_status];
-            if (self.saleStatusLabel == nil) {
-                UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-                UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
-                self.saleStatusLabel = txtField;
-            }
+            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
+            txtField.text = [[self.saleStatesDataSource objectAtIndex:saleStateSelectRow] objectForKey:@"value"];
         }
             break;
         default:
@@ -454,10 +554,6 @@ typedef enum ClickedDateType{
         [purposeStr release];
         
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-        
-//        NSIndexPath *updatePath = [NSIndexPath indexPathForRow:row inSection:section];
-//        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:updatePath]
-//                         withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
@@ -749,6 +845,65 @@ typedef enum ClickedDateType{
 
 #pragma mark
 #pragma mark - InterFace
+- (NSDictionary *)getSearchCondition
+{
+    NSMutableDictionary *conditionData = [[[NSMutableDictionary alloc] initWithCapacity:0] autorelease];
+    //初访时间开始
+    if (self.startDateFromField.text != nil && ![self.startDateFromField.text isEqualToString:@""]) {
+        [conditionData setObject:self.startDateFromField.text forKey:@"startFromData"];
+    }
+    //初访时间结束
+    if (self.startDateToField.text != nil && ![self.startDateToField.text isEqualToString:@""]) {
+        [conditionData setObject:self.startDateToField.text forKey:@"startToData"];
+    }
+    //最后来访时间开始
+    if (self.endDateFromField.text != nil && ![self.endDateFromField.text isEqualToString:@""]) {
+        [conditionData setObject:self.endDateFromField.text forKey:@"endFromData"];
+    }
+    //最后来访时间结束
+    if (self.endDateToField.text != nil && ![self.endDateToField.text isEqualToString:@""]) {
+        [conditionData setObject:self.endDateToField.text forKey:@"endToData"];
+    }
+    //客户姓名
+    if (self.nameField.text != nil && ![self.nameField.text isEqualToString:@""]) {
+        [conditionData setObject:self.nameField.text forKey:@"name"];
+    }
+    //手机号码
+    if (self.phoneField.text != nil && ![self.phoneField.text isEqualToString:@""]) {
+        [conditionData setObject:self.phoneField.text forKey:@"phone"];
+    }
+    //客户类型
+    [conditionData setObject:[self.clientTypeDataSource objectAtIndex:clientTypeSelectRow]
+                      forKey:@"clientType"];
+    //访问类型
+    [conditionData setObject:[self.visitDataSource objectAtIndex:visitSelectRow]
+                      forKey:@"visit"];
+    //销售情况
+    [conditionData setObject:[self.saleStatesDataSource objectAtIndex:saleStateSelectRow]
+                      forKey:@"saleState"];
+    //变动客户标识
+    [conditionData setObject:[NSNumber numberWithBool:isChangeCustomer]
+                      forKey:@"changeCustomer"];
+
+    //购买意向
+    NSInteger cnt = [self.purposeData count];
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    for (int i=0; i<cnt; i++) {
+        NSDictionary *data = [self.purposeData objectAtIndex:i];
+        NSString *select = [data objectForKey:@"select"];
+        if ([select isEqualToString:@"1"]) {
+            //表示选定
+            [indexSet addIndex:i];
+        }
+    }
+    [conditionData setObject:indexSet forKey:@"purpose"];
+    //业务员后期处理
+    
+    NSLog(@"搜索条件：%@",conditionData);
+    
+    return conditionData;
+}
+
 - (void)reloadViewDate:(NSString *)showDate
 {
     switch (dateType) {
@@ -776,27 +931,38 @@ typedef enum ClickedDateType{
             break;
     }
 }
-- (void)reloadViewShowData:(NSString *)showData
+- (void)reloadViewShowData:(NSString *)showData selectRow:(NSInteger)selectRow
 {
     switch (clickedBussiness) {
         case click_client_type:
         {
-            self.clientTypeLabel.text = showData;
+            clientTypeSelectRow = selectRow;
+            [self.contentTable reloadSections:[NSIndexSet indexSetWithIndex:8]
+                             withRowAnimation:UITableViewRowAnimationNone];
         }
             break;
         case click_sale_man:
         {
-            self.salesmanLabel.text = showData;
+            [self.contentTable reloadSections:[NSIndexSet indexSetWithIndex:6]
+                             withRowAnimation:UITableViewRowAnimationNone];
+
+           
         }
             break;
         case click_visit_type:
         {
-            self.visitTypeLabel.text = showData;
+            visitSelectRow = selectRow;
+            [self.contentTable reloadSections:[NSIndexSet indexSetWithIndex:5]
+                             withRowAnimation:UITableViewRowAnimationNone];
+
         }
             break;
         case click_sale_status:
         {
-            self.saleStatusLabel.text = showData;
+            saleStateSelectRow = selectRow;
+            [self.contentTable reloadSections:[NSIndexSet indexSetWithIndex:9]
+                             withRowAnimation:UITableViewRowAnimationNone];
+
         }
             break;
         default:
@@ -840,11 +1006,13 @@ typedef enum ClickedDateType{
     UIButton *clickedBtn = (UIButton *)sender;
     NSInteger index = clickedBtn.tag - SINGLE_CLICKED_BUTTON_BASE_TAG;
     NSArray *itemList = nil;
+    NSInteger selectRow = 0;
     switch (index) {
         case 0:
         {
             self.clickedBussiness = click_visit_type;
-            itemList = [[NSArray alloc] initWithObjects:@"全部",@"来访",@"来电",@"去电",@"来函",@"其他类型", nil];
+            itemList = [self.visitDataSource valueForKeyPath:@"value"];
+            selectRow = visitSelectRow;
         }
             break;
         case 1:
@@ -855,23 +1023,23 @@ typedef enum ClickedDateType{
         case 2:
         {
             self.clickedBussiness = click_client_type;
-            itemList = [[NSArray alloc] initWithObjects:@"全部",@"个人客户",@"企业客户",nil];
+            itemList = [self.clientTypeDataSource valueForKeyPath:@"value"];
+            selectRow = clientTypeSelectRow;
         }
             break;
         case 3:
         {
             self.clickedBussiness = click_sale_status;
-            itemList = [[NSArray alloc] initWithObjects:@"全部",@"预约客户",@"小订客户",@"大订客户",@"合同客户", nil];
+            itemList = [self.saleStatesDataSource valueForKeyPath:@"value"];
+            selectRow = saleStateSelectRow;
         }
             break;
         default:
             break;
     }
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(searchConditionViewDidShowItemPicker:)]) {
-        [self.delegate searchConditionViewDidShowItemPicker:itemList];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(searchConditionViewDidShowItemPicker:WithSelectRow:)]) {
+        [self.delegate searchConditionViewDidShowItemPicker:itemList WithSelectRow:selectRow];
     }
-    
-    [itemList release];
 }
 
 - (void)clickedPurpose:(id)sender

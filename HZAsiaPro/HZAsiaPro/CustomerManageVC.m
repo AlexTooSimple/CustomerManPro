@@ -9,8 +9,7 @@
 #import "CustomerManageVC.h"
 #import "CustomerListView.h"
 #import "DetailInfoVC.h"
-#import "AddCustomerVC.h"
-#import "ADDPictureView.h"
+#import "VerifyCustomerVC.h"
 
 @interface CustomerManageVC ()<CustomerListViewDelegate>
 @property (nonatomic, retain)CustomerListView *customerView;
@@ -30,6 +29,10 @@
     if (customerView != nil) {
         [customerView release];
     }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:CUSTOMER_VC_SEARCH_DONE_NOTIFATION
+                                                  object:nil];
     
     [super dealloc];
 }
@@ -51,6 +54,11 @@
     
     [self setNavBarSearchItem];
     [self setNavBarInsertItem];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(searchCustomer:)
+                                                 name:CUSTOMER_VC_SEARCH_DONE_NOTIFATION
+                                               object:nil];
     
     CustomerListView *listView = [[CustomerListView alloc] init];
     listView.backgroundColor = [UIColor whiteColor];
@@ -195,6 +203,16 @@
 }
 
 #pragma mark
+#pragma mark - 查询客户接口启动
+- (void)searchCustomer:(NSNotification *)noti
+{
+    NSLog(@"searchcustomer");
+    NSDictionary *condition = [noti object];
+    //网络连接获取数据
+}
+
+
+#pragma mark
 #pragma mark - UIAction
 - (void)search:(id)sender
 {
@@ -204,7 +222,7 @@
 
 - (void)insertCustomer:(id)sender
 {
-    AddCustomerVC *VC = [[AddCustomerVC alloc] init];
+    VerifyCustomerVC *VC = [[VerifyCustomerVC alloc] init];
     [self.navigationController pushViewController:VC animated:YES];
     [VC release];
 }

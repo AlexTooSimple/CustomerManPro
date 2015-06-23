@@ -23,6 +23,7 @@
 		021684101B2DA4AD00E94A47 /* ItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0216840F1B2DA4AD00E94A47 /* ItemPickerView.m */; };
 		021684131B2DB50700E94A47 /* MyDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 021684121B2DB50700E94A47 /* MyDatePickerView.m */; };
 		021684161B2DBB0100E94A47 /* NSDate-Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 021684151B2DBB0100E94A47 /* NSDate-Helper.m */; };
+		0224E98D1B38EDC60080067A /* VerifyCustomerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0224E98C1B38EDC60080067A /* VerifyCustomerVC.m */; };
 		022964521AA6AFE700D5BFE5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964511AA6AFE700D5BFE5 /* main.m */; };
 		022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 022964541AA6AFE700D5BFE5 /* AppDelegate.m */; };
 		022964571AA6AFE700D5BFE5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 022964561AA6AFE700D5BFE5 /* Images.xcassets */; };
@@ -90,6 +91,9 @@
 		02D15D021AAECB34004B2746 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFA1AAECB34004B2746 /* ALView+PureLayout.m */; };
 		02D15D031AAECB34004B2746 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFC1AAECB34004B2746 /* NSArray+PureLayout.m */; };
 		02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFE1AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m */; };
+		02EB31111B3455FE00F3AB3F /* input_moreline_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 02EB31101B3455FE00F3AB3F /* input_moreline_bg.png */; };
+		02EB31171B369ADA00F3AB3F /* OperationClientBasicInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB31161B369ADA00F3AB3F /* OperationClientBasicInfoVC.m */; };
+		02EB311A1B369AF200F3AB3F /* OperationClientContactVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB31191B369AF200F3AB3F /* OperationClientContactVC.m */; };
 		183185001B29A95200618CE1 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183184FF1B29A95200618CE1 /* UserView.m */; };
 		183185031B29B47C00618CE1 /* KehuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183185021B29B47C00618CE1 /* KehuView.m */; };
 /* End PBXBuildFile section */
@@ -137,6 +141,8 @@
 		021684121B2DB50700E94A47 /* MyDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyDatePickerView.m; path = Tools/CommonTools/MyDatePickerView.m; sourceTree = SOURCE_ROOT; };
 		021684141B2DBB0100E94A47 /* NSDate-Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate-Helper.h"; path = "Tools/CommonTools/NSDate-Helper.h"; sourceTree = SOURCE_ROOT; };
 		021684151B2DBB0100E94A47 /* NSDate-Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate-Helper.m"; path = "Tools/CommonTools/NSDate-Helper.m"; sourceTree = SOURCE_ROOT; };
+		0224E98B1B38EDC60080067A /* VerifyCustomerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerifyCustomerVC.h; sourceTree = "<group>"; };
+		0224E98C1B38EDC60080067A /* VerifyCustomerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerifyCustomerVC.m; sourceTree = "<group>"; };
 		0229644C1AA6AFE700D5BFE5 /* HZAsiaPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HZAsiaPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		022964501AA6AFE700D5BFE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		022964511AA6AFE700D5BFE5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -264,6 +270,11 @@
 		02D15CFF1AAECB34004B2746 /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PureLayout.h; path = Tools/PureLayout/PureLayout.h; sourceTree = SOURCE_ROOT; };
 		02D15D001AAECB34004B2746 /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PureLayout+Internal.h"; path = "Tools/PureLayout/PureLayout+Internal.h"; sourceTree = SOURCE_ROOT; };
 		02D15D011AAECB34004B2746 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PureLayoutDefines.h; path = Tools/PureLayout/PureLayoutDefines.h; sourceTree = SOURCE_ROOT; };
+		02EB31101B3455FE00F3AB3F /* input_moreline_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = input_moreline_bg.png; path = image/input_moreline_bg.png; sourceTree = SOURCE_ROOT; };
+		02EB31151B369ADA00F3AB3F /* OperationClientBasicInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationClientBasicInfoVC.h; sourceTree = "<group>"; };
+		02EB31161B369ADA00F3AB3F /* OperationClientBasicInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationClientBasicInfoVC.m; sourceTree = "<group>"; };
+		02EB31181B369AF200F3AB3F /* OperationClientContactVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationClientContactVC.h; sourceTree = "<group>"; };
+		02EB31191B369AF200F3AB3F /* OperationClientContactVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationClientContactVC.m; sourceTree = "<group>"; };
 		183184FE1B29A95200618CE1 /* UserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserView.h; sourceTree = "<group>"; };
 		183184FF1B29A95200618CE1 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserView.m; sourceTree = "<group>"; };
 		183185011B29B47C00618CE1 /* KehuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KehuView.h; sourceTree = "<group>"; };
@@ -545,6 +556,7 @@
 		025760DA1B286BF900CE588A /* image */ = {
 			isa = PBXGroup;
 			children = (
+				02EB31101B3455FE00F3AB3F /* input_moreline_bg.png */,
 				0293A8461B2EF6FC0086C602 /* icon-plus.png */,
 				0293A8471B2EF6FC0086C602 /* icon-plus@2x.png */,
 				0293A8391B2EF2450086C602 /* icon_login_account.png */,
@@ -610,6 +622,12 @@
 				0293A8441B2EF4100086C602 /* ADDPictureView.m */,
 				022F36911B2FCE7600A1F3AA /* AddCustomerView.h */,
 				022F36921B2FCE7600A1F3AA /* AddCustomerView.m */,
+				02EB31151B369ADA00F3AB3F /* OperationClientBasicInfoVC.h */,
+				02EB31161B369ADA00F3AB3F /* OperationClientBasicInfoVC.m */,
+				02EB31181B369AF200F3AB3F /* OperationClientContactVC.h */,
+				02EB31191B369AF200F3AB3F /* OperationClientContactVC.m */,
+				0224E98B1B38EDC60080067A /* VerifyCustomerVC.h */,
+				0224E98C1B38EDC60080067A /* VerifyCustomerVC.m */,
 			);
 			name = EditCustomer;
 			sourceTree = "<group>";
@@ -766,6 +784,7 @@
 				0293A8421B2EF2450086C602 /* iconSearch.png in Resources */,
 				0293A83F1B2EF2450086C602 /* icon_login_account@2x.png in Resources */,
 				02C86A2A1B2D4FDA00C37CE7 /* bg_content_select_n.png in Resources */,
+				02EB31111B3455FE00F3AB3F /* input_moreline_bg.png in Resources */,
 				024C6B291B26DB7F00B19543 /* Icon.png in Resources */,
 				02C86A2C1B2D4FDA00C37CE7 /* down.png in Resources */,
 				0229645A1AA6AFE700D5BFE5 /* LaunchScreen.xib in Resources */,
@@ -815,6 +834,7 @@
 				02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */,
 				02C86A1C1B2C161A00C37CE7 /* ConcactHistoryView.m in Sources */,
 				0229648E1AA6B2E000D5BFE5 /* AFURLConnectionOperation.m in Sources */,
+				02EB31171B369ADA00F3AB3F /* OperationClientBasicInfoVC.m in Sources */,
 				02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */,
 				022F36931B2FCE7600A1F3AA /* AddCustomerView.m in Sources */,
 				0280D4801B009F7700993641 /* AlertShowView.m in Sources */,
@@ -833,6 +853,7 @@
 				022964891AA6B2E000D5BFE5 /* AFHTTPRequestOperation.m in Sources */,
 				02137C6B1ACA94E400C87B63 /* MBProgressHUD.m in Sources */,
 				0293A8381B2EF07D0086C602 /* AddCustomerVC.m in Sources */,
+				0224E98D1B38EDC60080067A /* VerifyCustomerVC.m in Sources */,
 				022964911AA6B2E000D5BFE5 /* AFURLSessionManager.m in Sources */,
 				022964901AA6B2E000D5BFE5 /* AFURLResponseSerialization.m in Sources */,
 				0216840A1B2D845D00E94A47 /* ModelCustomerNavVC.m in Sources */,
@@ -841,6 +862,7 @@
 				021416A91B25892A00248D48 /* SafeManageVC.m in Sources */,
 				022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */,
 				021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */,
+				02EB311A1B369AF200F3AB3F /* OperationClientContactVC.m in Sources */,
 				02C09D261B27D350009E823C /* MASConstraint.m in Sources */,
 				02C86A191B2AFD5900C37CE7 /* DetailInfoView.m in Sources */,
 				0229648B1AA6B2E000D5BFE5 /* AFHTTPSessionManager.m in Sources */,

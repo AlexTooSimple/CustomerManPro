@@ -14,6 +14,14 @@
 
 @implementation ModelCustomerNavVC
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:CUSTOMER_DRAWER_NOTIFATION
+                                                  object:nil];
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

@@ -9,8 +9,10 @@
 #import "DetailInfoVC.h"
 #import "DetailInfoView.h"
 #import "ConcactHistoryView.h"
+#import "OperationClientContactVC.h"
+#import "OperationClientBasicInfoVC.h"
 
-@interface DetailInfoVC ()<UIScrollViewDelegate>
+@interface DetailInfoVC ()<UIScrollViewDelegate,UIActionSheetDelegate>
 {
     UIScrollView *contentView;
     UIPageControl *contentControl;
@@ -65,6 +67,7 @@
     // Do any additional setup after loading the view.
     self.title = @"客户详情";
     
+    [self setNavBarOperatorItem];
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     scrollView.backgroundColor = [UIColor clearColor];
@@ -76,19 +79,6 @@
     [self.view addSubview:scrollView];
     
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        if (IS_IOS_8_LATER) {
-//            make.top.equalTo(self.view);
-//        }else{
-//            make.top.equalTo(self.view).with.offset(32.0f);
-//        }
-//        if (IS_IOS_8_LATER) {
-//            make.bottom.equalTo(self.view).with.offset(-DEVICE_TABBAR_HEIGTH-10);
-//        }else{
-//            make.bottom.equalTo(self.view).with.offset(-DEVICE_TABBAR_HEIGTH);
-//        }
-//        
-//        make.left.equalTo(self.view);
-//        make.right.equalTo(self.view);
         make.center.equalTo(self.view);
         make.size.equalTo(self.view);
     }];
@@ -117,6 +107,8 @@
     
     [self reloadScrollContent];
     
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,6 +116,82 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setNavBarOperatorItem
+{
+    UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"修改"
+                                                                style:UIBarButtonItemStyleBordered
+                                                               target:self
+                                                               action:@selector(operateClicked:)];
+    self.navigationItem.rightBarButtonItem = operateItem;
+    [operateItem release];
+}
+
+- (void)operateClicked:(id)sender
+{
+    UIActionSheet *sheetView = [[UIActionSheet alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:@"修改客户基本信息"
+                                                  otherButtonTitles:@"登记联系信息",@"删除",nil];
+    [sheetView showInView:self.view];
+    [sheetView release];
+}
+
+#pragma mark
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+        {
+            //修改客户基本信息
+            [self gotoOperatClientBaiscInfoVC];
+        }
+            break;
+        case 1:
+        {
+            //登记联系信息
+            [self gotoOperatClientContactInfoVC];
+        }
+            break;
+        case 2:
+        {
+            //删除客户
+            [self deleteClient];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark
+#pragma mark - actionSheet对应的操作
+- (void)gotoOperatClientBaiscInfoVC
+{
+    OperationClientBasicInfoVC *operationVC = [[OperationClientBasicInfoVC alloc] init];
+    [operationVC reloadInitData:self.customerInfoDataList];
+    [self.navigationController pushViewController:operationVC animated:YES];
+    [operationVC release];
+}
+
+- (void)gotoOperatClientContactInfoVC
+{
+    NSDictionary *nameDic = [self.customerInfoDataList objectAtIndex:0];
+    OperationClientContactVC *operationVC = [[OperationClientContactVC alloc] init];
+    [operationVC reloadInitData:nameDic];
+    [self.navigationController pushViewController:operationVC animated:YES];
+    [operationVC release];
+}
+
+- (void)deleteClient
+{
+
+}
+
+
+#pragma mark
+#pragma mark - 初始化页面
 - (void)reloadScrollContent
 {
     //默认出现三屏，第一屏客户基本信息  第2屏客户联系记录  第3屏客户交易记录
@@ -166,6 +234,8 @@
     
 }
 
+#pragma mark
+#pragma mark - 初始化数据
 - (void)initData
 {
     //组装客户基本信息
@@ -261,7 +331,7 @@
     
     NSDictionary *professDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                              @"职业", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                             @"",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:professDic];
     [professDic release];
     
@@ -279,25 +349,25 @@
     
     NSDictionary *businessDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                              @"行业", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                             @"",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:businessDic];
     [businessDic release];
     
     NSDictionary *sexDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                              @"性别", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                             @"女",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:sexDic];
     [sexDic release];
     
     NSDictionary *marryDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                              @"婚否", DATA_SHOW_TITLE_COLUM,
-                             @"俩大",DATA_SHOW_VALUE_COLUM,nil];
+                             @"已婚",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:marryDic];
     [marryDic release];
     
     NSDictionary *educationDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                              @"学历", DATA_SHOW_TITLE_COLUM,
-                             @"俩大",DATA_SHOW_VALUE_COLUM,nil];
+                             @"本科",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:educationDic];
     [educationDic release];
     

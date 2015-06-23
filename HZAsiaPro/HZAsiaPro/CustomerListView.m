@@ -76,6 +76,8 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                        reuseIdentifier:tableCellCode] autorelease];
         
+        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        
         UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectZero];
         iconView.backgroundColor = [UIColor clearColor];
         iconView.image = [UIImage imageNamed:@"icon_login_account.png"];
@@ -161,6 +163,8 @@
         [self.delegate customerListView:self didSelectRow:row];
     }
 }
+
+
 
 - (void)DataChange:(NSMutableArray *)itemData
 {
