@@ -32,7 +32,7 @@
 - (void)setUpView {
     [self.titleMArr removeAllObjects];
     CGFloat width = 0.0;
-    if([[NSUserDefaults standardUserDefaults] objectForKey:UserInfo]){
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:UserInfo] boolValue]){
         self.userV.hidden = NO;
         self.userV.frame = CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
         width += DEVICE_MAINSCREEN_WIDTH;
@@ -40,7 +40,7 @@
     } else {
         self.userV.hidden = YES;
     }
-    if([[NSUserDefaults standardUserDefaults] objectForKey:Nocontent]){
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:Nocontent] boolValue]){
         self.kehuNoCall.hidden = NO;
         self.kehuNoCall.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
         width += DEVICE_MAINSCREEN_WIDTH;
@@ -48,7 +48,7 @@
     } else {
         self.kehuNoCall.hidden = YES;
     }
-    if([[NSUserDefaults standardUserDefaults] objectForKey:TimeUp]){
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:TimeUp] boolValue]){
         self.kehuTimeUp.hidden = NO;
         self.kehuTimeUp.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
         width += DEVICE_MAINSCREEN_WIDTH;

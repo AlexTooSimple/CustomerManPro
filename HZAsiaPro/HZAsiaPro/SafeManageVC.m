@@ -8,6 +8,7 @@
 
 #import "SafeManageVC.h"
 #import "SafeManageView.h"
+#import "HomePageSetVC.h"
 
 @interface SafeManageVC ()<SafeManageViewDelegate>
 {
@@ -87,6 +88,10 @@
         case 1:
         {
             //@"设定首页提醒内容"
+            HomePageSetVC *setVC = [[HomePageSetVC alloc] init];
+            setVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:setVC animated:YES];
+            [setVC release];
         }
             break;
         case 2:

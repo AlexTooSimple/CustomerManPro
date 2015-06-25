@@ -89,6 +89,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if(self.tapBlk){
         DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+        detail.hidesBottomBarWhenPushed = YES;
         self.tapBlk(detail);
     }
 }
