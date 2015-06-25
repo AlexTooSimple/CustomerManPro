@@ -8,6 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SafeManageView : UIView
+@protocol SafeManageViewDelegate;
+@interface SafeManageView : UIView<UITableViewDataSource,UITableViewDelegate>
+{
+    UITableView *contentTable;
+    NSArray *itemList;
+    
+    id<SafeManageViewDelegate> delegate;
+}
+@property (nonatomic ,retain)UITableView *contentTable;
+@property (nonatomic ,retain)NSArray *itemList;
+@property (nonatomic ,assign)id<SafeManageViewDelegate> delegate;
+
+- (void)reloadViewData:(NSArray *)itemData;
 
 @end
+
+@protocol SafeManageViewDelegate <NSObject>
+- (void)safeManageView:(SafeManageView *)safeView didSelectRow:(NSInteger)row;
+@end
+
