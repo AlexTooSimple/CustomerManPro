@@ -7,11 +7,12 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "more_normal@2x.png"
+      "filename" : "发现_active@2x(1).png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "发现_active@3x(2).png"
     }
   ],
   "info" : {

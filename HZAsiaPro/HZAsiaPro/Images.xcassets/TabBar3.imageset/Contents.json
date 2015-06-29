@@ -7,11 +7,12 @@
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "channel_actived@2x.png"
+      "filename" : "TabBar3@2x.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "TabBar3@3x.png"
     }
   ],
   "info" : {

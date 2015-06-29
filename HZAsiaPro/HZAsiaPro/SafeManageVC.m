@@ -9,6 +9,7 @@
 #import "SafeManageVC.h"
 #import "SafeManageView.h"
 #import "HomePageSetVC.h"
+#import "AccountManageVC.h"
 
 @interface SafeManageVC ()<SafeManageViewDelegate>
 {
@@ -83,6 +84,10 @@
         case 0:
         {
             //@"调整账号权限并绑定手机号"
+            AccountManageVC *accountVC = [[AccountManageVC alloc] init];
+            accountVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:accountVC animated:YES];
+            [accountVC release];
         }
             break;
         case 1:

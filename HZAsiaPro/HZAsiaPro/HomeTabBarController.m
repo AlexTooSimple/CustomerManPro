@@ -37,8 +37,8 @@
     [homeVC release];
     
     UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil tag:1];
-    [item setFinishedSelectedImage:[UIImage imageNamed:@"home_actived"]
-       withFinishedUnselectedImage:[UIImage imageNamed:@"home_normal"]];
+    [item setFinishedSelectedImage:[UIImage imageNamed:@"TabBar1Sel"]
+       withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar1"]];
     homeVC.tabBarItem = item;
     [item release];
     
@@ -61,8 +61,8 @@
     [customerNav release];
     [coditionNav release];
     UITabBarItem *item2 = [[UITabBarItem alloc] initWithTitle:@"客户管理" image:nil tag:2];
-    [item2 setFinishedSelectedImage:[UIImage imageNamed:@"channel_actived"]
-        withFinishedUnselectedImage:[UIImage imageNamed:@"channel_normal"]];
+    [item2 setFinishedSelectedImage:[UIImage imageNamed:@"TabBar3Sel"]
+        withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar3"]];
     drawer.tabBarItem = item2;
     [item2 release];
     
@@ -74,8 +74,8 @@
     [safeVC release];
     
     UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"安全管理" image:nil tag:3];
-    [item3 setFinishedSelectedImage:[UIImage imageNamed:@"more_actived"]
-        withFinishedUnselectedImage:[UIImage imageNamed:@"more_normal"]];
+    [item3 setFinishedSelectedImage:[UIImage imageNamed:@"TabBar2Sel"]
+        withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar2"]];
     safeVC.tabBarItem = item3;
     [item3 release];
     

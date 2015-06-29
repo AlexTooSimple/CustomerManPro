@@ -65,6 +65,7 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger row = indexPath.row;
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(safeManageView:didSelectRow:)]) {
         [self.delegate safeManageView:self
