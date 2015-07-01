@@ -8,6 +8,7 @@
 
 #import "SafeManageVC.h"
 #import "SafeManageView.h"
+#import "ApproveCustomerVC.h"
 
 @interface SafeManageVC ()<SafeManageViewDelegate>
 {
@@ -97,6 +98,9 @@
         case 3:
         {
             //@"审批客户上报"
+            ApproveCustomerVC *approveVC = [[ApproveCustomerVC alloc] init];
+            [self.navigationController pushViewController:approveVC animated:YES];
+            [approveVC release];
         }
             break;
         case 4:

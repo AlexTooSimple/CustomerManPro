@@ -61,6 +61,10 @@
 		0282076B1AB17BE100951CB2 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0282076A1AB17BE100951CB2 /* GDataXMLNode.m */; };
 		028207701AB1889200951CB2 /* message.m in Sources */ = {isa = PBXBuildFile; fileRef = 0282076F1AB1889200951CB2 /* message.m */; };
 		028310111AB6C655004364F7 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 028310101AB6C654004364F7 /* libxml2.dylib */; };
+		02937F791B43B9AB004324B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02937F781B43B9AB004324B6 /* UIKit.framework */; };
+		02937F7B1B43B9B7004324B6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02937F7A1B43B9B7004324B6 /* Foundation.framework */; };
+		02937F7D1B43BF02004324B6 /* ico_sms_c.png in Resources */ = {isa = PBXBuildFile; fileRef = 02937F7C1B43BF02004324B6 /* ico_sms_c.png */; };
+		02937F7F1B43CCD6004324B6 /* new_user_picker_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 02937F7E1B43CCD6004324B6 /* new_user_picker_bg.png */; };
 		0293A8381B2EF07D0086C602 /* AddCustomerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0293A8371B2EF07D0086C602 /* AddCustomerVC.m */; };
 		0293A83E1B2EF2450086C602 /* icon_login_account.png in Resources */ = {isa = PBXBuildFile; fileRef = 0293A8391B2EF2450086C602 /* icon_login_account.png */; };
 		0293A83F1B2EF2450086C602 /* icon_login_account@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0293A83A1B2EF2450086C602 /* icon_login_account@2x.png */; };
@@ -68,6 +72,8 @@
 		0293A8451B2EF4100086C602 /* ADDPictureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0293A8441B2EF4100086C602 /* ADDPictureView.m */; };
 		0293A8481B2EF6FC0086C602 /* icon-plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0293A8461B2EF6FC0086C602 /* icon-plus.png */; };
 		0293A8491B2EF6FC0086C602 /* icon-plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0293A8471B2EF6FC0086C602 /* icon-plus@2x.png */; };
+		02997DE11B41254700D4F2AF /* ApproveCustomerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02997DE01B41254700D4F2AF /* ApproveCustomerVC.m */; };
+		02997DE41B41267300D4F2AF /* ApproveCustomerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02997DE31B41267300D4F2AF /* ApproveCustomerView.m */; };
 		029FE8671AB96DA9006882DE /* LoginJsonMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE8661AB96DA9006882DE /* LoginJsonMessage.m */; };
 		029FE86B1AB9768C006882DE /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE86A1AB9768C006882DE /* JSONKit.m */; };
 		029FE86E1ABAAACC006882DE /* bussineDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE86D1ABAAACC006882DE /* bussineDataService.m */; };
@@ -217,6 +223,10 @@
 		0282076E1AB1889200951CB2 /* message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = message.h; path = Message/message.h; sourceTree = SOURCE_ROOT; };
 		0282076F1AB1889200951CB2 /* message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = message.m; path = Message/message.m; sourceTree = SOURCE_ROOT; };
 		028310101AB6C654004364F7 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		02937F781B43B9AB004324B6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		02937F7A1B43B9B7004324B6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		02937F7C1B43BF02004324B6 /* ico_sms_c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ico_sms_c.png; path = image/ico_sms_c.png; sourceTree = SOURCE_ROOT; };
+		02937F7E1B43CCD6004324B6 /* new_user_picker_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = new_user_picker_bg.png; path = image/new_user_picker_bg.png; sourceTree = SOURCE_ROOT; };
 		0293A8361B2EF07D0086C602 /* AddCustomerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCustomerVC.h; sourceTree = "<group>"; };
 		0293A8371B2EF07D0086C602 /* AddCustomerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCustomerVC.m; sourceTree = "<group>"; };
 		0293A8391B2EF2450086C602 /* icon_login_account.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_login_account.png; path = image/icon_login_account.png; sourceTree = SOURCE_ROOT; };
@@ -226,6 +236,10 @@
 		0293A8441B2EF4100086C602 /* ADDPictureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADDPictureView.m; sourceTree = "<group>"; };
 		0293A8461B2EF6FC0086C602 /* icon-plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-plus.png"; path = "image/icon-plus.png"; sourceTree = SOURCE_ROOT; };
 		0293A8471B2EF6FC0086C602 /* icon-plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-plus@2x.png"; path = "image/icon-plus@2x.png"; sourceTree = SOURCE_ROOT; };
+		02997DDF1B41254700D4F2AF /* ApproveCustomerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApproveCustomerVC.h; sourceTree = "<group>"; };
+		02997DE01B41254700D4F2AF /* ApproveCustomerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApproveCustomerVC.m; sourceTree = "<group>"; };
+		02997DE21B41267300D4F2AF /* ApproveCustomerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApproveCustomerView.h; sourceTree = "<group>"; };
+		02997DE31B41267300D4F2AF /* ApproveCustomerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApproveCustomerView.m; sourceTree = "<group>"; };
 		029FE8651AB96DA9006882DE /* LoginJsonMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginJsonMessage.h; sourceTree = "<group>"; };
 		029FE8661AB96DA9006882DE /* LoginJsonMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginJsonMessage.m; sourceTree = "<group>"; };
 		029FE8691AB9768C006882DE /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Tools/JSON/JSONKit.h; sourceTree = SOURCE_ROOT; };
@@ -296,6 +310,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02937F7B1B43B9B7004324B6 /* Foundation.framework in Frameworks */,
+				02937F791B43B9AB004324B6 /* UIKit.framework in Frameworks */,
 				022205731B3995DA005B827A /* MessageUI.framework in Frameworks */,
 				028310111AB6C655004364F7 /* libxml2.dylib in Frameworks */,
 			);
@@ -381,6 +397,10 @@
 				021416A81B25892A00248D48 /* SafeManageVC.m */,
 				022205741B39A3A0005B827A /* SafeManageView.h */,
 				022205751B39A3A0005B827A /* SafeManageView.m */,
+				02997DDF1B41254700D4F2AF /* ApproveCustomerVC.h */,
+				02997DE01B41254700D4F2AF /* ApproveCustomerVC.m */,
+				02997DE21B41267300D4F2AF /* ApproveCustomerView.h */,
+				02997DE31B41267300D4F2AF /* ApproveCustomerView.m */,
 			);
 			name = safeManage;
 			sourceTree = "<group>";
@@ -569,6 +589,8 @@
 		025760DA1B286BF900CE588A /* image */ = {
 			isa = PBXGroup;
 			children = (
+				02937F7E1B43CCD6004324B6 /* new_user_picker_bg.png */,
+				02937F7C1B43BF02004324B6 /* ico_sms_c.png */,
 				0222056D1B397D12005B827A /* tools_call.png */,
 				02EB31101B3455FE00F3AB3F /* input_moreline_bg.png */,
 				0293A8461B2EF6FC0086C602 /* icon-plus.png */,
@@ -626,6 +648,8 @@
 			children = (
 				022205721B3995DA005B827A /* MessageUI.framework */,
 				028310101AB6C654004364F7 /* libxml2.dylib */,
+				02937F7A1B43B9B7004324B6 /* Foundation.framework */,
+				02937F781B43B9AB004324B6 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -804,6 +828,7 @@
 				02EB31111B3455FE00F3AB3F /* input_moreline_bg.png in Resources */,
 				024C6B291B26DB7F00B19543 /* Icon.png in Resources */,
 				02C86A2C1B2D4FDA00C37CE7 /* down.png in Resources */,
+				02937F7F1B43CCD6004324B6 /* new_user_picker_bg.png in Resources */,
 				0229645A1AA6AFE700D5BFE5 /* LaunchScreen.xib in Resources */,
 				02C86A291B2D4FDA00C37CE7 /* bg_content_select_hover@2x.png in Resources */,
 				0222056E1B397D12005B827A /* tools_call.png in Resources */,
@@ -820,6 +845,7 @@
 				02C86A2B1B2D4FDA00C37CE7 /* bg_content_select_n@2x.png in Resources */,
 				022964571AA6AFE700D5BFE5 /* Images.xcassets in Resources */,
 				02C86A281B2D4FDA00C37CE7 /* bg_content_select_hover.png in Resources */,
+				02937F7D1B43BF02004324B6 /* ico_sms_c.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -853,8 +879,10 @@
 				021684071B2D7BCF00E94A47 /* ICSDropShadowView.m in Sources */,
 				02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */,
 				02C86A1C1B2C161A00C37CE7 /* ConcactHistoryView.m in Sources */,
+				02997DE41B41267300D4F2AF /* ApproveCustomerView.m in Sources */,
 				0229648E1AA6B2E000D5BFE5 /* AFURLConnectionOperation.m in Sources */,
 				02EB31171B369ADA00F3AB3F /* OperationClientBasicInfoVC.m in Sources */,
+				02997DE11B41254700D4F2AF /* ApproveCustomerVC.m in Sources */,
 				02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */,
 				022F36931B2FCE7600A1F3AA /* AddCustomerView.m in Sources */,
 				0280D4801B009F7700993641 /* AlertShowView.m in Sources */,
@@ -1028,7 +1056,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e184971f-7b8f-4bb0-97d3-fd8f83fa97bf";
+				PROVISIONING_PROFILE = "5f12bc67-69b9-4960-b24e-4e6da73907e7";
 			};
 			name = Debug;
 		};
@@ -1038,6 +1066,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Star VATS Technologies Inc.";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
@@ -1046,7 +1075,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e184971f-7b8f-4bb0-97d3-fd8f83fa97bf";
+				PROVISIONING_PROFILE = "5f12bc67-69b9-4960-b24e-4e6da73907e7";
 			};
 			name = Release;
 		};
