@@ -8,6 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ApproveCustomerView : UIView
+@protocol ApproveCustomerViewDelegate;
+@interface ApproveCustomerView : UIView<UITableViewDataSource,UITableViewDelegate>
+{
+    UITableView *contentTable;
+    NSArray *itemList;
+    id<ApproveCustomerViewDelegate> delegate;
+}
+@property (nonatomic ,retain)UITableView *contentTable;
+@property (nonatomic ,retain)NSArray *itemList;
+@property (nonatomic ,assign)id<ApproveCustomerViewDelegate> delegate;
 
+- (void)reloadDataView:(NSArray *)itemDatas;
+
+@end
+
+@protocol ApproveCustomerViewDelegate <NSObject>
+- (void)approveView:(ApproveCustomerView *)approveView didShowApproveDetail:(NSInteger) row;
+- (void)approveView:(ApproveCustomerView *)approveView didClickedApprove:(NSInteger)row;
 @end

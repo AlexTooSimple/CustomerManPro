@@ -69,8 +69,7 @@
     [self.view addSubview:customerView];
     
     [listView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.size.equalTo(self.view);
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, DEVICE_TABBAR_HEIGTH, 0));
     }];
     
     [customerView release];
@@ -234,6 +233,8 @@
 - (void)customerListView:(CustomerListView *)listView didSelectRow:(NSInteger)row
 {
     DetailInfoVC *VC = [[DetailInfoVC alloc] init];
+    VC.detailType = allInfoType;
+    VC.isFromApprove = NO;
     [self.navigationController pushViewController:VC animated:YES];
     [VC release];
 }

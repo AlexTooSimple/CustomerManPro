@@ -51,7 +51,7 @@
     if(!cell){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellStr];
         
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,DEVICE_MAINSCREEN_WIDTH *1/5 , 44)];
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,DEVICE_MAINSCREEN_WIDTH *1/3 , 44)];
         lab.backgroundColor = [UIColor clearColor];
         lab.font = [UIFont systemFontOfSize:14];
         lab.textAlignment = NSTextAlignmentRight;

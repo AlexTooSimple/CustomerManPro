@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailInfoVC : UIViewController
+typedef enum DetailShowType{
+    basicInfoType,
+    contactInfoType,
+    allInfoType,
+} DetailShowType;
 
+@interface DetailInfoVC : UIViewController
+{
+    DetailShowType detailType;
+    BOOL isFromApprove;
+}
+@property(nonatomic ,assign)DetailShowType detailType;
+@property(nonatomic ,assign) BOOL isFromApprove;
 @end

@@ -299,9 +299,10 @@ static bussineDataService *sharedBussineDataService = nil;
 
 - (void)alertViewWillPresent:(UIAlertController *)alertController
 {
-//    [self presentViewController:alertController
-//                       animated:YES
-//                     completion:nil];
+    UIViewController *mainVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [mainVC presentViewController:alertController
+                       animated:YES
+                     completion:nil];
 }
 
 

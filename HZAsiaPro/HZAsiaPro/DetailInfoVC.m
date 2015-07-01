@@ -33,6 +33,8 @@
 @synthesize contentView;
 @synthesize customerInfoDataList;
 @synthesize customerHistoryList;
+@synthesize detailType;
+@synthesize isFromApprove;
 
 - (void)dealloc
 {
@@ -40,7 +42,9 @@
         [contentView release];
     }
     
-    [contentControl release];
+    if (contentControl != nil) {
+        [contentControl release];
+    }
     
     if (customerInfoDataList != nil) {
         [customerInfoDataList release];
@@ -66,9 +70,17 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"客户详情";
     
-    [self setNavBarOperatorItem];
+    if (isFromApprove) {
+        self.title = @"审批详情";
+        [self setNavBarApproveItem];
+    }else{
+        self.title = @"客户详情";
+        [self setNavBarOperatorItem];
+    }
+    
+    
+    [self initData];
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     scrollView.backgroundColor = [UIColor clearColor];
@@ -85,31 +97,25 @@
     }];
     [scrollView release];
     
-    
-    UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
-    pageControl.backgroundColor = [UIColor clearColor];
-    pageControl.currentPageIndicatorTintColor = [UIColor orangeColor];
-    pageControl.pageIndicatorTintColor = [UIColor grayColor];
-    [pageControl addTarget:self
-                    action:@selector(handlePageControlFrom:)
-          forControlEvents:UIControlEventValueChanged];
-    
-    [self.view addSubview:pageControl];
-    [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).with.offset(-80.0f);
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.height.mas_equalTo(30.0f);
-    }];
-    self.contentControl = pageControl;
-    [pageControl release];
-    
-    [self initData];
-    
-    [self reloadScrollContent];
-    
-    
-    
+    switch (detailType) {
+        case allInfoType:
+        {
+            [self layoutDetailAllView];
+        }
+            break;
+        case basicInfoType:
+        {
+            [self layoutBasicInfoView];
+        }
+            break;
+        case contactInfoType:
+        {
+            [self layoutConcactInfoView];
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,6 +123,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark
+#pragma mark - 设置NavLeft按钮
 - (void)setNavBarOperatorItem
 {
     UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"修改"
@@ -138,6 +146,116 @@
     [sheetView release];
 }
 
+- (void)setNavBarApproveItem
+{
+    UIBarButtonItem *approveItem = [[UIBarButtonItem alloc] initWithTitle:@"审批"
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:self
+                                                                   action:@selector(approveClicked:)];
+    self.navigationItem.rightBarButtonItem = approveItem;
+    [approveItem release];
+
+}
+
+- (void)approveClicked:(id)sender
+{
+    //审批
+}
+
+#pragma mark
+#pragma mark - 初始化页面
+- (void)layoutDetailAllView
+{
+    UIPageControl *pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
+    pageControl.backgroundColor = [UIColor clearColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor orangeColor];
+    pageControl.pageIndicatorTintColor = [UIColor grayColor];
+    [pageControl addTarget:self
+                    action:@selector(handlePageControlFrom:)
+          forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview:pageControl];
+    [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_bottom).with.offset(-80.0f);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.height.mas_equalTo(30.0f);
+    }];
+    self.contentControl = pageControl;
+    [pageControl release];
+    
+    //默认出现三屏，第一屏客户基本信息  第2屏客户联系记录  第3屏客户交易记录
+    NSInteger cnt = 1;
+    DetailInfoView *detailView = [[DetailInfoView alloc] init];
+    detailView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:detailView];
+    [detailView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView);
+        make.left.equalTo(self.contentView);
+        make.width.equalTo(self.contentView);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+    }];
+    
+    [detailView reloadViewData:self.customerInfoDataList];
+    
+    
+    cnt++;
+    ConcactHistoryView *historyView = [[ConcactHistoryView alloc] init];
+    historyView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:historyView];
+    [historyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(detailView.mas_right);
+        make.top.equalTo(self.contentView);
+        make.width.equalTo(self.contentView);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+    }];
+    [historyView reloadViewData:self.customerHistoryList];
+    
+    
+    [historyView release];
+    [detailView release];
+    
+    CGFloat contentWidth = self.view.frame.size.width;
+    CGFloat contentHeight = self.view.frame.size.height - DEVICE_TABBAR_HEIGTH - 64.0f;
+    [self.contentView setContentSize:CGSizeMake(contentWidth *cnt, contentHeight)];
+    
+    [self.contentControl setNumberOfPages:cnt];
+    [self.view bringSubviewToFront:self.contentControl];
+}
+
+
+- (void)layoutBasicInfoView
+{
+    DetailInfoView *detailView = [[DetailInfoView alloc] init];
+    detailView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:detailView];
+    [detailView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView);
+        make.left.equalTo(self.contentView);
+        make.width.equalTo(self.contentView);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+    }];
+    
+    [detailView reloadViewData:self.customerInfoDataList];
+    
+    [detailView release];
+
+}
+
+- (void)layoutConcactInfoView;
+{
+    ConcactHistoryView *historyView = [[ConcactHistoryView alloc] init];
+    historyView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:historyView];
+    [historyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView);
+        make.top.equalTo(self.contentView);
+        make.width.equalTo(self.contentView);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+    }];
+    [historyView reloadViewData:self.customerHistoryList];
+    [historyView release];
+}
 
 #pragma mark
 #pragma mark - ActionSheetViewDelegate
@@ -200,50 +318,6 @@
 
 }
 
-
-#pragma mark
-#pragma mark - 初始化页面
-- (void)reloadScrollContent
-{
-    //默认出现三屏，第一屏客户基本信息  第2屏客户联系记录  第3屏客户交易记录
-    NSInteger cnt = 1;
-    DetailInfoView *detailView = [[DetailInfoView alloc] init];
-    detailView.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:detailView];
-    [detailView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView);
-        make.left.equalTo(self.contentView);
-        make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
-    }];
-    
-    [detailView reloadViewData:self.customerInfoDataList];
-    
-    
-    cnt++;
-    ConcactHistoryView *historyView = [[ConcactHistoryView alloc] init];
-    historyView.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:historyView];
-    [historyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(detailView.mas_right);
-        make.top.equalTo(self.contentView);
-        make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
-    }];
-    [historyView reloadViewData:self.customerHistoryList];
-    
-    
-    [historyView release];
-    [detailView release];
-    
-    CGFloat contentWidth = self.view.frame.size.width;
-    CGFloat contentHeight = self.view.frame.size.height - DEVICE_TABBAR_HEIGTH - 64.0f;
-    [self.contentView setContentSize:CGSizeMake(contentWidth *cnt, contentHeight)];
-    
-    [self.contentControl setNumberOfPages:cnt];
-    [self.view bringSubviewToFront:self.contentControl];
-    
-}
 
 #pragma mark
 #pragma mark - 初始化数据
