@@ -36,9 +36,9 @@
     homeNav.navigationBar.titleTextAttributes = NavTitleAttribute;
     [homeVC release];
     
-    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil tag:1];
-    [item setFinishedSelectedImage:[UIImage imageNamed:@"TabBar1Sel"]
-       withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar1"]];
+    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:@"首页"
+                                                       image:[UIImage imageNamed:@"TabBar1"]
+                                               selectedImage:[UIImage imageNamed:@"TabBar1Sel"]];
     homeVC.tabBarItem = item;
     [item release];
     
@@ -60,9 +60,10 @@
     [conditionVC release];
     [customerNav release];
     [coditionNav release];
-    UITabBarItem *item2 = [[UITabBarItem alloc] initWithTitle:@"客户管理" image:nil tag:2];
-    [item2 setFinishedSelectedImage:[UIImage imageNamed:@"TabBar3Sel"]
-        withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar3"]];
+
+    UITabBarItem *item2 = [[UITabBarItem alloc] initWithTitle:@"客户管理"
+                                                        image:[UIImage imageNamed:@"TabBar3"]
+                                                selectedImage:[UIImage imageNamed:@"TabBar3Sel"]];
     drawer.tabBarItem = item2;
     [item2 release];
     
@@ -73,9 +74,9 @@
     safeNav.navigationBar.titleTextAttributes = NavTitleAttribute;
     [safeVC release];
     
-    UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"安全管理" image:nil tag:3];
-    [item3 setFinishedSelectedImage:[UIImage imageNamed:@"TabBar2Sel"]
-        withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar2"]];
+    UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"安全管理"
+                                                        image:[UIImage imageNamed:@"TabBar2"]
+                                                selectedImage:[UIImage imageNamed:@"TabBar2Sel"]];
     safeVC.tabBarItem = item3;
     [item3 release];
     
@@ -90,25 +91,8 @@
     [self setViewControllers:controllers animated:YES];
     [controllers release];
     
-    self.tabBar.barTintColor = [UIColor blackColor];
-    self.tabBar.tintColor = [UIColor whiteColor];
-//    [self setTabBarList];
-}
-
-- (void)setTabBarList
-{
-    NSMutableArray *itemList = [[NSMutableArray alloc] initWithCapacity:0];
-    NSInteger cnt = 3;
-    for (int i=0; i<cnt; i++) {
-        UITabBarItem *oneItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts
-                                                                           tag:0];
-        [itemList addObject:oneItem];
-        [oneItem release];
-    }
-    
-    self.tabBar.barTintColor = [UIColor blackColor];
-    [self.tabBar setItems:itemList animated:YES];
-    [itemList release];
+    [[UITabBar appearance] setBarTintColor:[UIColor blackColor]];
+    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
 - (void)didReceiveMemoryWarning {
