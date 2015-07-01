@@ -72,6 +72,26 @@
     
     [self setViewControllers:controllers animated:YES];
     [controllers release];
+    
+    self.tabBar.barTintColor = [UIColor blackColor];
+    self.tabBar.tintColor = [UIColor whiteColor];
+//    [self setTabBarList];
+}
+
+- (void)setTabBarList
+{
+    NSMutableArray *itemList = [[NSMutableArray alloc] initWithCapacity:0];
+    NSInteger cnt = 3;
+    for (int i=0; i<cnt; i++) {
+        UITabBarItem *oneItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts
+                                                                           tag:0];
+        [itemList addObject:oneItem];
+        [oneItem release];
+    }
+    
+    self.tabBar.barTintColor = [UIColor blackColor];
+    [self.tabBar setItems:itemList animated:YES];
+    [itemList release];
 }
 
 - (void)didReceiveMemoryWarning {
