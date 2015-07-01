@@ -91,6 +91,7 @@
         DetailInfoVC *detail = [[DetailInfoVC alloc] init];
         detail.detailType = allInfoType;
         detail.isFromApprove = NO;
+        detail.hidesBottomBarWhenPushed = YES;
         self.tapBlk(detail);
     }
 }

@@ -106,6 +106,9 @@
 		02EB311A1B369AF200F3AB3F /* OperationClientContactVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB31191B369AF200F3AB3F /* OperationClientContactVC.m */; };
 		183185001B29A95200618CE1 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183184FF1B29A95200618CE1 /* UserView.m */; };
 		183185031B29B47C00618CE1 /* KehuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183185021B29B47C00618CE1 /* KehuView.m */; };
+		D43811161B41796100FF56DB /* AccountManageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D43811151B41796100FF56DB /* AccountManageVC.m */; };
+		D4F0738E1B3C376A00371F37 /* HomePageSetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0738D1B3C376A00371F37 /* HomePageSetVC.m */; };
+		D4F073911B3C3F4700371F37 /* MySwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F073901B3C3F4700371F37 /* MySwitch.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -303,6 +306,12 @@
 		183184FF1B29A95200618CE1 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserView.m; sourceTree = "<group>"; };
 		183185011B29B47C00618CE1 /* KehuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KehuView.h; sourceTree = "<group>"; };
 		183185021B29B47C00618CE1 /* KehuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KehuView.m; sourceTree = "<group>"; };
+		D43811141B41796100FF56DB /* AccountManageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManageVC.h; sourceTree = "<group>"; };
+		D43811151B41796100FF56DB /* AccountManageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManageVC.m; sourceTree = "<group>"; };
+		D4F0738C1B3C376A00371F37 /* HomePageSetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageSetVC.h; sourceTree = "<group>"; };
+		D4F0738D1B3C376A00371F37 /* HomePageSetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageSetVC.m; sourceTree = "<group>"; };
+		D4F0738F1B3C3F4700371F37 /* MySwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySwitch.h; sourceTree = "<group>"; };
+		D4F073901B3C3F4700371F37 /* MySwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySwitch.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -395,8 +404,14 @@
 			children = (
 				021416A71B25892A00248D48 /* SafeManageVC.h */,
 				021416A81B25892A00248D48 /* SafeManageVC.m */,
+				D4F0738C1B3C376A00371F37 /* HomePageSetVC.h */,
+				D4F0738D1B3C376A00371F37 /* HomePageSetVC.m */,
+				D43811141B41796100FF56DB /* AccountManageVC.h */,
+				D43811151B41796100FF56DB /* AccountManageVC.m */,
 				022205741B39A3A0005B827A /* SafeManageView.h */,
 				022205751B39A3A0005B827A /* SafeManageView.m */,
+				D4F0738F1B3C3F4700371F37 /* MySwitch.h */,
+				D4F073901B3C3F4700371F37 /* MySwitch.m */,
 				02997DDF1B41254700D4F2AF /* ApproveCustomerVC.h */,
 				02997DE01B41254700D4F2AF /* ApproveCustomerVC.m */,
 				02997DE21B41267300D4F2AF /* ApproveCustomerView.h */,
@@ -894,6 +909,7 @@
 				0229648D1AA6B2E000D5BFE5 /* AFSecurityPolicy.m in Sources */,
 				021684061B2D7BCF00E94A47 /* ICSDrawerController.m in Sources */,
 				02C09D251B27D350009E823C /* MASCompositeConstraint.m in Sources */,
+				D4F0738E1B3C376A00371F37 /* HomePageSetVC.m in Sources */,
 				021684101B2DA4AD00E94A47 /* ItemPickerView.m in Sources */,
 				02D15D031AAECB34004B2746 /* NSArray+PureLayout.m in Sources */,
 				183185031B29B47C00618CE1 /* KehuView.m in Sources */,
@@ -907,6 +923,7 @@
 				0216840A1B2D845D00E94A47 /* ModelCustomerNavVC.m in Sources */,
 				02C09D2D1B27D350009E823C /* View+MASAdditions.m in Sources */,
 				025760E11B28828400CE588A /* RefreshSingleView.m in Sources */,
+				D43811161B41796100FF56DB /* AccountManageVC.m in Sources */,
 				021416A91B25892A00248D48 /* SafeManageVC.m in Sources */,
 				022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */,
 				021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */,
@@ -924,6 +941,7 @@
 				02C86A161B2AFD3A00C37CE7 /* DetailInfoVC.m in Sources */,
 				0229648C1AA6B2E000D5BFE5 /* AFNetworkReachabilityManager.m in Sources */,
 				0229649D1AA6B43100D5BFE5 /* LoginVC.m in Sources */,
+				D4F073911B3C3F4700371F37 /* MySwitch.m in Sources */,
 				021683FE1B2D67DE00E94A47 /* SearchConditionVC.m in Sources */,
 				02C09D281B27D350009E823C /* MASLayoutConstraint.m in Sources */,
 				02C09D2C1B27D350009E823C /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,

@@ -31,10 +31,16 @@
     
     //首页提醒页面
     HomeInfoVC *homeVC = [[HomeInfoVC alloc] init];
-    UINavigationController *homeNav = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    ModelCustomerNavVC *homeNav = [[ModelCustomerNavVC alloc] initWithRootViewController:homeVC];
     homeNav.navigationBar.barTintColor = [UIColor blackColor];
     homeNav.navigationBar.titleTextAttributes = NavTitleAttribute;
     [homeVC release];
+    
+    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil tag:1];
+    [item setFinishedSelectedImage:[UIImage imageNamed:@"TabBar1Sel"]
+       withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar1"]];
+    homeVC.tabBarItem = item;
+    [item release];
     
     //客户管理页面
     CustomerManageVC *customerVC = [[CustomerManageVC alloc] init];
@@ -54,6 +60,11 @@
     [conditionVC release];
     [customerNav release];
     [coditionNav release];
+    UITabBarItem *item2 = [[UITabBarItem alloc] initWithTitle:@"客户管理" image:nil tag:2];
+    [item2 setFinishedSelectedImage:[UIImage imageNamed:@"TabBar3Sel"]
+        withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar3"]];
+    drawer.tabBarItem = item2;
+    [item2 release];
     
     //安全管理页面
     SafeManageVC *safeVC = [[SafeManageVC alloc] init];
@@ -61,6 +72,12 @@
     safeNav.navigationBar.barTintColor = [UIColor blackColor];
     safeNav.navigationBar.titleTextAttributes = NavTitleAttribute;
     [safeVC release];
+    
+    UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"安全管理" image:nil tag:3];
+    [item3 setFinishedSelectedImage:[UIImage imageNamed:@"TabBar2Sel"]
+        withFinishedUnselectedImage:[UIImage imageNamed:@"TabBar2"]];
+    safeVC.tabBarItem = item3;
+    [item3 release];
     
     NSArray *controllers = [[NSArray alloc] initWithObjects:homeNav,drawer,safeNav, nil];
     
