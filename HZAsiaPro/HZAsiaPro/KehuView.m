@@ -23,14 +23,15 @@
 }
 
 - (void)reloadView {
-    if([self.tabMArr count]<10){
+    [self compareWithSearchStr:self.scbHome.text];
+    if([self.searchMArr count]<10){
         self.scbHome.hidden = YES;
         self.tbvHome.frame = CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT -64 -50);
     } else {
         self.scbHome.hidden = NO;
         self.tbvHome.frame = CGRectMake(0, 40, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT -64 -50 -40);
     }
-    [self.tbvHome performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+//    [self.tbvHome performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
 }
 
 - (void)setUpView{
@@ -38,6 +39,7 @@
     self.scbHome.delegate = self;
     [self addSubview:self.scbHome];
     
+    self.searchMArr = [[NSMutableArray alloc] initWithCapacity:0];
     self.tabMArr = [[NSMutableArray alloc] initWithCapacity:0];
     self.tbvHome = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT -64 -50 -40) style:UITableViewStylePlain];
     self.tbvHome.delegate = self;
@@ -48,13 +50,48 @@
     [self reloadView];
 }
 
+- (void)compareWithSearchStr:(NSString *)searchStr {
+    if(![searchStr isEqualToString:@""]){
+        [self.searchMArr removeAllObjects];
+        NSMutableArray *arr = [[NSMutableArray alloc] initWithCapacity:0];
+        for(int i=0; i<[self.tabMArr count]; i++){
+            NSDictionary *dic = [self.tabMArr objectAtIndex:i];
+            NSRange range = [[dic objectForKey:@"name"] rangeOfString:searchStr];
+            if(range.length>0){
+                [arr addObject:dic];
+                continue;
+            } else {
+                range = [[dic objectForKey:@"source"] rangeOfString:searchStr];
+                if(range.length>0){
+                    [arr addObject:dic];
+                    continue;
+                }
+            }
+        }
+        [self.searchMArr setArray:arr];
+        [arr release];
+    } else {
+        [self.searchMArr setArray:self.tabMArr];
+    }
+    [self.tbvHome performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+}
+
+- (void)dealloc{
+    [self.tabMArr release];
+    [self.searchMArr release];
+    [self.tbvHome release];
+    [self.scbHome release];
+    self.tapBlk = nil;
+    [super dealloc];
+}
+
 #pragma mark tableviewDele & tableviewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.tabMArr count];
+    return [self.searchMArr count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,8 +117,8 @@
     }
     UILabel *labOne = (UILabel *)[cell viewWithTag:labOneTag];
     UILabel *labTwo = (UILabel *)[cell viewWithTag:labTwoTag];
-    labOne.text = [[self.tabMArr objectAtIndex:indexPath.row] objectForKey:@"name"];
-    labTwo.text = [[self.tabMArr objectAtIndex:indexPath.row] objectForKey:@"source"];
+    labOne.text = [[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"name"];
+    labTwo.text = [[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"source"];
     return cell;
 }
 
@@ -91,9 +128,22 @@
         DetailInfoVC *detail = [[DetailInfoVC alloc] init];
         detail.detailType = allInfoType;
         detail.isFromApprove = NO;
-        detail.hidesBottomBarWhenPushed = YES;
+//        detail.hidesBottomBarWhenPushed = YES;
         self.tapBlk(detail);
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.scbHome resignFirstResponder];
+}
+
+#pragma mark UISearchBarDelegate
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self compareWithSearchStr:searchText];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
 }
 
 @end

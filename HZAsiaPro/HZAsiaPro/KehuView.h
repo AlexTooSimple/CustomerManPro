@@ -13,6 +13,7 @@ typedef void(^tapBlock)(id);
 @interface KehuView : UIView<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
 @property(nonatomic,strong)NSMutableArray *tabMArr;
+@property(nonatomic,strong)NSMutableArray *searchMArr;
 @property(nonatomic,strong)UITableView *tbvHome;
 @property(nonatomic,strong)UISearchBar *scbHome;
 @property(copy, nonatomic) tapBlock tapBlk;

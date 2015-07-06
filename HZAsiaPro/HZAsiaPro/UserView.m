@@ -36,6 +36,12 @@
     [self reloadView];
 }
 
+- (void)dealloc{
+    [self.tabMArr release];
+    [self.tbvHome release];
+    [super dealloc];
+}
+
 #pragma mark tableviewDele & tableviewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
