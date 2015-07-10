@@ -107,6 +107,10 @@
 		183185001B29A95200618CE1 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183184FF1B29A95200618CE1 /* UserView.m */; };
 		183185031B29B47C00618CE1 /* KehuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183185021B29B47C00618CE1 /* KehuView.m */; };
 		D43811161B41796100FF56DB /* AccountManageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D43811151B41796100FF56DB /* AccountManageVC.m */; };
+		D4EF705C1B4FEF21002E68EE /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF705B1B4FEF21002E68EE /* UserDetailViewController.m */; };
+		D4EF705F1B4FF49D002E68EE /* BaseTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF705E1B4FF49D002E68EE /* BaseTabView.m */; };
+		D4EF70621B4FFFD6002E68EE /* SalesmanSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF70611B4FFFD6002E68EE /* SalesmanSelectVC.m */; };
+		D4EFC6D01B4EBEF500017F29 /* AutoCustomVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EFC6CF1B4EBEF500017F29 /* AutoCustomVC.m */; };
 		D4F0738E1B3C376A00371F37 /* HomePageSetVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F0738D1B3C376A00371F37 /* HomePageSetVC.m */; };
 		D4F073911B3C3F4700371F37 /* MySwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = D4F073901B3C3F4700371F37 /* MySwitch.m */; };
 /* End PBXBuildFile section */
@@ -308,6 +312,14 @@
 		183185021B29B47C00618CE1 /* KehuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KehuView.m; sourceTree = "<group>"; };
 		D43811141B41796100FF56DB /* AccountManageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManageVC.h; sourceTree = "<group>"; };
 		D43811151B41796100FF56DB /* AccountManageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManageVC.m; sourceTree = "<group>"; };
+		D4EF705A1B4FEF21002E68EE /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailViewController.h; sourceTree = "<group>"; };
+		D4EF705B1B4FEF21002E68EE /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailViewController.m; sourceTree = "<group>"; };
+		D4EF705D1B4FF49D002E68EE /* BaseTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTabView.h; sourceTree = "<group>"; };
+		D4EF705E1B4FF49D002E68EE /* BaseTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTabView.m; sourceTree = "<group>"; };
+		D4EF70601B4FFFD6002E68EE /* SalesmanSelectVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesmanSelectVC.h; sourceTree = "<group>"; };
+		D4EF70611B4FFFD6002E68EE /* SalesmanSelectVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesmanSelectVC.m; sourceTree = "<group>"; };
+		D4EFC6CE1B4EBEF500017F29 /* AutoCustomVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCustomVC.h; sourceTree = "<group>"; };
+		D4EFC6CF1B4EBEF500017F29 /* AutoCustomVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCustomVC.m; sourceTree = "<group>"; };
 		D4F0738C1B3C376A00371F37 /* HomePageSetVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomePageSetVC.h; sourceTree = "<group>"; };
 		D4F0738D1B3C376A00371F37 /* HomePageSetVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomePageSetVC.m; sourceTree = "<group>"; };
 		D4F0738F1B3C3F4700371F37 /* MySwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySwitch.h; sourceTree = "<group>"; };
@@ -416,6 +428,14 @@
 				02997DE01B41254700D4F2AF /* ApproveCustomerVC.m */,
 				02997DE21B41267300D4F2AF /* ApproveCustomerView.h */,
 				02997DE31B41267300D4F2AF /* ApproveCustomerView.m */,
+				D4EFC6CE1B4EBEF500017F29 /* AutoCustomVC.h */,
+				D4EFC6CF1B4EBEF500017F29 /* AutoCustomVC.m */,
+				D4EF70601B4FFFD6002E68EE /* SalesmanSelectVC.h */,
+				D4EF70611B4FFFD6002E68EE /* SalesmanSelectVC.m */,
+				D4EF705A1B4FEF21002E68EE /* UserDetailViewController.h */,
+				D4EF705B1B4FEF21002E68EE /* UserDetailViewController.m */,
+				D4EF705D1B4FF49D002E68EE /* BaseTabView.h */,
+				D4EF705E1B4FF49D002E68EE /* BaseTabView.m */,
 			);
 			name = safeManage;
 			sourceTree = "<group>";
@@ -896,9 +916,11 @@
 				02C86A1C1B2C161A00C37CE7 /* ConcactHistoryView.m in Sources */,
 				02997DE41B41267300D4F2AF /* ApproveCustomerView.m in Sources */,
 				0229648E1AA6B2E000D5BFE5 /* AFURLConnectionOperation.m in Sources */,
+				D4EF705C1B4FEF21002E68EE /* UserDetailViewController.m in Sources */,
 				02EB31171B369ADA00F3AB3F /* OperationClientBasicInfoVC.m in Sources */,
 				02997DE11B41254700D4F2AF /* ApproveCustomerVC.m in Sources */,
 				02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */,
+				D4EF70621B4FFFD6002E68EE /* SalesmanSelectVC.m in Sources */,
 				022F36931B2FCE7600A1F3AA /* AddCustomerView.m in Sources */,
 				0280D4801B009F7700993641 /* AlertShowView.m in Sources */,
 				025760E41B28832600CE588A /* RefreshTableHeaderView.m in Sources */,
@@ -921,6 +943,7 @@
 				022964911AA6B2E000D5BFE5 /* AFURLSessionManager.m in Sources */,
 				022964901AA6B2E000D5BFE5 /* AFURLResponseSerialization.m in Sources */,
 				0216840A1B2D845D00E94A47 /* ModelCustomerNavVC.m in Sources */,
+				D4EF705F1B4FF49D002E68EE /* BaseTabView.m in Sources */,
 				02C09D2D1B27D350009E823C /* View+MASAdditions.m in Sources */,
 				025760E11B28828400CE588A /* RefreshSingleView.m in Sources */,
 				D43811161B41796100FF56DB /* AccountManageVC.m in Sources */,
@@ -942,6 +965,7 @@
 				0229648C1AA6B2E000D5BFE5 /* AFNetworkReachabilityManager.m in Sources */,
 				0229649D1AA6B43100D5BFE5 /* LoginVC.m in Sources */,
 				D4F073911B3C3F4700371F37 /* MySwitch.m in Sources */,
+				D4EFC6D01B4EBEF500017F29 /* AutoCustomVC.m in Sources */,
 				021683FE1B2D67DE00E94A47 /* SearchConditionVC.m in Sources */,
 				02C09D281B27D350009E823C /* MASLayoutConstraint.m in Sources */,
 				02C09D2C1B27D350009E823C /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,

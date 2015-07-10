@@ -12,6 +12,7 @@
 #import "OperationClientContactVC.h"
 #import "OperationClientBasicInfoVC.h"
 #import "ActionSheetView.h"
+#import "SalesmanSelectVC.h"
 
 @interface DetailInfoVC ()<UIScrollViewDelegate,ActionSheetViewDelegate>
 {
@@ -28,6 +29,8 @@
 @end
 
 @implementation DetailInfoVC
+
+#define TabbarHight (self.isHiddenTabBar?0:DEVICE_TABBAR_HEIGTH)
 
 @synthesize contentControl;
 @synthesize contentView;
@@ -137,13 +140,23 @@
 
 - (void)operateClicked:(id)sender
 {
-    ActionSheetView *sheetView = [[ActionSheetView alloc] initWithTitle:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:@"取消"
-                                                 destructiveButtonTitle:@"删除"
-                                                      otherButtonTitles:@"登记联系信息",@"修改客户基本信息",nil];
-    [sheetView show];
-    [sheetView release];
+    if(self.isManage){
+        ActionSheetView *sheetView = [[ActionSheetView alloc] initWithTitle:nil
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:@"删除"
+                                                          otherButtonTitles:@"登记联系信息",@"修改客户基本信息",@"转移",nil];
+        [sheetView show];
+        [sheetView release];
+    } else {
+        ActionSheetView *sheetView = [[ActionSheetView alloc] initWithTitle:nil
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:@"删除"
+                                                          otherButtonTitles:@"登记联系信息",@"修改客户基本信息",nil];
+        [sheetView show];
+        [sheetView release];
+    }
 }
 
 - (void)setNavBarApproveItem
@@ -176,7 +189,7 @@
     
     [self.view addSubview:pageControl];
     [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).with.offset(-80.0f);
+        make.top.equalTo(self.view.mas_bottom).with.offset(-TabbarHight-31);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.height.mas_equalTo(30.0f);
@@ -193,7 +206,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
     }];
     
     [detailView reloadViewData:self.customerInfoDataList];
@@ -207,7 +220,7 @@
         make.left.equalTo(detailView.mas_right);
         make.top.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
     }];
     [historyView reloadViewData:self.customerHistoryList];
     
@@ -216,7 +229,7 @@
     [detailView release];
     
     CGFloat contentWidth = self.view.frame.size.width;
-    CGFloat contentHeight = self.view.frame.size.height - DEVICE_TABBAR_HEIGTH - 64.0f;
+    CGFloat contentHeight = self.view.frame.size.height - TabbarHight - 64.0f;
     [self.contentView setContentSize:CGSizeMake(contentWidth *cnt, contentHeight)];
     
     [self.contentControl setNumberOfPages:cnt];
@@ -233,7 +246,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
     }];
     
     [detailView reloadViewData:self.customerInfoDataList];
@@ -251,7 +264,7 @@
         make.left.equalTo(self.contentView);
         make.top.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
     }];
     [historyView reloadViewData:self.customerHistoryList];
     [historyView release];
@@ -278,6 +291,13 @@
         {
             //修改客户基本信息
             [self gotoOperatClientBaiscInfoVC];
+        }
+            break;
+        case 3:
+        {
+            //转移
+            [self changeOperatClientWithOtherPeople];
+            
         }
             break;
         default:
@@ -311,6 +331,13 @@
     [operationVC reloadInitData:nameDic];
     [self.navigationController pushViewController:operationVC animated:YES];
     [operationVC release];
+}
+
+- (void)changeOperatClientWithOtherPeople
+{
+    SalesmanSelectVC *saleVC = [[SalesmanSelectVC alloc] init];
+    [self.navigationController pushViewController:saleVC animated:YES];
+    [saleVC release];
 }
 
 - (void)deleteClient

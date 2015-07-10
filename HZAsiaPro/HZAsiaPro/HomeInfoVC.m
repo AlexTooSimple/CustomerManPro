@@ -127,16 +127,26 @@
     [self.scvHome addSubview:self.userV];
     
     self.kehuNoCall = [[KehuView alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds))];
+    self.kehuNoCall.tbvHome.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     [self.scvHome addSubview:self.kehuNoCall];
     
-    self.kehuNoCall.tapBlk = ^(UIViewController *VC){
-        [self.navigationController pushViewController:VC animated:YES];
+    self.kehuNoCall.tapBlk = ^(NSIndexPath *index){
+        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+        detail.detailType = allInfoType;
+        detail.isFromApprove = NO;
+        [self.navigationController pushViewController:detail animated:YES];
+        [detail release];
     };
     
     self.kehuTimeUp = [[KehuView alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH*2, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds))];
+    self.kehuTimeUp.tbvHome.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     [self.scvHome addSubview:self.kehuTimeUp];
-    self.kehuTimeUp.tapBlk = ^(UIViewController *VC){
-        [self.navigationController pushViewController:VC animated:YES];
+    self.kehuTimeUp.tapBlk = ^(NSIndexPath *index){
+        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+        detail.detailType = allInfoType;
+        detail.isFromApprove = NO;
+        [self.navigationController pushViewController:detail animated:YES];
+        [detail release];
     };
     [self setUpdata];
     

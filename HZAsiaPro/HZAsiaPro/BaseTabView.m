@@ -1,17 +1,17 @@
 //
-//  UserView.m
+//  BaseTabView.m
 //  HZAsiaPro
 //
-//  Created by apple on 15/6/11.
+//  Created by 颜梁坚 on 15/7/10.
 //  Copyright (c) 2015年 wuhui. All rights reserved.
 //
 
-#import "UserView.h"
+#import "BaseTabView.h"
 
 #define labOneTag   111
 #define labTwoTag   222
 
-@implementation UserView
+@implementation BaseTabView
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -26,29 +26,43 @@
 }
 
 - (void)setUpView{
-    self.tabMArr = [[NSMutableArray alloc] initWithCapacity:0];
+    self.tabMDic = [[NSMutableDictionary alloc] initWithCapacity:0];
     self.tbvHome = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT - 64 -50) style:UITableViewStylePlain];
     self.tbvHome.delegate = self;
     self.tbvHome.dataSource = self;
-    self.tbvHome.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    self.tbvHome.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tbvHome.backgroundColor = [UIColor clearColor];
     [self addSubview:self.tbvHome];
     [self reloadView];
 }
 
-- (void)dealloc{
-    [self.tabMArr release];
-    [self.tbvHome release];
-    [super dealloc];
+#pragma mark tableviewDele & tableviewDataSource
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 20;
 }
 
-#pragma mark tableviewDele & tableviewDataSource
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetHeight(tableView.frame), 20)];
+    headView.backgroundColor = [UIColor grayColor];
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, CGRectGetHeight(tableView.frame)-10, 20)];
+    lab.backgroundColor = [UIColor clearColor];
+    lab.textColor = [UIColor whiteColor];
+    lab.text = [[self.tabMDic allKeys] objectAtIndex:section];
+    [headView addSubview:lab];
+    return headView;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [[self.tabMDic allKeys] count];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.tabMArr count];
+    return [[self.tabMDic objectForKey:[[self.tabMDic allKeys] objectAtIndex:section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -71,17 +85,12 @@
         labTwo.textAlignment = NSTextAlignmentLeft;
         labTwo.tag = labTwoTag;
         [cell addSubview:labTwo];
-        [labTwo release];
-        
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 43, DEVICE_MAINSCREEN_WIDTH, 1)];
-        view.backgroundColor = [UIColor lightGrayColor];
-        [cell addSubview:view];
-        [view release];
     }
     UILabel *labOne = (UILabel *)[cell viewWithTag:labOneTag];
     UILabel *labTwo = (UILabel *)[cell viewWithTag:labTwoTag];
-    labOne.text = [[self.tabMArr objectAtIndex:indexPath.row] objectForKey:@"name"];
-    labTwo.text = [[self.tabMArr objectAtIndex:indexPath.row] objectForKey:@"source"];
+    NSArray *arr = [self.tabMDic objectForKey:[[self.tabMDic allKeys] objectAtIndex:indexPath.section]];
+    labOne.text = [[arr objectAtIndex:indexPath.row] objectForKey:@"name"];
+    labTwo.text = [[arr objectAtIndex:indexPath.row] objectForKey:@"source"];
     return cell;
 }
 

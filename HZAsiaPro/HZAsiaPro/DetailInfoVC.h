@@ -21,4 +21,7 @@ typedef enum DetailShowType{
 }
 @property(nonatomic ,assign)DetailShowType detailType;
 @property(nonatomic ,assign) BOOL isFromApprove;
+@property(nonatomic ,assign) BOOL isManage;
+@property(nonatomic ,assign) BOOL isHiddenTabBar;
+
 @end
