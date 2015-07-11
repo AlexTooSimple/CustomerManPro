@@ -10,7 +10,7 @@
 
 @interface UserView : UIView<UITableViewDataSource,UITableViewDelegate>
 
-@property(nonatomic,strong)NSMutableArray *tabMArr;
+@property(nonatomic,strong)NSMutableDictionary *tabMDic;
 @property(nonatomic,strong)UITableView *tbvHome;
 
 - (void)reloadView;

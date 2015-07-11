@@ -46,6 +46,22 @@
     [self getAllSaleMan];
 }
 
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
 - (void)getAllSaleMan {
     NSDictionary *dic11 = @{@"name":@"张三",@"source":@"13656687678"};
     NSDictionary *dic21 = @{@"name":@"李四",@"source":@"13656687679"};

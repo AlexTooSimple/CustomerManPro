@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "bussineDataService.h"
 
-@interface AutoCustomVC : UIViewController
+@interface AutoCustomVC : UIViewController<HttpBackDelegate>
 
 @end

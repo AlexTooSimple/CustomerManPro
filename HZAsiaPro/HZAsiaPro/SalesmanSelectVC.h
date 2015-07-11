@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "bussineDataService.h"
 
 typedef void(^tapBlock)(id);
 
-@interface SalesmanSelectVC : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface SalesmanSelectVC : UIViewController<UITableViewDataSource,UITableViewDelegate,HttpBackDelegate>
 
 @property(nonatomic,strong)NSMutableArray *tabMArr;
 @property(nonatomic,strong)UITableView *tbvSaleMan;

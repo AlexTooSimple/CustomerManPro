@@ -35,23 +35,6 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)layOutKehu {
-    self.kehu = [[ManageView alloc] initWithFrame:CGRectMake(0, 64, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT-64)];
-    [self.view addSubview:self.kehu];
-    self.kehu.tapBlk = ^(NSIndexPath *index){
-        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
-        detail.detailType = allInfoType;
-        detail.isFromApprove = NO;
-        detail.isManage = YES;
-        detail.isHiddenTabBar = YES;
-        [self.navigationController pushViewController:detail animated:YES];
-        [detail release];
-    };
-
-    [self setUpdata];
-    [self setNavBarOperatorItem];
-}
-
 - (void)setNavBarOperatorItem
 {
     UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑"
@@ -71,40 +54,102 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setUpdata{
-    NSMutableArray *tabMArr1 = [[NSMutableArray alloc] initWithCapacity:0];
-    NSDictionary *dic11 = @{@"name":@"张三",@"source":@"13656687678",@"saleman":@"小李"};
-    NSDictionary *dic21 = @{@"name":@"李四",@"source":@"13656687679",@"saleman":@"小李"};
-    NSDictionary *dic31 = @{@"name":@"王五",@"source":@"13656687677",@"saleman":[NSNull null]};
-    NSDictionary *dic41 = @{@"name":@"赵六",@"source":@"13678898765",@"saleman":@"小李"};
-    NSDictionary *dic51 = @{@"name":@"李七",@"source":@"13656687676",@"saleman":@"小李"};
-    [tabMArr1 addObject:dic11];
-    [tabMArr1 addObject:dic21];
-    [tabMArr1 addObject:dic31];
-    [tabMArr1 addObject:dic41];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    self.kehu.tabMArr = tabMArr1;
-    [self.kehu reloadView];
-    [tabMArr1 release];
+- (void)layOutKehu {
+    self.kehu = [[ManageView alloc] initWithFrame:CGRectMake(0, 64, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT-64)];
+    [self.view addSubview:self.kehu];
+    self.kehu.tapBlk = ^(NSIndexPath *index){
+        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+        detail.detailType = allInfoType;
+        detail.isFromApprove = NO;
+        detail.isManage = YES;
+        detail.isHiddenTabBar = YES;
+        [self.navigationController pushViewController:detail animated:YES];
+        [detail release];
+    };
+
+    [self setNavBarOperatorItem];
+    [self searchSimpleCustomer];
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)searchSimpleCustomer
+{
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+    
+    NSMutableDictionary *searchCondition = [[NSMutableDictionary alloc] initWithCapacity:0];
+    NSString *operatorCode = [usrInfo objectForKey:@"code"];
+    [searchCondition setObject:operatorCode
+                        forKey:@"operator"];
+    
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService searchCustomerListWithCondition:searchCondition];
 }
-*/
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo;
+            NSString *data = [rspInfo objectForKey:@"data"];
+            
+            NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:nil];
+            [self.kehu.tabMArr  setArray:rspCustomerList];
+            [self.kehu reloadView];
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+#pragma mark
+#pragma mark - AlertShowViewDelegate
+- (void)alertViewWillPresent:(UIAlertController *)alertController
+{
+    [self presentViewController:alertController
+                       animated:YES
+                     completion:nil];
+}
+
+#pragma mark
+#pragma mark -  取消显示Alert
+- (void)cancelAlterTimer:(NSTimer *)timer
+{
+    AlertShowView *alter = (AlertShowView *)[timer userInfo];
+    [alter dismiss];
+}
 
 @end

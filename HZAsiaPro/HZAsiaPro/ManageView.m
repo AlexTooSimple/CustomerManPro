@@ -8,6 +8,7 @@
 
 #import "ManageView.h"
 
+#define labCodetag  555
 #define labOneTag   111
 #define labTwoTag   222
 #define labThreeTag 333
@@ -123,7 +124,15 @@
     if(!cell){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellStr];
         
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, 0,DEVICE_MAINSCREEN_WIDTH *1/5 , 44)];
+        UILabel *codelab = [[UILabel alloc] initWithFrame:CGRectMake(20, 0,DEVICE_MAINSCREEN_WIDTH *1/5 , 44)];
+        codelab.backgroundColor = [UIColor clearColor];
+        codelab.font = [UIFont systemFontOfSize:14];
+        codelab.textAlignment = NSTextAlignmentLeft;
+        codelab.tag = labCodetag;
+        [cell addSubview:codelab];
+        [codelab release];
+        
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20 + DEVICE_MAINSCREEN_WIDTH *1/5, 0,DEVICE_MAINSCREEN_WIDTH *1/5 , 44)];
         lab.backgroundColor = [UIColor clearColor];
         lab.font = [UIFont systemFontOfSize:14];
         lab.textAlignment = NSTextAlignmentLeft;
@@ -131,10 +140,10 @@
         [cell addSubview:lab];
         [lab release];
         
-        UILabel *labTwo = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH *2/5, 0,DEVICE_MAINSCREEN_WIDTH *3/5 , 44)];
+        UILabel *labTwo = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH *3/5 - 20, 0,DEVICE_MAINSCREEN_WIDTH *2/5 , 44)];
         labTwo.backgroundColor = [UIColor clearColor];
         labTwo.font = [UIFont systemFontOfSize:14];
-        labTwo.textAlignment = NSTextAlignmentLeft;
+        labTwo.textAlignment = NSTextAlignmentRight;
         labTwo.tag = labTwoTag;
         [cell addSubview:labTwo];
         [labTwo release];
@@ -163,17 +172,19 @@
         [cell addSubview:view];
         [view release];
     }
+    UILabel *labCode = (UILabel *)[cell viewWithTag:labCodetag];
     UILabel *labOne = (UILabel *)[cell viewWithTag:labOneTag];
     UILabel *labTwo = (UILabel *)[cell viewWithTag:labTwoTag];
     UILabel *labThree = (UILabel *)[cell viewWithTag:labThreeTag];
     UIButton *btn = (UIButton *)[cell viewWithTag:btnTag];
-    labOne.text = [[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"name"];
-    labTwo.text = [[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"source"];
-    if([[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"saleman"] == [NSNull null]) {
+    labCode.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"clientCode"]];
+    labOne.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"cname"]];
+    labTwo.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"fristPhone"]];
+    if([[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"receptionist"] == [NSNull null]||[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"receptionist"] == nil) {
         labThree.text = @"未安排业务员";
         [btn setTitle:@"分配" forState:UIControlStateNormal];
     } else {
-        labThree.text = [NSString stringWithFormat:@"业务员:%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"saleman"]];
+        labThree.text = [NSString stringWithFormat:@"业务员:%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"receptionist"]];
         [btn setTitle:@"转移" forState:UIControlStateNormal];
     }
     return cell;
