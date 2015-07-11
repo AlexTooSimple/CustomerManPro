@@ -67,8 +67,8 @@
 /*解析1级结构*/
 -(void)parseRspcodeSubItemsToRspInfo
 {
-    NSDictionary *tempDict = [self.jsonRspData objectForKey:@"body"];
-    self.rspInfo = tempDict;
+    //[ objectForKey:@"body"];
+    self.rspInfo = self.jsonRspData;
 }
 
 - (NSString *)assembleJSONStringFromDictionary:(NSDictionary *)JSONDic
@@ -94,9 +94,6 @@
 
 - (NSString *)getJSONHeader:(NSDictionary *)headData
 {
-    NSString *biz_Code = [headData objectForKey:@"bizCode"];
-    self.bizCode = biz_Code;
-    
     NSMutableDictionary *headCommonDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                    @"com.ailk.ts.mapp.model.TSHeader",@"@class",
                                    [NSNull null],@"identityId",
@@ -115,14 +112,14 @@
 - (NSString *)getRequestJSONFromHeader:(NSDictionary *)headDic withBody:(NSDictionary *)bodyDic
 {
     //组装JSON header节点
-    NSString *headJSON = [self getJSONHeader:headDic];
+//    NSString *headJSON = [self getJSONHeader:headDic];
     
     //组装JSON body节点
     NSString *bodyJSON = [self assembleJSONStringFromDictionary:bodyDic];
     
-    NSString *requestJSON = [NSString stringWithFormat:JSON_TEMP,headJSON,bodyJSON];
+//    NSString *requestJSON = [NSString stringWithFormat:JSON_TEMP,headJSON,bodyJSON];
     
-    return requestJSON;
+    return bodyJSON;
 }
 
 -(NSString *)getRspcode
@@ -131,25 +128,17 @@
         self.rspCode = @"6666";
         return self.rspCode;
     }
-    
-    NSDictionary *json_respon_header = [self.jsonRspData objectForKey:@"header"];
-    if ([json_respon_header count] == 0) {
-        self.rspCode = @"0010";
-        return self.rspCode;
-    }
-    self.rspCode = [json_respon_header objectForKey:@"respCode"];
+    self.rspCode = [self.jsonRspData objectForKey:@"result"];
     return self.rspCode;
 }
 
 -(NSString *)getMSG
-{   
-    NSDictionary *json_respon_header = [self.jsonRspData objectForKey:@"header"];
-    if (![[json_respon_header objectForKey:@"respMsg"] isEqual:[NSNull null]]) {
-        self.rspDesc = [json_respon_header objectForKey:@"respMsg"];
+{
+    if (![[self.rspInfo objectForKey:@"errMsg"] isEqual:[NSNull null]]) {
+        self.rspDesc = [self.rspInfo objectForKey:@"errMsg"];
     }else{
         self.rspDesc = nil;
     }
-    
     return self.rspDesc;
 }
 

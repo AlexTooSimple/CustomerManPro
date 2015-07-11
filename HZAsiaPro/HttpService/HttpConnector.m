@@ -60,7 +60,8 @@ static HttpConnector *sharedHttpConnector = nil;
     //设置Http Header
     AFHTTPRequestSerializer *requestHttpHeader = [AFHTTPRequestSerializer serializer];
     requestHttpHeader.timeoutInterval = self.timeOut;
-    [requestHttpHeader setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [requestHttpHeader setValue:@"application/x-www-form-urlencoded"
+             forHTTPHeaderField:@"Content-Type"];
     httpManager.requestSerializer = requestHttpHeader;
     
     httpManager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -68,7 +69,7 @@ static HttpConnector *sharedHttpConnector = nil;
     
     //设置Http 实体
     NSDictionary *requestPostValue = nil;
-    NSString  *requestMessage = [message getRequest];
+    NSString *requestMessage = [message getRequest];
     if (isPostXML) {
         requestPostValue = [[NSDictionary alloc] initWithObjectsAndKeys:
                             requestMessage,@"xmlmsg", nil];

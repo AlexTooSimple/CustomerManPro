@@ -18,7 +18,6 @@
     NSDictionary *rspInfo;
     NSDictionary *requestInfo;
     
-    NSString* bizCode;
     BOOL isXML;
 }
 @property(nonatomic, assign)BOOL isXML;
@@ -26,10 +25,8 @@
 @property(nonatomic, retain)NSString* rspDesc;
 @property(nonatomic, retain)NSDictionary *rspInfo;
 @property(nonatomic, retain)NSDictionary *requestInfo;
-@property(nonatomic, retain)NSString* bizCode;
 
 - (void)parseResponse:(NSString *)responseMessage;
-+ (NSString *)getBizCode;
 + (NSString *)getNetLinkErrorCode;
 + (NSString *)getTimeOutErrorCode;
 + (NSString *)getRespondDescription:(NSString *)resCode;

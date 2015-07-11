@@ -153,8 +153,16 @@
     NSInteger row = [indexPath row];
     NSDictionary *itemData = [self.customerList objectAtIndex:row];
     
-    nameLabel.text = [itemData objectForKey:CUSTOMER_DIC_NAME_KEY];
-    phoneLabel.text = [itemData objectForKey:CUSTOMER_DIC_PHONE_KEY];
+
+    if ([itemData objectForKey:CUSTOMER_DIC_NAME_KEY] != nil && ![[itemData objectForKey:CUSTOMER_DIC_NAME_KEY] isEqual:[NSNull null]]) {
+        nameLabel.text = [itemData objectForKey:CUSTOMER_DIC_NAME_KEY];
+    }
+    
+    if ([itemData objectForKey:CUSTOMER_DIC_PHONE_KEY] != nil && ![[itemData objectForKey:CUSTOMER_DIC_PHONE_KEY] isEqual:[NSNull null]]) {
+        phoneLabel.text = [itemData objectForKey:CUSTOMER_DIC_PHONE_KEY];
+    }
+
+    
     
     return cell;
 }

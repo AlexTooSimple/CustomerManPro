@@ -73,7 +73,6 @@
     if (headData == nil || [headData count]== 0) {
         //拼接公共的参数
     }else{
-        self.bizCode = [headData objectForKey:@"BizCode"];
         headStr = [self getXmlStringFromDictionary:headData];
     }
     NSString* headXml = [NSString stringWithFormat:XML_HEAD_TEMPLATE,headStr];

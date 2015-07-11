@@ -10,7 +10,7 @@
 
 #define JSON_BODY_REUEST   @"com.ailk.ts.mapp.model.req.%@Request"
 
-#define JSON_TEMP @"{\"@class\":\"com.ailk.ts.mapp.model.TSDatapackage\",\"header\":%@,\"body\":%@}"
+#define JSON_TEMP    @"{\"@class\":\"com.ailk.ts.mapp.model.TSDatapackage\",\"header\":%@,\"body\":%@}"
 
 #define JSON_HEADER @"\"@class\":\"com.ailk.ts.mapp.model.TSHeader\",\"bizCode\":\"%@\",\"identityId\":null,\"coordinates\":null,\"respCode\":null,\"respMsg\":null,\"mode\":null"
 

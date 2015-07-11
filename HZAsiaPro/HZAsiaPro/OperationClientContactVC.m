@@ -10,10 +10,12 @@
 #import "AddCustomerView.h"
 #import "MyDatePickerView.h"
 #import "ItemPickerView.h"
+#import "bussineDataService.h"
 
 @interface OperationClientContactVC ()<AddCustomerViewDelegate,
                                        ItemPickerDelegate,
-                                       MyDatePickerViewDelegate>
+                                       MyDatePickerViewDelegate,
+                                       HttpBackDelegate>
 {
     MyDatePickerView *datePicker;
     ItemPickerView *itemPicker;
@@ -83,10 +85,13 @@
 
 - (void)commitClicked:(id)sender
 {
-    
+    //组装数据
+    NSDictionary *concactInfo = [self.contactInfoView commitGetAllCustomerData];
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
 }
 
-
+#pragma mark
+#pragma mark - 布局视图
 - (void)layoutContentView
 {
     AddCustomerView  *customerView = [[AddCustomerView alloc] init];
@@ -126,6 +131,7 @@
 #pragma mark - 初始化数据
 - (void)reloadInitData:(NSDictionary *)sourceInitData
 {
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
     NSMutableArray *contactList = [[NSMutableArray alloc] initWithCapacity:0];
     
     NSString *clientName = [sourceInitData objectForKey:DATA_SHOW_VALUE_COLUM];
@@ -138,60 +144,28 @@
     [clientNameDic release];
     
     //联系方式数据源
-    NSDictionary *contactType1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"来访",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-    
-    NSDictionary *contactType2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"来电",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-    
-    NSDictionary *contactType3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"去电",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-    
-    NSDictionary *contactType4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"来函",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-    
-    NSDictionary *contactType5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"其他类型",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSArray *contactTypeSource = [[NSArray alloc] initWithObjects:
-                                  contactType1,contactType2,contactType3,contactType4,contactType5, nil];
-    [contactType1 release]; [contactType2 release]; [contactType3 release]; [contactType4 release];
-    [contactType5 release];
-    
+    NSArray *contactTypeSource = [store getObjectById:CUSTOMER_VISIT_TYPE_LIST
+                                            fromTable:CUSTOMER_DB_TABLE];
     
     NSMutableDictionary *contactTypeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                            @"联系类型",PLUS_CUSTOMER_TITLE,
                                            CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,
                                            contactTypeSource,PLUS_SELECT_DATA_SOURCE,
-                                           [NSNumber numberWithInt:0],PLUS_INIT_VALUE,nil];
+                                           [NSNumber numberWithInt:4],PLUS_INIT_VALUE,nil];
     [contactList addObject:contactTypeDic];
     [contactTypeDic release];
-    [contactTypeSource release];
     
     //购买意向数据源
-    NSDictionary *purpose1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"初步意向",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"绝对购买",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"强烈意向",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"多次来访",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSArray *purposeSource = [[NSArray alloc] initWithObjects:
-                              purpose1,purpose2,purpose3,purpose4,purpose5, nil];
-    [purpose1 release];[purpose2 release];[purpose3 release];[purpose4 release];[purpose5 release];
-    
+    NSArray *purposeSourceItem = [store getObjectById:CUSTOMER_PURPOSE_LIST
+                                            fromTable:CUSTOMER_DB_TABLE];
+    NSMutableArray *purposeSource = [[NSMutableArray alloc] initWithArray:purposeSourceItem
+                                                                copyItems:YES];
+    NSDictionary *onePurposeItem = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             @"",SOURCE_DATA_ID_COLUM,
+                             @"",SOURCE_DATA_NAME_COULUM,nil];
+    [purposeSource insertObject:onePurposeItem atIndex:0];
+    [onePurposeItem release];
+
     NSMutableDictionary *purposeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                        @"购买意向",PLUS_CUSTOMER_TITLE,
                                        CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,
@@ -205,16 +179,17 @@
     //来访形式数据源
     NSDictionary *visitType1 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"单独",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"单独",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitType2 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"夫妻",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"夫妻",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitType3 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"与家人",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"与家人",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitType4 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"与朋友",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"与朋友",SOURCE_DATA_ID_COLUM,nil];
+
     NSArray *visitTypeSource = [[NSArray alloc] initWithObjects:
                                 visitType1,visitType2,visitType3,visitType4, nil];
     [visitType4 release];[visitType1 release]; [visitType2 release];[visitType3 release];
@@ -238,13 +213,14 @@
     //来访频率数据源
     NSDictionary *visitNum1 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @"初访",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
+                               @"初访",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitNum2 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @"再访",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
+                               @"再访",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitNum3 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @"其他",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
+                               @"其他",SOURCE_DATA_ID_COLUM,nil];
+
     NSArray *visitNumSource = [[NSArray alloc] initWithObjects:visitNum1,visitNum2,visitNum3, nil];
     [visitNum1 release];[visitNum2 release];[visitNum3 release];
     
@@ -282,15 +258,16 @@
     [contactList addObject:contactTimeDic];
     [contactTimeDic release];
     
-    NSMutableDictionary *contactPhoneDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                            @"接待人员",PLUS_CUSTOMER_TITLE,
-                                            CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,nil];
-    [contactList addObject:contactPhoneDic];
-    [contactPhoneDic release];
+//    NSMutableDictionary *contactPhoneDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+//                                            @"接待人员",PLUS_CUSTOMER_TITLE,
+//                                            CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,nil];
+//    [contactList addObject:contactPhoneDic];
+//    [contactPhoneDic release];
     
     self.contactShowDataList = contactList;
     [contactList release];
     
+    [store release];
     
 }
 
@@ -319,7 +296,53 @@
 
 
 #pragma mark
-#pragma mark - AddCustomerViewDelegate
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[AddVisitHistoryMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo;
+            NSString *data = [rspInfo objectForKey:@"data"];
+            
+            NSArray *rspConcactList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                      options:NSJSONReadingMutableContainers
+                                                                        error:nil];
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[AddVisitHistoryMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+
+
 #pragma mark
 #pragma mark - AddCustomerViewDelegate
 - (void)customerView:(AddCustomerView *)addCustomerView DidShowItemPickerWithRow:(NSInteger)row WithSource:(NSArray *)sourceList

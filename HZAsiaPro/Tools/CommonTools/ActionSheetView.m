@@ -24,7 +24,7 @@
 }
 
 - (instancetype)initWithTitle:(NSString *)title
-                     delegate:(id<ActionSheetViewDelegate>)delegate
+                     delegate:(id)delegate
             cancelButtonTitle:(NSString *)cancelTitle
        destructiveButtonTitle:(NSString *)destructiveTitle
             otherButtonTitles:(NSString *)otherTitle, ...
@@ -111,7 +111,7 @@
         }else{
             
             UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:title
-                                                               delegate:self
+                                                               delegate:delegate
                                                       cancelButtonTitle:nil
                                                  destructiveButtonTitle:destructiveTitle
                                                       otherButtonTitles:otherTitle, nil];
@@ -143,16 +143,6 @@
                 [self.actionDelegate actionSheetViewWillPresent:self.contentSheet];
             }
         }
-    }
-}
-
-#pragma mark
-#pragma mark - UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (self.actionDelegate != nil && [self.actionDelegate respondsToSelector:@selector(actionSheetView:didDismissWithButtonIndex:)]) {
-        [self.actionDelegate actionSheetView:self
-                   didDismissWithButtonIndex:buttonIndex];
     }
 }
 

@@ -8,6 +8,10 @@
 
 #import "JsonMessage.h"
 
-@interface StaticDataMessage : JsonMessage
+#define STATIC_DATA_BIZCODE    @"queryAllDict.do"
 
+@interface StaticDataMessage : JsonMessage
+{
+}
++ (NSString*)getBizCode;
 @end

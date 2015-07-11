@@ -7,7 +7,10 @@
 //
 
 #import "JsonMessage.h"
-
+#define ADD_VISIT_HISTORY_BIZCODE        @"addLxs.do?"
 @interface AddVisitHistoryMessage : JsonMessage
-
+{
+    
+}
++ (NSString*)getBizCode;
 @end

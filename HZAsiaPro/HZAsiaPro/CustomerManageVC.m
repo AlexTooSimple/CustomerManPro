@@ -12,8 +12,11 @@
 #import "VerifyCustomerVC.h"
 #import <MessageUI/MessageUI.h>
 #import "AlertShowView.h"
+#import "bussineDataService.h"
 
-@interface CustomerManageVC ()<CustomerListViewDelegate,MFMessageComposeViewControllerDelegate>
+@interface CustomerManageVC ()<CustomerListViewDelegate,
+                              MFMessageComposeViewControllerDelegate,
+                              HttpBackDelegate>
 @property (nonatomic, retain)CustomerListView *customerView;
 @property (nonatomic, retain)NSArray *customerDataList;
 @end
@@ -74,8 +77,11 @@
     
     [customerView release];
     
-    [self initData];
-    [self.customerView reloadData:self.customerDataList];
+    [NSTimer scheduledTimerWithTimeInterval:0.01f
+                                     target:self
+                                   selector:@selector(searchSimpleCustomer)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,96 +119,6 @@
     [searchItem release];
 }
 
-- (void)initData
-{
-    NSDictionary *row1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"张三",CUSTOMER_DIC_NAME_KEY,
-                          @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"李四",CUSTOMER_DIC_NAME_KEY,
-                          @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"张三",CUSTOMER_DIC_NAME_KEY,
-                          @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"李四",CUSTOMER_DIC_NAME_KEY,
-                          @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"张三",CUSTOMER_DIC_NAME_KEY,
-                          @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row6 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"李四",CUSTOMER_DIC_NAME_KEY,
-                          @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row7 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"张三",CUSTOMER_DIC_NAME_KEY,
-                          @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row8 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"李四",CUSTOMER_DIC_NAME_KEY,
-                          @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row9 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"张三",CUSTOMER_DIC_NAME_KEY,
-                          @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row10 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"李四",CUSTOMER_DIC_NAME_KEY,
-                          @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row11 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"张三",CUSTOMER_DIC_NAME_KEY,
-                          @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row12 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"李四",CUSTOMER_DIC_NAME_KEY,
-                          @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row13 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"张三",CUSTOMER_DIC_NAME_KEY,
-                           @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row14 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"李四",CUSTOMER_DIC_NAME_KEY,
-                           @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-
-    NSDictionary *row15 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"张三",CUSTOMER_DIC_NAME_KEY,
-                           @"13746232132",CUSTOMER_DIC_PHONE_KEY, nil];
-    NSDictionary *row16 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"李四",CUSTOMER_DIC_NAME_KEY,
-                           @"15212332132",CUSTOMER_DIC_PHONE_KEY, nil];
-
-    NSArray *itemList = [[NSArray alloc] initWithObjects:
-                         row1,
-                         row2,
-                         row3,
-                         row4,
-                         row5,
-                         row6,
-                         row7,
-                         row8,
-                         row9,
-                         row10,
-                         row11,
-                         row12,
-                         row13,
-                         row14,
-                         row15,
-                         row16,
-                         nil];
-    self.customerDataList = itemList;
-    [itemList release];
-    [row1 release];
-    [row2 release];
-    [row3 release];
-    [row4 release];
-    [row5 release];
-    [row6 release];
-    [row7 release];
-    [row8 release];
-    [row9 release];
-    [row10 release];
-    [row11 release];
-    [row12 release];
-    [row13 release];
-    [row14 release];
-    [row15 release];
-    [row16 release];
-}
-
 #pragma mark
 #pragma mark - 查询客户接口启动
 - (void)searchCustomer:(NSNotification *)noti
@@ -210,8 +126,100 @@
     NSLog(@"searchcustomer");
     NSDictionary *condition = [noti object];
     //网络连接获取数据
+    [self sendSearchCustomerMessage:condition];
 }
 
+- (void)searchSimpleCustomer
+{
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+
+    NSMutableDictionary *searchCondition = [[NSMutableDictionary alloc] initWithCapacity:0];
+    NSString *operatorCode = [usrInfo objectForKey:@"code"];
+    [searchCondition setObject:operatorCode
+                        forKey:@"operator"];
+    
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService searchCustomerListWithCondition:searchCondition];
+}
+
+#pragma mark
+#pragma mark - SendHttpMessage
+- (void)sendSearchCustomerMessage:(NSDictionary *)condition
+{
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+    NSNumber *isadmin = [usrInfo objectForKey:@"isadmin"];
+    
+    NSMutableDictionary *searchCondition;
+    if (condition == nil) {
+        searchCondition = [[NSMutableDictionary alloc] initWithCapacity:0];
+    }else{
+        searchCondition = [[NSMutableDictionary alloc] initWithDictionary:condition copyItems:YES];
+    }
+    
+    
+    if ([isadmin integerValue] != PRO_MANAGER_LIMIT) {
+        //不是管理员
+        NSString *operatorCode = [usrInfo objectForKey:@"code"];
+        [searchCondition setObject:operatorCode
+                            forKey:@"operator"];
+    }
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService searchCustomerListWithCondition:searchCondition];
+}
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo;
+            NSString *data = [rspInfo objectForKey:@"data"];
+            
+            NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:nil];
+            self.customerDataList = rspCustomerList;
+            [self.customerView reloadData:self.customerDataList];
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
 
 #pragma mark
 #pragma mark - UIAction
@@ -232,8 +240,11 @@
 #pragma mark - CustomerListViewDelegate
 - (void)customerListView:(CustomerListView *)listView didSelectRow:(NSInteger)row
 {
+    NSDictionary *selectCustomer = [self.customerDataList objectAtIndex:row];
+    
     DetailInfoVC *VC = [[DetailInfoVC alloc] init];
     VC.detailType = allInfoType;
+    VC.customerInfo = selectCustomer;
     VC.isFromApprove = NO;
     [self.navigationController pushViewController:VC animated:YES];
     [VC release];

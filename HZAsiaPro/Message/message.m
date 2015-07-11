@@ -17,7 +17,6 @@
 @synthesize rspDesc;
 @synthesize rspInfo;
 @synthesize requestInfo;
-@synthesize bizCode;
 @synthesize isXML;
 
 - (void)dealloc
@@ -26,7 +25,6 @@
     [rspDesc release];
     [requestInfo release];
     [rspInfo release];
-    [bizCode release];
     
     [super dealloc];
 }
@@ -96,11 +94,6 @@
 
 +(NSString*)getTimeOutErrorCode{
     return @"5555";
-}
-
-+ (NSString *)getBizCode
-{
-    return nil;
 }
 
 - (NSString*)getRspcode

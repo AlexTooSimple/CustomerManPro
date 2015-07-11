@@ -10,8 +10,8 @@
 #import "RefreshSingleView.h"
 #import "ActionSheetView.h"
 
-#define CUSTOMER_DIC_NAME_KEY           @"name"
-#define CUSTOMER_DIC_PHONE_KEY          @"phone"
+#define CUSTOMER_DIC_NAME_KEY           @"cname"
+#define CUSTOMER_DIC_PHONE_KEY          @"mobile"
 
 @protocol CustomerListViewDelegate;
 
