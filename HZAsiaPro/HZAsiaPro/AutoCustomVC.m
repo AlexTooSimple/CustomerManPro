@@ -7,13 +7,13 @@
 //
 
 #import "AutoCustomVC.h"
-#import "KehuView.h"
+#import "ManageView.h"
 #import "UserDetailViewController.h"
 #import "DetailInfoVC.h"
 
 @interface AutoCustomVC ()
 
-@property (nonatomic,strong)KehuView *kehu;
+@property (nonatomic,strong)ManageView *kehu;
 
 @end
 
@@ -36,7 +36,7 @@
 }
 
 - (void)layOutKehu {
-    self.kehu = [[KehuView alloc] initWithFrame:CGRectMake(0, 64, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT-64)];
+    self.kehu = [[ManageView alloc] initWithFrame:CGRectMake(0, 64, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT-64)];
     [self.view addSubview:self.kehu];
     self.kehu.tapBlk = ^(NSIndexPath *index){
         DetailInfoVC *detail = [[DetailInfoVC alloc] init];
@@ -49,6 +49,21 @@
     };
 
     [self setUpdata];
+    [self setNavBarOperatorItem];
+}
+
+- (void)setNavBarOperatorItem
+{
+    UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑"
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:self
+                                                                   action:@selector(edit:)];
+    self.navigationItem.rightBarButtonItem = operateItem;
+    [operateItem release];
+}
+
+- (void)edit:(id)sender {
+    [self.kehu.tbvHome setEditing:!self.kehu.tbvHome.editing animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,11 +73,11 @@
 
 - (void)setUpdata{
     NSMutableArray *tabMArr1 = [[NSMutableArray alloc] initWithCapacity:0];
-    NSDictionary *dic11 = @{@"name":@"张三",@"source":@"13656687678"};
-    NSDictionary *dic21 = @{@"name":@"李四",@"source":@"13656687679"};
-    NSDictionary *dic31 = @{@"name":@"王五",@"source":@"13656687677"};
-    NSDictionary *dic41 = @{@"name":@"赵六",@"source":@"13678898765"};
-    NSDictionary *dic51 = @{@"name":@"李七",@"source":@"13656687676"};
+    NSDictionary *dic11 = @{@"name":@"张三",@"source":@"13656687678",@"saleman":@"小李"};
+    NSDictionary *dic21 = @{@"name":@"李四",@"source":@"13656687679",@"saleman":@"小李"};
+    NSDictionary *dic31 = @{@"name":@"王五",@"source":@"13656687677",@"saleman":[NSNull null]};
+    NSDictionary *dic41 = @{@"name":@"赵六",@"source":@"13678898765",@"saleman":@"小李"};
+    NSDictionary *dic51 = @{@"name":@"李七",@"source":@"13656687676",@"saleman":@"小李"};
     [tabMArr1 addObject:dic11];
     [tabMArr1 addObject:dic21];
     [tabMArr1 addObject:dic31];

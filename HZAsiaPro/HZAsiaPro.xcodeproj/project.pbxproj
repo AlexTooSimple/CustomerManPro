@@ -106,6 +106,7 @@
 		02EB311A1B369AF200F3AB3F /* OperationClientContactVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB31191B369AF200F3AB3F /* OperationClientContactVC.m */; };
 		183185001B29A95200618CE1 /* UserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183184FF1B29A95200618CE1 /* UserView.m */; };
 		183185031B29B47C00618CE1 /* KehuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183185021B29B47C00618CE1 /* KehuView.m */; };
+		D41EF7DF1B50FBD000CA744A /* ManageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D41EF7DE1B50FBD000CA744A /* ManageView.m */; };
 		D43811161B41796100FF56DB /* AccountManageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D43811151B41796100FF56DB /* AccountManageVC.m */; };
 		D4EF705C1B4FEF21002E68EE /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF705B1B4FEF21002E68EE /* UserDetailViewController.m */; };
 		D4EF705F1B4FF49D002E68EE /* BaseTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF705E1B4FF49D002E68EE /* BaseTabView.m */; };
@@ -310,6 +311,8 @@
 		183184FF1B29A95200618CE1 /* UserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserView.m; sourceTree = "<group>"; };
 		183185011B29B47C00618CE1 /* KehuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KehuView.h; sourceTree = "<group>"; };
 		183185021B29B47C00618CE1 /* KehuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KehuView.m; sourceTree = "<group>"; };
+		D41EF7DD1B50FBD000CA744A /* ManageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageView.h; sourceTree = "<group>"; };
+		D41EF7DE1B50FBD000CA744A /* ManageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageView.m; sourceTree = "<group>"; };
 		D43811141B41796100FF56DB /* AccountManageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManageVC.h; sourceTree = "<group>"; };
 		D43811151B41796100FF56DB /* AccountManageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManageVC.m; sourceTree = "<group>"; };
 		D4EF705A1B4FEF21002E68EE /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailViewController.h; sourceTree = "<group>"; };
@@ -430,6 +433,8 @@
 				02997DE31B41267300D4F2AF /* ApproveCustomerView.m */,
 				D4EFC6CE1B4EBEF500017F29 /* AutoCustomVC.h */,
 				D4EFC6CF1B4EBEF500017F29 /* AutoCustomVC.m */,
+				D41EF7DD1B50FBD000CA744A /* ManageView.h */,
+				D41EF7DE1B50FBD000CA744A /* ManageView.m */,
 				D4EF70601B4FFFD6002E68EE /* SalesmanSelectVC.h */,
 				D4EF70611B4FFFD6002E68EE /* SalesmanSelectVC.m */,
 				D4EF705A1B4FEF21002E68EE /* UserDetailViewController.h */,
@@ -947,6 +952,7 @@
 				02C09D2D1B27D350009E823C /* View+MASAdditions.m in Sources */,
 				025760E11B28828400CE588A /* RefreshSingleView.m in Sources */,
 				D43811161B41796100FF56DB /* AccountManageVC.m in Sources */,
+				D41EF7DF1B50FBD000CA744A /* ManageView.m in Sources */,
 				021416A91B25892A00248D48 /* SafeManageVC.m in Sources */,
 				022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */,
 				021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */,
