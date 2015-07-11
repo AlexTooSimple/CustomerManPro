@@ -10,7 +10,7 @@
 
 @protocol ActionSheetViewDelegate;
 
-@interface ActionSheetView : NSObject<UIActionSheetDelegate>
+@interface ActionSheetView : NSObject
 {
     id<ActionSheetViewDelegate> actionDelegate;
     NSInteger tag;  //视图的tag

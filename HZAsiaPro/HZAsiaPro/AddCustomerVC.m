@@ -228,6 +228,7 @@ typedef enum ClickedView {
 #pragma mark - 初始化数据
 - (void)initData
 {
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
     //布局基本信息
     NSMutableArray *itemList = [[NSMutableArray alloc] initWithCapacity:0];
     NSMutableDictionary *nameDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
@@ -253,10 +254,10 @@ typedef enum ClickedView {
     //布局性别数据源
     NSDictionary *sexData1 = [[NSDictionary alloc] initWithObjectsAndKeys:
                               @"男",SOURCE_DATA_NAME_COULUM,
-                              @"1",SOURCE_DATA_ID_COLUM,nil];
+                              @"男",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *sexData2 = [[NSDictionary alloc] initWithObjectsAndKeys:
                               @"女",SOURCE_DATA_NAME_COULUM,
-                              @"2",SOURCE_DATA_ID_COLUM, nil];
+                              @"女",SOURCE_DATA_ID_COLUM, nil];
     NSArray *sexSource = [[NSArray alloc] initWithObjects:sexData1,sexData2, nil];
     [sexData1 release];
     [sexData2 release];
@@ -276,42 +277,8 @@ typedef enum ClickedView {
     [itemList addObject:phoneDic];
     [phoneDic release];
     
-    
-    //布局证件类型数据源
-    NSDictionary *certType1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *certType2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"身份证",SOURCE_DATA_NAME_COULUM,
-                               @"1",SOURCE_DATA_ID_COLUM,nil];
-
-    NSDictionary *certType3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"军人证",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *certType4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"户口簿",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
-
-    NSDictionary *certType5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"驾驶证",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *certType6 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"回乡证",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
-    
-    NSDictionary *certType7 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               @"护照",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSArray *certTypeSource = [[NSArray alloc] initWithObjects:
-                               certType1,certType2,certType3,certType4,certType5,certType6,certType7, nil];
-    [certType1 release];
-    [certType2 release];
-    [certType3 release];
-    [certType4 release];
-    [certType5 release];
-    [certType6 release];
-    [certType7 release];
-
+    NSArray *certTypeSource = [store getObjectById:CUSTOMER_ID_TYPE_LIST
+                                         fromTable:CUSTOMER_DB_TABLE];
     NSMutableDictionary *certTypeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                         @"证件类型",PLUS_CUSTOMER_TITLE,
                                         CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,
@@ -319,7 +286,6 @@ typedef enum ClickedView {
                                         [NSNumber numberWithInt:0],PLUS_INIT_VALUE,nil];
     [itemList addObject:certTypeDic];
     [certTypeDic release];
-    [certTypeSource release];
     
     NSMutableDictionary *certIDDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                      @"证件号码", PLUS_CUSTOMER_TITLE,
@@ -328,22 +294,8 @@ typedef enum ClickedView {
     [certIDDic release];
     
     //进展阶段数据源
-    NSDictionary *jinzhanjieduan1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     @"", SOURCE_DATA_NAME_COULUM,
-                                     @"0", SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *jinzhanjieduan2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     @"初次接触", SOURCE_DATA_NAME_COULUM,
-                                     @"0", SOURCE_DATA_ID_COLUM,nil];
-
-    NSDictionary *jinzhanjieduan3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     @"洽谈过程", SOURCE_DATA_NAME_COULUM,
-                                     @"0", SOURCE_DATA_ID_COLUM,nil];
-
-    NSDictionary *jinzhanjieduan4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     @"已经成交", SOURCE_DATA_NAME_COULUM,
-                                     @"0", SOURCE_DATA_ID_COLUM,nil];
-    NSArray *jinzhanSource = [[NSArray alloc] initWithObjects:jinzhanjieduan1,
-                              jinzhanjieduan2,jinzhanjieduan3,jinzhanjieduan4,nil];
+    NSArray *jinzhanSource = [store getObjectById:CUSTOMER_JINZHAN_JIEDUAN_LIST
+                                        fromTable:CUSTOMER_DB_TABLE];
     
     NSMutableDictionary *jianzhanjieduanDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"进展阶段", PLUS_CUSTOMER_TITLE,
@@ -352,7 +304,6 @@ typedef enum ClickedView {
                                       [NSNumber numberWithInteger:1],PLUS_INIT_VALUE,nil];
     [itemList addObject:jianzhanjieduanDic];
     [jianzhanjieduanDic release];
-    [jinzhanSource release];
     
     NSMutableDictionary *birthdayDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                        @"出生日期", PLUS_CUSTOMER_TITLE,
@@ -373,20 +324,8 @@ typedef enum ClickedView {
     [addressDic release];
     
     //职业数据源
-    NSDictionary *profession1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"",SOURCE_DATA_NAME_COULUM,
-                                 @"0",SOURCE_DATA_ID_COLUM, nil];
-    NSDictionary *profession2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"公务员",SOURCE_DATA_NAME_COULUM,
-                                 @"0",SOURCE_DATA_ID_COLUM, nil];
-    NSDictionary *profession3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"私营企业",SOURCE_DATA_NAME_COULUM,
-                                 @"0",SOURCE_DATA_ID_COLUM, nil];
-    NSArray *professionSource = [[NSArray alloc] initWithObjects:profession1,profession2,profession3, nil];
-    [profession1 release];
-    [profession2 release];
-    [profession3 release];
-    
+    NSArray *professionSource = [store getObjectById:CUSTOMER_PROFESSION_LIST
+                                           fromTable:CUSTOMER_DB_TABLE];
     NSMutableDictionary *professionDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"职业", PLUS_CUSTOMER_TITLE,
                                       CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,
@@ -397,68 +336,8 @@ typedef enum ClickedView {
     [professionSource release];
     
     //行业数据源
-    NSDictionary *hangye1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"旅游",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"金融",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"制造",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"物流",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye6 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"餐饮",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye7 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"娱乐",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye8 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"服装",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye9 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"外贸",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye10 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"政府",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye11 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"军队",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye12 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"食品",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye13 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"教育",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye14 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"建筑",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye15 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"计算机",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye16 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"信息",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye17 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"服务",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *hangye18 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"医疗卫生",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSArray *hangyeSource = [[NSArray alloc] initWithObjects:
-                             hangye1,hangye2,hangye3,hangye4,hangye5,hangye6,hangye7,hangye8,hangye9,
-                             hangye10,hangye11,hangye12,hangye13,hangye14,hangye15,hangye16,hangye17,hangye18,nil];
-    [hangye1 release];[hangye2 release];[hangye3 release];[hangye4 release];[hangye5 release];
-    [hangye6 release];[hangye7 release];[hangye8 release];[hangye9 release];[hangye10 release];
-    [hangye11 release];[hangye12 release];[hangye13 release];[hangye14 release];[hangye15 release];
-    [hangye16 release];[hangye17 release];[hangye18 release];
-    
+    NSArray *hangyeSource = [store getObjectById:CUSTOMER_INDUSTRY_LIST
+                                       fromTable:CUSTOMER_DB_TABLE];
     NSMutableDictionary *hangyeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"行业", PLUS_CUSTOMER_TITLE,
                                       CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,
@@ -471,13 +350,13 @@ typedef enum ClickedView {
     //婚烟数据源
     NSDictionary *marry1 = [[NSDictionary alloc] initWithObjectsAndKeys:
                             @"",SOURCE_DATA_NAME_COULUM,
-                            @"0",SOURCE_DATA_ID_COLUM, nil];
+                            @"",SOURCE_DATA_ID_COLUM, nil];
     NSDictionary *marry2 = [[NSDictionary alloc] initWithObjectsAndKeys:
                             @"已婚",SOURCE_DATA_NAME_COULUM,
-                            @"1",SOURCE_DATA_ID_COLUM, nil];
+                            @"已婚",SOURCE_DATA_ID_COLUM, nil];
     NSDictionary *marry3 = [[NSDictionary alloc] initWithObjectsAndKeys:
                             @"未婚",SOURCE_DATA_NAME_COULUM,
-                            @"2",SOURCE_DATA_ID_COLUM, nil];
+                            @"未婚",SOURCE_DATA_ID_COLUM, nil];
     NSArray *marrySource = [[NSArray alloc] initWithObjects:marry1,marry2,marry3, nil];
     [marry1 release];[marry2 release];[marry3 release];
     
@@ -491,26 +370,8 @@ typedef enum ClickedView {
     [marrySource release];
     
     //学历数据源
-    NSDictionary *xueli1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                            @"",SOURCE_DATA_NAME_COULUM,
-                            @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *xueli2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                            @"中专高中",SOURCE_DATA_NAME_COULUM,
-                            @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *xueli3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                            @"专科",SOURCE_DATA_NAME_COULUM,
-                            @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *xueli4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                            @"本科",SOURCE_DATA_NAME_COULUM,
-                            @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *xueli5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                            @"研究生",SOURCE_DATA_NAME_COULUM,
-                            @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *xueli6 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                            @"其他",SOURCE_DATA_NAME_COULUM,
-                            @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSArray *xueliSource = [[NSArray alloc] initWithObjects:xueli1,xueli2,xueli3,xueli4,xueli5,xueli6, nil];
-    [xueli1 release];[xueli2 release];[xueli3 release];[xueli4 release];[xueli5 release];[xueli6 release];
+    NSArray *xueliSource = [store getObjectById:CUSTOMER_EDUCATION_LIST
+                                      fromTable:CUSTOMER_DB_TABLE];
     
     NSMutableDictionary *xueliDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"学历", PLUS_CUSTOMER_TITLE,
@@ -535,30 +396,9 @@ typedef enum ClickedView {
     NSMutableArray *contactList = [[NSMutableArray alloc] initWithCapacity:0];
     
     //联系方式数据源
-    NSDictionary *contactType1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"来访",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
     
-    NSDictionary *contactType2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"来电",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-
-    NSDictionary *contactType3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"去电",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-
-    NSDictionary *contactType4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"来函",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-
-    NSDictionary *contactType5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"其他类型",SOURCE_DATA_NAME_COULUM,
-                                  @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSArray *contactTypeSource = [[NSArray alloc] initWithObjects:
-                                  contactType1,contactType2,contactType3,contactType4,contactType5, nil];
-    [contactType1 release]; [contactType2 release]; [contactType3 release]; [contactType4 release];
-    [contactType5 release];
-
+    NSArray *contactTypeSource = [store getObjectById:CUSTOMER_VISIT_TYPE_LIST
+                                            fromTable:CUSTOMER_DB_TABLE];
     
     NSMutableDictionary *contactTypeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     @"联系类型",PLUS_CUSTOMER_TITLE,
@@ -570,24 +410,8 @@ typedef enum ClickedView {
     [contactTypeSource release];
     
     //购买意向数据源
-    NSDictionary *purpose1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"",SOURCE_DATA_NAME_COULUM,
-                             @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"初步意向",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"绝对购买",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"强烈意向",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSDictionary *purpose5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"多次来访",SOURCE_DATA_NAME_COULUM,
-                              @"0",SOURCE_DATA_ID_COLUM,nil];
-    NSArray *purposeSource = [[NSArray alloc] initWithObjects:
-                              purpose1,purpose2,purpose3,purpose4,purpose5, nil];
-    [purpose1 release];[purpose2 release];[purpose3 release];[purpose4 release];[purpose5 release];
+    NSArray *purposeSource = [store getObjectById:CUSTOMER_PURPOSE_LIST
+                                        fromTable:CUSTOMER_DB_TABLE];
     
     NSMutableDictionary *purposeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                            @"购买意向",PLUS_CUSTOMER_TITLE,
@@ -602,16 +426,16 @@ typedef enum ClickedView {
     //来访形式数据源
     NSDictionary *visitType1 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @"单独",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
+                               @"单独",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitType2 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"夫妻",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"夫妻",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitType3 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"与家人",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"与家人",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitType4 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"与朋友",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"与朋友",SOURCE_DATA_ID_COLUM,nil];
     NSArray *visitTypeSource = [[NSArray alloc] initWithObjects:
                                 visitType1,visitType2,visitType3,visitType4, nil];
     [visitType4 release];[visitType1 release]; [visitType2 release];[visitType3 release];
@@ -635,13 +459,13 @@ typedef enum ClickedView {
     //来访频率数据源
     NSDictionary *visitNum1 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                 @"初访",SOURCE_DATA_NAME_COULUM,
-                                @"0",SOURCE_DATA_ID_COLUM,nil];
+                                @"初访",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitNum2 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @"再访",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
+                               @"再访",SOURCE_DATA_ID_COLUM,nil];
     NSDictionary *visitNum3 = [[NSDictionary alloc] initWithObjectsAndKeys:
                                @"其他",SOURCE_DATA_NAME_COULUM,
-                               @"0",SOURCE_DATA_ID_COLUM,nil];
+                               @"其他",SOURCE_DATA_ID_COLUM,nil];
     NSArray *visitNumSource = [[NSArray alloc] initWithObjects:visitNum1,visitNum2,visitNum3, nil];
     [visitNum1 release];[visitNum2 release];[visitNum3 release];
     
@@ -687,6 +511,8 @@ typedef enum ClickedView {
 
     self.contactShowDataList = contactList;
     [contactList release];
+    
+    [store release];
 
 }
 

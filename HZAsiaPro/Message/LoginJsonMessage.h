@@ -7,12 +7,7 @@
 //
 
 #import "JsonMessage.h"
-#define LOGIN_BIZCODE    @"hw0005"
-
-#define USER_IMSI		@""
-#define USER_BRAND      @"APPLE"
-#define USER_SVC        @""
-#define USER_OS         @"IOS"
+#define LOGIN_BIZCODE    @"login.do?"
 
 @interface LoginJsonMessage : JsonMessage
 {

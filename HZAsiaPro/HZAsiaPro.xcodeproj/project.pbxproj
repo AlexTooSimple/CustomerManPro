@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0203F6261AB2C77C004B6065 /* LoginMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0203F6251AB2C77C004B6065 /* LoginMessage.m */; };
 		02137C6B1ACA94E400C87B63 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 02137C671ACA94E400C87B63 /* MBProgressHUD.m */; };
 		02137C6C1ACA94E400C87B63 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 02137C681ACA94E400C87B63 /* SVProgressHUD.bundle */; };
 		02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 02137C6A1ACA94E400C87B63 /* SVProgressHUD.m */; };
@@ -23,6 +22,8 @@
 		021684101B2DA4AD00E94A47 /* ItemPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0216840F1B2DA4AD00E94A47 /* ItemPickerView.m */; };
 		021684131B2DB50700E94A47 /* MyDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 021684121B2DB50700E94A47 /* MyDatePickerView.m */; };
 		021684161B2DBB0100E94A47 /* NSDate-Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 021684151B2DBB0100E94A47 /* NSDate-Helper.m */; };
+		021B7A431B4F795A00DAC100 /* UploadAllCustomerMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 021B7A421B4F795A00DAC100 /* UploadAllCustomerMessage.m */; };
+		021B7A491B501E4600DAC100 /* AddVisitHistoryMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 021B7A481B501E4600DAC100 /* AddVisitHistoryMessage.m */; };
 		0222056E1B397D12005B827A /* tools_call.png in Resources */ = {isa = PBXBuildFile; fileRef = 0222056D1B397D12005B827A /* tools_call.png */; };
 		022205711B398000005B827A /* ActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 022205701B398000005B827A /* ActionSheetView.m */; };
 		022205731B3995DA005B827A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 022205721B3995DA005B827A /* MessageUI.framework */; };
@@ -74,9 +75,9 @@
 		0293A8491B2EF6FC0086C602 /* icon-plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0293A8471B2EF6FC0086C602 /* icon-plus@2x.png */; };
 		02997DE11B41254700D4F2AF /* ApproveCustomerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02997DE01B41254700D4F2AF /* ApproveCustomerVC.m */; };
 		02997DE41B41267300D4F2AF /* ApproveCustomerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02997DE31B41267300D4F2AF /* ApproveCustomerView.m */; };
-		029FE8671AB96DA9006882DE /* LoginJsonMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE8661AB96DA9006882DE /* LoginJsonMessage.m */; };
 		029FE86B1AB9768C006882DE /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE86A1AB9768C006882DE /* JSONKit.m */; };
 		029FE86E1ABAAACC006882DE /* bussineDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE86D1ABAAACC006882DE /* bussineDataService.m */; };
+		02A29EB71B50BB1900E97D0C /* GetVisitHistoryListMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A29EB61B50BB1900E97D0C /* GetVisitHistoryListMessage.m */; };
 		02C09D251B27D350009E823C /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D261B27D350009E823C /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D101B27D350009E823C /* MASConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D131B27D350009E823C /* MASConstraintMaker.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -101,6 +102,20 @@
 		02D15D021AAECB34004B2746 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFA1AAECB34004B2746 /* ALView+PureLayout.m */; };
 		02D15D031AAECB34004B2746 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFC1AAECB34004B2746 /* NSArray+PureLayout.m */; };
 		02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D15CFE1AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m */; };
+		02D83E1E1B4E5AA9008696A6 /* StaticDataMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E1D1B4E5AA9008696A6 /* StaticDataMessage.m */; };
+		02D83E211B4E5B31008696A6 /* LoginJsonMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E201B4E5B31008696A6 /* LoginJsonMessage.m */; };
+		02D83E271B4E6063008696A6 /* YTKKeyValueStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E251B4E6063008696A6 /* YTKKeyValueStore.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		02D83E341B4E608E008696A6 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E2A1B4E608E008696A6 /* FMDatabase.m */; };
+		02D83E351B4E608E008696A6 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E2C1B4E608E008696A6 /* FMDatabaseAdditions.m */; };
+		02D83E361B4E608E008696A6 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E2E1B4E608E008696A6 /* FMDatabasePool.m */; };
+		02D83E371B4E608E008696A6 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E301B4E608E008696A6 /* FMDatabaseQueue.m */; };
+		02D83E381B4E608E008696A6 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E331B4E608E008696A6 /* FMResultSet.m */; };
+		02D83E3A1B4E6656008696A6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 02D83E391B4E6656008696A6 /* libsqlite3.0.dylib */; };
+		02D83E3E1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D83E3D1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.m */; };
+		02E4AC121B46759C0081DF51 /* login_icon_a.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E4AC101B46759C0081DF51 /* login_icon_a.png */; };
+		02E4AC131B46759C0081DF51 /* login_icon_b.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E4AC111B46759C0081DF51 /* login_icon_b.png */; };
+		02E4AC161B4687EB0081DF51 /* login_button_a.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E4AC141B4687EB0081DF51 /* login_button_a.png */; };
+		02E4AC171B4687EB0081DF51 /* login_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 02E4AC151B4687EB0081DF51 /* login_button.png */; };
 		02EB31111B3455FE00F3AB3F /* input_moreline_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 02EB31101B3455FE00F3AB3F /* input_moreline_bg.png */; };
 		02EB31171B369ADA00F3AB3F /* OperationClientBasicInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB31161B369ADA00F3AB3F /* OperationClientBasicInfoVC.m */; };
 		02EB311A1B369AF200F3AB3F /* OperationClientContactVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB31191B369AF200F3AB3F /* OperationClientContactVC.m */; };
@@ -128,8 +143,6 @@
 
 /* Begin PBXFileReference section */
 		0203F6231AB2C75C004B6065 /* message_def.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = message_def.h; path = Message/message_def.h; sourceTree = SOURCE_ROOT; };
-		0203F6241AB2C77C004B6065 /* LoginMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginMessage.h; path = Message/LoginMessage.h; sourceTree = SOURCE_ROOT; };
-		0203F6251AB2C77C004B6065 /* LoginMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginMessage.m; path = Message/LoginMessage.m; sourceTree = SOURCE_ROOT; };
 		02137C661ACA94E400C87B63 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = Tools/SVProgressHUD/MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		02137C671ACA94E400C87B63 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = Tools/SVProgressHUD/MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
 		02137C681ACA94E400C87B63 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SVProgressHUD.bundle; path = Tools/SVProgressHUD/SVProgressHUD.bundle; sourceTree = SOURCE_ROOT; };
@@ -159,6 +172,10 @@
 		021684121B2DB50700E94A47 /* MyDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyDatePickerView.m; path = Tools/CommonTools/MyDatePickerView.m; sourceTree = SOURCE_ROOT; };
 		021684141B2DBB0100E94A47 /* NSDate-Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate-Helper.h"; path = "Tools/CommonTools/NSDate-Helper.h"; sourceTree = SOURCE_ROOT; };
 		021684151B2DBB0100E94A47 /* NSDate-Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate-Helper.m"; path = "Tools/CommonTools/NSDate-Helper.m"; sourceTree = SOURCE_ROOT; };
+		021B7A411B4F795A00DAC100 /* UploadAllCustomerMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadAllCustomerMessage.h; path = Message/UploadAllCustomerMessage.h; sourceTree = SOURCE_ROOT; };
+		021B7A421B4F795A00DAC100 /* UploadAllCustomerMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadAllCustomerMessage.m; path = Message/UploadAllCustomerMessage.m; sourceTree = SOURCE_ROOT; };
+		021B7A471B501E4600DAC100 /* AddVisitHistoryMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AddVisitHistoryMessage.h; path = Message/AddVisitHistoryMessage.h; sourceTree = SOURCE_ROOT; };
+		021B7A481B501E4600DAC100 /* AddVisitHistoryMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AddVisitHistoryMessage.m; path = Message/AddVisitHistoryMessage.m; sourceTree = SOURCE_ROOT; };
 		0222056D1B397D12005B827A /* tools_call.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tools_call.png; path = image/tools_call.png; sourceTree = SOURCE_ROOT; };
 		0222056F1B398000005B827A /* ActionSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetView.h; path = Tools/CommonTools/ActionSheetView.h; sourceTree = SOURCE_ROOT; };
 		022205701B398000005B827A /* ActionSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionSheetView.m; path = Tools/CommonTools/ActionSheetView.m; sourceTree = SOURCE_ROOT; };
@@ -248,12 +265,12 @@
 		02997DE01B41254700D4F2AF /* ApproveCustomerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApproveCustomerVC.m; sourceTree = "<group>"; };
 		02997DE21B41267300D4F2AF /* ApproveCustomerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApproveCustomerView.h; sourceTree = "<group>"; };
 		02997DE31B41267300D4F2AF /* ApproveCustomerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApproveCustomerView.m; sourceTree = "<group>"; };
-		029FE8651AB96DA9006882DE /* LoginJsonMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginJsonMessage.h; sourceTree = "<group>"; };
-		029FE8661AB96DA9006882DE /* LoginJsonMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginJsonMessage.m; sourceTree = "<group>"; };
 		029FE8691AB9768C006882DE /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = Tools/JSON/JSONKit.h; sourceTree = SOURCE_ROOT; };
 		029FE86A1AB9768C006882DE /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = Tools/JSON/JSONKit.m; sourceTree = SOURCE_ROOT; };
 		029FE86C1ABAAACC006882DE /* bussineDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bussineDataService.h; path = Bussiness/bussineDataService.h; sourceTree = SOURCE_ROOT; };
 		029FE86D1ABAAACC006882DE /* bussineDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = bussineDataService.m; path = Bussiness/bussineDataService.m; sourceTree = SOURCE_ROOT; };
+		02A29EB51B50BB1900E97D0C /* GetVisitHistoryListMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetVisitHistoryListMessage.h; path = Message/GetVisitHistoryListMessage.h; sourceTree = SOURCE_ROOT; };
+		02A29EB61B50BB1900E97D0C /* GetVisitHistoryListMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetVisitHistoryListMessage.m; path = Message/GetVisitHistoryListMessage.m; sourceTree = SOURCE_ROOT; };
 		02C09D0D1B27D350009E823C /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Tools/Masonry/MASCompositeConstraint.h; sourceTree = SOURCE_ROOT; };
 		02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASCompositeConstraint.m; path = Tools/Masonry/MASCompositeConstraint.m; sourceTree = SOURCE_ROOT; };
 		02C09D0F1B27D350009E823C /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASConstraint.h; path = Tools/Masonry/MASConstraint.h; sourceTree = SOURCE_ROOT; };
@@ -302,6 +319,30 @@
 		02D15CFF1AAECB34004B2746 /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PureLayout.h; path = Tools/PureLayout/PureLayout.h; sourceTree = SOURCE_ROOT; };
 		02D15D001AAECB34004B2746 /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "PureLayout+Internal.h"; path = "Tools/PureLayout/PureLayout+Internal.h"; sourceTree = SOURCE_ROOT; };
 		02D15D011AAECB34004B2746 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PureLayoutDefines.h; path = Tools/PureLayout/PureLayoutDefines.h; sourceTree = SOURCE_ROOT; };
+		02D83E1C1B4E5AA9008696A6 /* StaticDataMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StaticDataMessage.h; path = Message/StaticDataMessage.h; sourceTree = SOURCE_ROOT; };
+		02D83E1D1B4E5AA9008696A6 /* StaticDataMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StaticDataMessage.m; path = Message/StaticDataMessage.m; sourceTree = SOURCE_ROOT; };
+		02D83E1F1B4E5B31008696A6 /* LoginJsonMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginJsonMessage.h; path = Message/LoginJsonMessage.h; sourceTree = SOURCE_ROOT; };
+		02D83E201B4E5B31008696A6 /* LoginJsonMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginJsonMessage.m; path = Message/LoginJsonMessage.m; sourceTree = SOURCE_ROOT; };
+		02D83E241B4E6063008696A6 /* YTKKeyValueStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YTKKeyValueStore.h; path = Tools/YTKKeyValueStore/YTKKeyValueStore.h; sourceTree = SOURCE_ROOT; };
+		02D83E251B4E6063008696A6 /* YTKKeyValueStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YTKKeyValueStore.m; path = Tools/YTKKeyValueStore/YTKKeyValueStore.m; sourceTree = SOURCE_ROOT; };
+		02D83E291B4E608E008696A6 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = Tools/YTKKeyValueStore/FMDB/FMDatabase.h; sourceTree = SOURCE_ROOT; };
+		02D83E2A1B4E608E008696A6 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = Tools/YTKKeyValueStore/FMDB/FMDatabase.m; sourceTree = SOURCE_ROOT; };
+		02D83E2B1B4E608E008696A6 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = Tools/YTKKeyValueStore/FMDB/FMDatabaseAdditions.h; sourceTree = SOURCE_ROOT; };
+		02D83E2C1B4E608E008696A6 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = Tools/YTKKeyValueStore/FMDB/FMDatabaseAdditions.m; sourceTree = SOURCE_ROOT; };
+		02D83E2D1B4E608E008696A6 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = Tools/YTKKeyValueStore/FMDB/FMDatabasePool.h; sourceTree = SOURCE_ROOT; };
+		02D83E2E1B4E608E008696A6 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = Tools/YTKKeyValueStore/FMDB/FMDatabasePool.m; sourceTree = SOURCE_ROOT; };
+		02D83E2F1B4E608E008696A6 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = Tools/YTKKeyValueStore/FMDB/FMDatabaseQueue.h; sourceTree = SOURCE_ROOT; };
+		02D83E301B4E608E008696A6 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = Tools/YTKKeyValueStore/FMDB/FMDatabaseQueue.m; sourceTree = SOURCE_ROOT; };
+		02D83E311B4E608E008696A6 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDB.h; path = Tools/YTKKeyValueStore/FMDB/FMDB.h; sourceTree = SOURCE_ROOT; };
+		02D83E321B4E608E008696A6 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = Tools/YTKKeyValueStore/FMDB/FMResultSet.h; sourceTree = SOURCE_ROOT; };
+		02D83E331B4E608E008696A6 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = Tools/YTKKeyValueStore/FMDB/FMResultSet.m; sourceTree = SOURCE_ROOT; };
+		02D83E391B4E6656008696A6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		02D83E3C1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchCustomerWithConditionMessage.h; path = Message/SearchCustomerWithConditionMessage.h; sourceTree = SOURCE_ROOT; };
+		02D83E3D1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchCustomerWithConditionMessage.m; path = Message/SearchCustomerWithConditionMessage.m; sourceTree = SOURCE_ROOT; };
+		02E4AC101B46759C0081DF51 /* login_icon_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login_icon_a.png; path = image/login_icon_a.png; sourceTree = SOURCE_ROOT; };
+		02E4AC111B46759C0081DF51 /* login_icon_b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login_icon_b.png; path = image/login_icon_b.png; sourceTree = SOURCE_ROOT; };
+		02E4AC141B4687EB0081DF51 /* login_button_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login_button_a.png; path = image/login_button_a.png; sourceTree = SOURCE_ROOT; };
+		02E4AC151B4687EB0081DF51 /* login_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login_button.png; path = image/login_button.png; sourceTree = SOURCE_ROOT; };
 		02EB31101B3455FE00F3AB3F /* input_moreline_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = input_moreline_bg.png; path = image/input_moreline_bg.png; sourceTree = SOURCE_ROOT; };
 		02EB31151B369ADA00F3AB3F /* OperationClientBasicInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationClientBasicInfoVC.h; sourceTree = "<group>"; };
 		02EB31161B369ADA00F3AB3F /* OperationClientBasicInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationClientBasicInfoVC.m; sourceTree = "<group>"; };
@@ -334,6 +375,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02D83E3A1B4E6656008696A6 /* libsqlite3.0.dylib in Frameworks */,
 				02937F7B1B43B9B7004324B6 /* Foundation.framework in Frameworks */,
 				02937F791B43B9AB004324B6 /* UIKit.framework in Frameworks */,
 				022205731B3995DA005B827A /* MessageUI.framework in Frameworks */,
@@ -354,10 +396,10 @@
 		0203F6221AB2C602004B6065 /* login */ = {
 			isa = PBXGroup;
 			children = (
-				0203F6241AB2C77C004B6065 /* LoginMessage.h */,
-				0203F6251AB2C77C004B6065 /* LoginMessage.m */,
-				029FE8651AB96DA9006882DE /* LoginJsonMessage.h */,
-				029FE8661AB96DA9006882DE /* LoginJsonMessage.m */,
+				02D83E1F1B4E5B31008696A6 /* LoginJsonMessage.h */,
+				02D83E201B4E5B31008696A6 /* LoginJsonMessage.m */,
+				02D83E1C1B4E5AA9008696A6 /* StaticDataMessage.h */,
+				02D83E1D1B4E5AA9008696A6 /* StaticDataMessage.m */,
 			);
 			name = login;
 			sourceTree = "<group>";
@@ -552,6 +594,7 @@
 		022964711AA6B1E500D5BFE5 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				02D83E3B1B4E8A48008696A6 /* customerMan */,
 				0203F6221AB2C602004B6065 /* login */,
 				028207611AB03EB900951CB2 /* JsonMessage.h */,
 				028207621AB03EB900951CB2 /* JsonMessage.m */,
@@ -576,6 +619,7 @@
 		022964731AA6B21200D5BFE5 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				02D83E221B4E6045008696A6 /* YTKKeyValueStore */,
 				021683F41B2D671000E94A47 /* ICSDrawerController */,
 				02C09D0B1B27D336009E823C /* Masonry */,
 				0280D47D1B009F6000993641 /* CommonTools */,
@@ -629,6 +673,10 @@
 		025760DA1B286BF900CE588A /* image */ = {
 			isa = PBXGroup;
 			children = (
+				02E4AC141B4687EB0081DF51 /* login_button_a.png */,
+				02E4AC151B4687EB0081DF51 /* login_button.png */,
+				02E4AC101B46759C0081DF51 /* login_icon_a.png */,
+				02E4AC111B46759C0081DF51 /* login_icon_b.png */,
 				02937F7E1B43CCD6004324B6 /* new_user_picker_bg.png */,
 				02937F7C1B43BF02004324B6 /* ico_sms_c.png */,
 				0222056D1B397D12005B827A /* tools_call.png */,
@@ -688,6 +736,7 @@
 			children = (
 				022205721B3995DA005B827A /* MessageUI.framework */,
 				028310101AB6C654004364F7 /* libxml2.dylib */,
+				02D83E391B4E6656008696A6 /* libsqlite3.0.dylib */,
 				02937F7A1B43B9B7004324B6 /* Foundation.framework */,
 				02937F781B43B9AB004324B6 /* UIKit.framework */,
 			);
@@ -781,6 +830,49 @@
 			name = PureLayout;
 			sourceTree = "<group>";
 		};
+		02D83E221B4E6045008696A6 /* YTKKeyValueStore */ = {
+			isa = PBXGroup;
+			children = (
+				02D83E281B4E6073008696A6 /* FDMB */,
+				02D83E241B4E6063008696A6 /* YTKKeyValueStore.h */,
+				02D83E251B4E6063008696A6 /* YTKKeyValueStore.m */,
+			);
+			name = YTKKeyValueStore;
+			sourceTree = "<group>";
+		};
+		02D83E281B4E6073008696A6 /* FDMB */ = {
+			isa = PBXGroup;
+			children = (
+				02D83E291B4E608E008696A6 /* FMDatabase.h */,
+				02D83E2A1B4E608E008696A6 /* FMDatabase.m */,
+				02D83E2B1B4E608E008696A6 /* FMDatabaseAdditions.h */,
+				02D83E2C1B4E608E008696A6 /* FMDatabaseAdditions.m */,
+				02D83E2D1B4E608E008696A6 /* FMDatabasePool.h */,
+				02D83E2E1B4E608E008696A6 /* FMDatabasePool.m */,
+				02D83E2F1B4E608E008696A6 /* FMDatabaseQueue.h */,
+				02D83E301B4E608E008696A6 /* FMDatabaseQueue.m */,
+				02D83E311B4E608E008696A6 /* FMDB.h */,
+				02D83E321B4E608E008696A6 /* FMResultSet.h */,
+				02D83E331B4E608E008696A6 /* FMResultSet.m */,
+			);
+			name = FDMB;
+			sourceTree = "<group>";
+		};
+		02D83E3B1B4E8A48008696A6 /* customerMan */ = {
+			isa = PBXGroup;
+			children = (
+				02A29EB51B50BB1900E97D0C /* GetVisitHistoryListMessage.h */,
+				02A29EB61B50BB1900E97D0C /* GetVisitHistoryListMessage.m */,
+				02D83E3C1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.h */,
+				02D83E3D1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.m */,
+				021B7A411B4F795A00DAC100 /* UploadAllCustomerMessage.h */,
+				021B7A421B4F795A00DAC100 /* UploadAllCustomerMessage.m */,
+				021B7A471B501E4600DAC100 /* AddVisitHistoryMessage.h */,
+				021B7A481B501E4600DAC100 /* AddVisitHistoryMessage.m */,
+			);
+			name = customerMan;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -863,7 +955,9 @@
 			files = (
 				02C86A211B2C1A8600C37CE7 /* th@2x.png in Resources */,
 				0293A8421B2EF2450086C602 /* iconSearch.png in Resources */,
+				02E4AC121B46759C0081DF51 /* login_icon_a.png in Resources */,
 				0293A83F1B2EF2450086C602 /* icon_login_account@2x.png in Resources */,
+				02E4AC131B46759C0081DF51 /* login_icon_b.png in Resources */,
 				02C86A2A1B2D4FDA00C37CE7 /* bg_content_select_n.png in Resources */,
 				02EB31111B3455FE00F3AB3F /* input_moreline_bg.png in Resources */,
 				024C6B291B26DB7F00B19543 /* Icon.png in Resources */,
@@ -872,11 +966,13 @@
 				0229645A1AA6AFE700D5BFE5 /* LaunchScreen.xib in Resources */,
 				02C86A291B2D4FDA00C37CE7 /* bg_content_select_hover@2x.png in Resources */,
 				0222056E1B397D12005B827A /* tools_call.png in Resources */,
+				02E4AC161B4687EB0081DF51 /* login_button_a.png in Resources */,
 				024C6B2A1B26DB7F00B19543 /* Icon@2x.png in Resources */,
 				0293A8491B2EF6FC0086C602 /* icon-plus@2x.png in Resources */,
 				024C6B281B26DB7F00B19543 /* Icon-60@3x.png in Resources */,
 				0293A83E1B2EF2450086C602 /* icon_login_account.png in Resources */,
 				02C86A2D1B2D4FDA00C37CE7 /* input_bg.png in Resources */,
+				02E4AC171B4687EB0081DF51 /* login_button.png in Resources */,
 				02C86A201B2C1A8600C37CE7 /* th.png in Resources */,
 				02137C6C1ACA94E400C87B63 /* SVProgressHUD.bundle in Resources */,
 				0293A8481B2EF6FC0086C602 /* icon-plus.png in Resources */,
@@ -909,6 +1005,7 @@
 				028207701AB1889200951CB2 /* message.m in Sources */,
 				0229648F1AA6B2E000D5BFE5 /* AFURLRequestSerialization.m in Sources */,
 				183185001B29A95200618CE1 /* UserView.m in Sources */,
+				02D83E381B4E608E008696A6 /* FMResultSet.m in Sources */,
 				0216840D1B2D870600E94A47 /* ModelConditionNavVC.m in Sources */,
 				0229649A1AA6B3F100D5BFE5 /* LoginView.m in Sources */,
 				02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */,
@@ -916,24 +1013,31 @@
 				02C86A131B2AEA5C00C37CE7 /* SearchConditionView.m in Sources */,
 				022205711B398000005B827A /* ActionSheetView.m in Sources */,
 				0293A8451B2EF4100086C602 /* ADDPictureView.m in Sources */,
+				02D83E1E1B4E5AA9008696A6 /* StaticDataMessage.m in Sources */,
 				021684071B2D7BCF00E94A47 /* ICSDropShadowView.m in Sources */,
+				02D83E341B4E608E008696A6 /* FMDatabase.m in Sources */,
 				02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */,
 				02C86A1C1B2C161A00C37CE7 /* ConcactHistoryView.m in Sources */,
 				02997DE41B41267300D4F2AF /* ApproveCustomerView.m in Sources */,
 				0229648E1AA6B2E000D5BFE5 /* AFURLConnectionOperation.m in Sources */,
 				D4EF705C1B4FEF21002E68EE /* UserDetailViewController.m in Sources */,
 				02EB31171B369ADA00F3AB3F /* OperationClientBasicInfoVC.m in Sources */,
+				02D83E361B4E608E008696A6 /* FMDatabasePool.m in Sources */,
 				02997DE11B41254700D4F2AF /* ApproveCustomerVC.m in Sources */,
 				02137C6D1ACA94E400C87B63 /* SVProgressHUD.m in Sources */,
 				D4EF70621B4FFFD6002E68EE /* SalesmanSelectVC.m in Sources */,
 				022F36931B2FCE7600A1F3AA /* AddCustomerView.m in Sources */,
+				021B7A491B501E4600DAC100 /* AddVisitHistoryMessage.m in Sources */,
+				021B7A431B4F795A00DAC100 /* UploadAllCustomerMessage.m in Sources */,
+				02D83E3E1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.m in Sources */,
 				0280D4801B009F7700993641 /* AlertShowView.m in Sources */,
 				025760E41B28832600CE588A /* RefreshTableHeaderView.m in Sources */,
 				02C09D291B27D350009E823C /* MASViewAttribute.m in Sources */,
-				029FE8671AB96DA9006882DE /* LoginJsonMessage.m in Sources */,
 				02C09D2B1B27D350009E823C /* NSArray+MASAdditions.m in Sources */,
 				021684131B2DB50700E94A47 /* MyDatePickerView.m in Sources */,
+				02D83E351B4E608E008696A6 /* FMDatabaseAdditions.m in Sources */,
 				0229648D1AA6B2E000D5BFE5 /* AFSecurityPolicy.m in Sources */,
+				02D83E211B4E5B31008696A6 /* LoginJsonMessage.m in Sources */,
 				021684061B2D7BCF00E94A47 /* ICSDrawerController.m in Sources */,
 				02C09D251B27D350009E823C /* MASCompositeConstraint.m in Sources */,
 				D4F0738E1B3C376A00371F37 /* HomePageSetVC.m in Sources */,
@@ -946,6 +1050,7 @@
 				0293A8381B2EF07D0086C602 /* AddCustomerVC.m in Sources */,
 				0224E98D1B38EDC60080067A /* VerifyCustomerVC.m in Sources */,
 				022964911AA6B2E000D5BFE5 /* AFURLSessionManager.m in Sources */,
+				02D83E271B4E6063008696A6 /* YTKKeyValueStore.m in Sources */,
 				022964901AA6B2E000D5BFE5 /* AFURLResponseSerialization.m in Sources */,
 				0216840A1B2D845D00E94A47 /* ModelCustomerNavVC.m in Sources */,
 				D4EF705F1B4FF49D002E68EE /* BaseTabView.m in Sources */,
@@ -954,6 +1059,7 @@
 				D43811161B41796100FF56DB /* AccountManageVC.m in Sources */,
 				D41EF7DF1B50FBD000CA744A /* ManageView.m in Sources */,
 				021416A91B25892A00248D48 /* SafeManageVC.m in Sources */,
+				02D83E371B4E608E008696A6 /* FMDatabaseQueue.m in Sources */,
 				022964551AA6AFE700D5BFE5 /* AppDelegate.m in Sources */,
 				021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */,
 				02EB311A1B369AF200F3AB3F /* OperationClientContactVC.m in Sources */,
@@ -962,7 +1068,6 @@
 				0229648B1AA6B2E000D5BFE5 /* AFHTTPSessionManager.m in Sources */,
 				0229648A1AA6B2E000D5BFE5 /* AFHTTPRequestOperationManager.m in Sources */,
 				029FE86B1AB9768C006882DE /* JSONKit.m in Sources */,
-				0203F6261AB2C77C004B6065 /* LoginMessage.m in Sources */,
 				021416B01B25896100248D48 /* HomeInfoVC.m in Sources */,
 				022964941AA6B2FF00D5BFE5 /* HttpConnector.m in Sources */,
 				028207631AB03EB900951CB2 /* JsonMessage.m in Sources */,
@@ -971,6 +1076,7 @@
 				0229648C1AA6B2E000D5BFE5 /* AFNetworkReachabilityManager.m in Sources */,
 				0229649D1AA6B43100D5BFE5 /* LoginVC.m in Sources */,
 				D4F073911B3C3F4700371F37 /* MySwitch.m in Sources */,
+				02A29EB71B50BB1900E97D0C /* GetVisitHistoryListMessage.m in Sources */,
 				D4EFC6D01B4EBEF500017F29 /* AutoCustomVC.m in Sources */,
 				021683FE1B2D67DE00E94A47 /* SearchConditionVC.m in Sources */,
 				02C09D281B27D350009E823C /* MASLayoutConstraint.m in Sources */,
@@ -1095,7 +1201,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jiang Xin Yu (7VNEARXQS5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wu hui (ZKPGN57U5Q)";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
@@ -1104,7 +1210,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5f12bc67-69b9-4960-b24e-4e6da73907e7";
+				PROVISIONING_PROFILE = "30659116-3ee4-407c-95a5-eed3302be62b";
 			};
 			name = Debug;
 		};
@@ -1123,7 +1229,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5f12bc67-69b9-4960-b24e-4e6da73907e7";
+				PROVISIONING_PROFILE = "30659116-3ee4-407c-95a5-eed3302be62b";
 			};
 			name = Release;
 		};

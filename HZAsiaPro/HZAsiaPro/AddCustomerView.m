@@ -153,7 +153,9 @@
                     break;
                 }
             }
-            
+            if (detailText == nil) {
+                detailText = @"";
+            }
             [customerData setObject:detailText forKey:title];
             
         }else if ([dataType isEqualToString:CUSTOMER_TEXTVIEW_TYPE]){
@@ -168,7 +170,9 @@
                     break;
                 }
             }
-            
+            if (detailText == nil) {
+                detailText = @"";
+            }
             [customerData setObject:detailText forKey:title];
         
         }else if ([dataType isEqualToString:CUSTOMER_DATE_SELECT_TYPE]){
@@ -182,6 +186,9 @@
                     break;
                 }
             }
+            if (detailText == nil) {
+                detailText = @"";
+            }
             [customerData setObject:detailText forKey:title];
         
         }else if ([dataType isEqualToString:CUSTOMER_TIME_SELECT_TYPE]){
@@ -194,6 +201,9 @@
                     [message appendFormat:@"%@不能为空,请选择%@!",title,title];
                     break;
                 }
+            }
+            if (detailText == nil) {
+                detailText = @"";
             }
             [customerData setObject:detailText forKey:title];
         }

@@ -14,9 +14,13 @@
 
 #import "AlertShowView.h"
 #import "Masonry.h"
+#import "YTKKeyValueStore.h"
 
-#define service_IP                  @"http://42.121.57.229:8080"
-#define service_url                 service_IP@"/dealer/MAPPService"
+#define service_IP                  @"http://127.0.0.1:8080"
+//#define service_IP                  @"http://115.236.80.150:18080"
+#define service_url                 service_IP@"/huige/main/"
+
+
 
 #define UserInfo    @"userInfo"     //用户信息
 #define Nocontent   @"Nocontent"    //未联系客户
@@ -38,5 +42,33 @@
 
 #define SOURCE_DATA_ID_COLUM           @"id"
 #define SOURCE_DATA_NAME_COULUM        @"name"
+
+#define RESPONE_RESULT_TRUE             @"true"
+#define RESPONE_RESULT_FALSE            @"false"
+
+#define PRO_MANAGER_LIMIT               1
+
+#define CUSTOMER_DATA_BASE_DB                     @"customer_wh_ylj.db"
+#define CUSTOMER_DB_TABLE                         @"CUSTOMER_DB_TABLE"
+
+
+#define CUSTOMER_USERINFO                         @"CUSTOMER_USERINFO"
+#define CUSTOMER_VISIT_TYPE_LIST                  @"CUSTOMER_VISIT_TYPE_LIST"
+#define CUSTOMER_CLIENT_TYPE_LIST                 @"CUSTOMER_CLIENT_TYPE_LIST"
+#define CUSTOMER_SALE_CONDITION_LIST              @"CUSTOMER_SALE_CONDITION_LIST"
+#define CUSTOMER_PURPOSE_LIST                     @"CUSTOMER_PURPOSE_LIST"
+
+#define CUSTOMER_JINZHAN_JIEDUAN_LIST             @"CUSTOMER_JINZHAN_JIEDUAN_LIST"
+#define CUSTOMER_JINZHAN_JIEDUAN_DIC              @"CUSTOMER_JINZHAN_JIEDUAN_DIC"
+#define CUSTOMER_ID_TYPE_LIST                     @"CUSTOMER_ID_TYPE_LIST"
+#define CUSTOMER_ID_TYPE_DIC                      @"CUSTOMER_ID_TYPE_DIC"
+#define CUSTOMER_PROFESSION_LIST                  @"CUSTOMER_PROFESSION_LIST"//职业
+#define CUSTOMER_PROFESSION_DIC                   @"CUSTOMER_PROFESSION_DIC"//职业
+#define CUSTOMER_INDUSTRY_LIST                    @"CUSTOMER_INDUSTRY_LIST"//行业
+#define CUSTOMER_INDUSTRY_DIC                     @"CUSTOMER_INDUSTRY_DIC"//行业
+#define CUSTOMER_EDUCATION_LIST                   @"CUSTOMER_EDUCATION_LIST"//学历
+#define CUSTOMER_EDUCATION_DIC                    @"CUSTOMER_EDUCATION_DIC"//学历
+
+
 
 #endif

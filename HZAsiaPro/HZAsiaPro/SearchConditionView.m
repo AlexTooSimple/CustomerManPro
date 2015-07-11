@@ -168,75 +168,26 @@ typedef enum ClickedDateType{
 
 - (void)initData
 {
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
     //购买意向数据源
+    NSMutableArray *purposeList = [store getObjectById:CUSTOMER_PURPOSE_LIST
+                                             fromTable:CUSTOMER_DB_TABLE];
     NSMutableArray *itemData = [[NSMutableArray alloc] initWithCapacity:0];
-    NSMutableDictionary *purData1 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                     @"初步意向",@"title",
-                                     @"0",@"select",nil];
-    [itemData addObject:purData1];
-    [purData1 release];
-    
-    NSMutableDictionary *purData2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                     @"决定购买",@"title",
-                                     @"0",@"select",nil];
-    [itemData addObject:purData2];
-    [purData2 release];
-    
-    NSMutableDictionary *purData3 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                     @"强烈意向",@"title",
-                                     @"0",@"select",nil];
-    [itemData addObject:purData3];
-    [purData3 release];
-    
-    NSMutableDictionary *purData4 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                     @"多次来访",@"title",
-                                     @"0",@"select",nil];
-    [itemData addObject:purData4];
-    [purData4 release];
-    
+    for (NSDictionary *oneItem in purposeList) {
+        NSMutableDictionary *copyItem = [[NSMutableDictionary alloc] initWithDictionary:oneItem
+                                                                              copyItems:YES];
+        [copyItem setObject:@"0" forKey:@"select"];
+        [itemData addObject:copyItem];
+        [copyItem release];
+    }
     self.purposeData = itemData;
     [itemData release];
     
     //来访模式数据源
-    NSMutableArray *visitDatas = [[NSMutableArray alloc] initWithCapacity:0];
-    NSDictionary *visitData1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                @"0",@"key",
-                                @"全部",@"value",nil];
-    [visitDatas addObject:visitData1];
-    [visitData1 release];
     
-    NSDictionary *visitData2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                @"1",@"key",
-                                @"来访",@"value",nil];
-    [visitDatas addObject:visitData2];
-    [visitData2 release];
-    
-    NSDictionary *visitData3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                @"2",@"key",
-                                @"来电",@"value",nil];
-    [visitDatas addObject:visitData3];
-    [visitData3 release];
-    
-    NSDictionary *visitData4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                @"3",@"key",
-                                @"去电",@"value",nil];
-    [visitDatas addObject:visitData4];
-    [visitData4 release];
-    
-    NSDictionary *visitData5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                @"4",@"key",
-                                @"来函",@"value",nil];
-    [visitDatas addObject:visitData5];
-    [visitData5 release];
-    
-    NSDictionary *visitData6 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                @"5",@"key",
-                                @"其他类型",@"value",nil];
-    [visitDatas addObject:visitData6];
-    [visitData6 release];
-    
+    NSArray *visitDatas = [store getObjectById:CUSTOMER_VISIT_TYPE_LIST
+                                     fromTable:CUSTOMER_DB_TABLE];
     self.visitDataSource = visitDatas;
-    [visitDatas release];
     
     //客户类型数据源
     NSMutableArray *clientTypeDatas = [[NSMutableArray alloc] initWithCapacity:0];
@@ -295,6 +246,8 @@ typedef enum ClickedDateType{
 
     self.saleStatesDataSource = saleStateDatas;
     [saleStateDatas release];
+    
+    [store release];
     
 }
 
@@ -371,7 +324,7 @@ typedef enum ClickedDateType{
     NSInteger row = [indexPath row];
     NSDictionary *data = [self.purposeData objectAtIndex:row];
     
-    titleLabel.text = [data objectForKey:@"title"];
+    titleLabel.text = [data objectForKey:@"name"];
     
     NSString *selectFlag = [data objectForKey:@"select"];
     if ([selectFlag isEqualToString:@"0"]) {
@@ -470,21 +423,21 @@ typedef enum ClickedDateType{
             txtField.text = [[self.visitDataSource objectAtIndex:visitSelectRow] objectForKey:@"value"];
         }
             break;
+//        case 6:
+//        {
+//            sectionView = [self customerSectionSelectViewWithTitle:@"业务员:"
+//                                                           withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_sale_man];
+//            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+//            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
+//        }
+//            break;
         case 6:
-        {
-            sectionView = [self customerSectionSelectViewWithTitle:@"业务员:"
-                                                           withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_sale_man];
-            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
-        }
-            break;
-        case 7:
         {
             sectionView = [self customerSelectSlideViewWithTitle:@"变动客户:"];
         }
             break;
             
-        case 8:
+        case 7:
         {
             sectionView = [self customerSectionSelectViewWithTitle:@"客户类别:"
                                                            withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_client_type];
@@ -493,15 +446,15 @@ typedef enum ClickedDateType{
             txtField.text = [[self.clientTypeDataSource objectAtIndex:clientTypeSelectRow] objectForKey:@"value"];
         }
             break;
-        case 9:
-        {
-            sectionView = [self customerSectionSelectViewWithTitle:@"销售情况:"
-                                                           withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_sale_status];
-            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
-            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
-            txtField.text = [[self.saleStatesDataSource objectAtIndex:saleStateSelectRow] objectForKey:@"value"];
-        }
-            break;
+//        case 9:
+//        {
+//            sectionView = [self customerSectionSelectViewWithTitle:@"销售情况:"
+//                                                           withTag:SINGLE_CLICKED_BUTTON_BASE_TAG + click_sale_status];
+//            UIView *inputView = [sectionView viewWithTag:CONDITION_INPUT_VIEW_TAG];
+//            UILabel *txtField = (UILabel *)[inputView viewWithTag:CONDITION__LABEL_TAG];
+//            txtField.text = [[self.saleStatesDataSource objectAtIndex:saleStateSelectRow] objectForKey:@"value"];
+//        }
+//            break;
         default:
             break;
     }
@@ -540,9 +493,9 @@ typedef enum ClickedDateType{
             NSDictionary *updateData = [self.purposeData objectAtIndex:i];
             if ([[updateData objectForKey:@"select"] isEqualToString:@"1"]) {
                 if ([purposeStr length] == 0) {
-                    [purposeStr appendFormat:@"%@",[updateData objectForKey:@"title"]];
+                    [purposeStr appendFormat:@"%@",[updateData objectForKey:SOURCE_DATA_NAME_COULUM]];
                 }else{
-                    [purposeStr appendFormat:@",%@",[updateData objectForKey:@"title"]];
+                    [purposeStr appendFormat:@",%@",[updateData objectForKey:SOURCE_DATA_NAME_COULUM]];
                 }
             }else{
                 continue;
@@ -561,7 +514,7 @@ typedef enum ClickedDateType{
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 10;
+    return 8;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -864,23 +817,26 @@ typedef enum ClickedDateType{
     if (self.endDateToField.text != nil && ![self.endDateToField.text isEqualToString:@""]) {
         [conditionData setObject:self.endDateToField.text forKey:@"endToData"];
     }
+    
+    //访问类型
+    [conditionData setObject:[self.visitDataSource objectAtIndex:visitSelectRow]
+                      forKey:@"visit"];
+    
     //客户姓名
     if (self.nameField.text != nil && ![self.nameField.text isEqualToString:@""]) {
-        [conditionData setObject:self.nameField.text forKey:@"name"];
+        [conditionData setObject:self.nameField.text forKey:@"cname"];
     }
     //手机号码
     if (self.phoneField.text != nil && ![self.phoneField.text isEqualToString:@""]) {
-        [conditionData setObject:self.phoneField.text forKey:@"phone"];
+        [conditionData setObject:self.phoneField.text forKey:@"mobile"];
     }
     //客户类型
     [conditionData setObject:[self.clientTypeDataSource objectAtIndex:clientTypeSelectRow]
                       forKey:@"clientType"];
-    //访问类型
-    [conditionData setObject:[self.visitDataSource objectAtIndex:visitSelectRow]
-                      forKey:@"visit"];
-    //销售情况
-    [conditionData setObject:[self.saleStatesDataSource objectAtIndex:saleStateSelectRow]
-                      forKey:@"saleState"];
+    
+//    //销售情况
+//    [conditionData setObject:[self.saleStatesDataSource objectAtIndex:saleStateSelectRow]
+//                      forKey:@"saleState"];
     //变动客户标识
     [conditionData setObject:[NSNumber numberWithBool:isChangeCustomer]
                       forKey:@"changeCustomer"];
@@ -1011,29 +967,29 @@ typedef enum ClickedDateType{
         case 0:
         {
             self.clickedBussiness = click_visit_type;
-            itemList = [self.visitDataSource valueForKeyPath:@"value"];
+            itemList = [self.visitDataSource valueForKeyPath:SOURCE_DATA_NAME_COULUM];
             selectRow = visitSelectRow;
         }
             break;
+//        case 1:
+//        {
+//            self.clickedBussiness = click_sale_man;
+//        }
+//            break;
         case 1:
         {
-            self.clickedBussiness = click_sale_man;
-        }
-            break;
-        case 2:
-        {
             self.clickedBussiness = click_client_type;
-            itemList = [self.clientTypeDataSource valueForKeyPath:@"value"];
+            itemList = [self.clientTypeDataSource valueForKeyPath:SOURCE_DATA_NAME_COULUM];
             selectRow = clientTypeSelectRow;
         }
             break;
-        case 3:
-        {
-            self.clickedBussiness = click_sale_status;
-            itemList = [self.saleStatesDataSource valueForKeyPath:@"value"];
-            selectRow = saleStateSelectRow;
-        }
-            break;
+//        case 3:
+//        {
+//            self.clickedBussiness = click_sale_status;
+//            itemList = [self.saleStatesDataSource valueForKeyPath:SOURCE_DATA_NAME_COULUM];
+//            selectRow = saleStateSelectRow;
+//        }
+//            break;
         default:
             break;
     }

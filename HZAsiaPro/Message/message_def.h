@@ -12,7 +12,13 @@
 #import "message.h"
 #import "JsonMessage.h"
 #import "XmlMessage.h"
-//#import "LoginMessage.h"
-#include "LoginJsonMessage.h"
+
+#import "LoginJsonMessage.h"
+#import "StaticDataMessage.h"
+#import "SearchCustomerWithConditionMessage.h"
+#import "UploadAllCustomerMessage.h"
+#import "GetVisitHistoryListMessage.h"
+#import "AddVisitHistoryMessage.h"
+
 
 #endif

@@ -69,6 +69,28 @@
 #pragma mark - 登录
 - (void)login:(NSDictionary *)paramters;
 
+#pragma mark
+#pragma mark - 获取静态数据
+- (void)getStaticData:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 通过匹配条件获取客户列表
+- (void)searchCustomerListWithCondition:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 下载所有客户
+- (void)uploadAllCustomer:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 获取访问记录列表
+- (void)getVisitHistoryList:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 新增访问记录
+- (void)addVisitHistory:(NSDictionary *)paramters;
+
+
+
 @end
 
 

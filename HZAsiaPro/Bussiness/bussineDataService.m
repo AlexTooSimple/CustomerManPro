@@ -88,12 +88,19 @@ static bussineDataService *sharedBussineDataService = nil;
 {
     [MBProgressHUD showHUDAddedTo:((AppDelegate *)[UIApplication sharedApplication].delegate).window animated:YES];
     HttpConnector* httpConnector = [HttpConnector sharedHttpConnector];
+    httpConnector.statusDelegate = self;
+    httpConnector.isPostXML = NO;
+    
 #ifdef STATIC_XML
     
 #else
-    httpConnector.serviceURL = service_url;
+    NSString *serviceURL = [[NSString alloc] initWithFormat:@"%@%@",service_url,[msg getBusinessCode]];
+    httpConnector.serviceURL = serviceURL;
+    [serviceURL release];
+    
     NSLog(@"请求的地址：%@",httpConnector.serviceURL);
     [httpConnector sendMessage:msg];
+    
 #endif
 }
 
@@ -101,27 +108,16 @@ static bussineDataService *sharedBussineDataService = nil;
 {
     
     NSString* rspCode = [msg getRspcode];
-    NSString* bussineCode = msg.bizCode;
+    NSString* bussineCode = [msg getBusinessCode];
     NSString* rspDesc = [msg getMSG];
     
     //key: bussineCode value :; Key:errorCode, value: key:MSG, value:
     NSMutableDictionary* rspDic = [[[NSMutableDictionary alloc] initWithCapacity:0] autorelease];
     [rspDic setObject:rspCode forKey:@"errorCode"];
     [rspDic setObject:bussineCode forKey:@"bussineCode"];
+    [rspDic setObject:msg forKey:@"message"];
     if (rspDesc != nil) {
         [rspDic setObject:rspDesc forKey:@"MSG"];
-    }
-    
-    if ([rspCode isEqualToString:@"5000"]) {
-        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Sale_Note_String", nil)
-                                                            message:NSLocalizedString(@"Sale_Login_Session_Invalid", nil)
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Sale_Confirm_String", nil)
-                                                  otherButtonTitles:nil];
-        alertView.tag = kSessionTimeOutTag;
-        [alertView show];
-        [alertView release];
-        return nil;
     }
     
     return rspDic;
@@ -135,7 +131,7 @@ static bussineDataService *sharedBussineDataService = nil;
     
     NSString* rspCode = [rspDic objectForKey:@"errorCode"];
     
-    if([rspCode isEqualToString:@"0000"]){
+    if([rspCode isEqualToString:RESPONE_RESULT_TRUE]){
         if (nil != self.target && [self.target respondsToSelector:@selector(requestDidFinished:)]) {
 			[self.target performSelector:@selector(requestDidFinished:) withObject:rspDic];
 		}
@@ -180,13 +176,115 @@ static bussineDataService *sharedBussineDataService = nil;
     LoginJsonMessage* Msg = loginResponse;
     NSDictionary* rspDic = [self handleRspInfo:Msg];
     NSString* rspCode = [Msg getRspcode];
-    if([rspCode isEqualToString:@"0000"]){
-//        NSMutableDictionary* uInfo = [[NSMutableDictionary alloc] initWithCapacity:1];
-//        [uInfo addEntriesFromDictionary:Msg.requestInfo];
-//        [uInfo addEntriesFromDictionary:Msg.rspInfo];
-//        
-//        self.userInfo = uInfo;
-//        [uInfo release];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+
+#pragma mark
+#pragma mark - 获取静态数据
+- (void)getStaticData:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"StaticDataMessage"
+                     param:paramters
+                   funName:@"getStaticData:"
+             synchronously:NO];
+}
+
+- (void)getStaticDataFinished:(id <MessageDelegate>)staticResponse
+{
+    StaticDataMessage* Msg = staticResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+#pragma mark
+#pragma mark - 通过匹配条件获取客户列表
+- (void)searchCustomerListWithCondition:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"SearchCustomerWithConditionMessage"
+                     param:paramters
+                   funName:@"searchCustomerListWithCondition:"
+             synchronously:NO];
+}
+
+- (void)searchCustomerListWithConditionFinished:(id <MessageDelegate>)searchResponse
+{
+    SearchCustomerWithConditionMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+#pragma mark
+#pragma mark - 下载所有客户
+- (void)uploadAllCustomer:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"UploadAllCustomerMessage"
+                     param:paramters
+                   funName:@"uploadAllCustomer:"
+             synchronously:NO];
+}
+
+- (void)uploadAllCustomerFinished:(id <MessageDelegate>)searchResponse
+{
+    UploadAllCustomerMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+
+#pragma mark
+#pragma mark - 获取访问记录列表
+- (void)getVisitHistoryList:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"GetVisitHistoryListMessage"
+                     param:paramters
+                   funName:@"getVisitHistoryList:"
+             synchronously:NO];
+}
+
+- (void)getVisitHistoryListFinished:(id <MessageDelegate>)searchResponse
+{
+    GetVisitHistoryListMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+#pragma mark
+#pragma mark - 新增访问记录
+- (void)addVisitHistory:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"AddVisitHistoryMessage"
+                     param:paramters
+                   funName:@"addVisitHistory:"
+             synchronously:NO];
+}
+
+- (void)addVisitHistoryFinished:(id <MessageDelegate>)searchResponse
+{
+    AddVisitHistoryMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
     }
     [self noticeUI:rspDic];
 }
@@ -200,6 +298,16 @@ static bussineDataService *sharedBussineDataService = nil;
     
     if (YES == [[msg getBusinessCode] isEqualToString:LOGIN_BIZCODE]) {
         [self loginFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:STATIC_DATA_BIZCODE]){
+        [self getStaticDataFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:SEARCH_CUSTOMER_CODITION_BIZCODE]){
+        [self searchCustomerListWithConditionFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:UPLOAD_ALL_CUSTOMER_BIZCODE]){
+        [self uploadAllCustomerFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:GET_VISIT_HISTORY_BIZCODE]){
+        [self getVisitHistoryListFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:ADD_VISIT_HISTORY_BIZCODE]){
+        [self addVisitHistoryFinished:msg];
     }
 }
 

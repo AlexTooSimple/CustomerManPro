@@ -13,7 +13,7 @@
 @synthesize alertDelegate;
 @synthesize index;
 @synthesize contentAlert;
-@synthesize alertView;
+@synthesize m_alertView;
 
 - (void)dealloc
 {
@@ -22,8 +22,8 @@
         [contentAlert release];
     }
     
-    if (alertView != nil) {
-        [alertView release];
+    if (m_alertView != nil) {
+        [m_alertView release];
     }
     
     [super dealloc];
@@ -102,14 +102,14 @@
         }else{
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:title
                                                             message:message
-                                                           delegate:self
+                                                           delegate:delegate
                                                   cancelButtonTitle:cancelButtonTitle
                                                   otherButtonTitles:otherButtonTitles,nil];
             alert.tag = tag;
             for(int i = 0; i < [argsArray count]; i++){
                 [alert addButtonWithTitle:[argsArray objectAtIndex:i]];
             }
-            self.alertView = alert;
+            self.m_alertView = alert;
             [alert show];
 #if !__has_feature(objc_arc)
             [alert release];
@@ -124,8 +124,8 @@
 
 - (void)dismiss
 {
-    if (self.alertView != nil) {
-        [self.alertView dismissWithClickedButtonIndex:0 animated:YES];
+    if (self.m_alertView != nil) {
+        [self.m_alertView dismissWithClickedButtonIndex:0 animated:YES];
     }else{
         [self.contentAlert dismissViewControllerAnimated:YES
                                               completion:nil];
@@ -141,17 +141,6 @@
             if (self.alertDelegate != nil && [self.alertDelegate respondsToSelector:@selector(alertViewWillPresent:)]) {
                 [self.alertDelegate alertViewWillPresent:self.contentAlert];
             }
-        }
-    }
-}
-
-#pragma mark
-#pragma mark - UIAlterViewDelegate
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == self.index) {
-        if (self.alertDelegate != nil && [self.alertDelegate respondsToSelector:@selector(alertShowView:didDismissWithButtonIndex:)]) {
-            [self.alertDelegate alertShowView:self didDismissWithButtonIndex:buttonIndex];
         }
     }
 }
