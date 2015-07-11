@@ -18,7 +18,9 @@ typedef enum DetailShowType{
 {
     DetailShowType detailType;
     BOOL isFromApprove;
+    NSDictionary *customerInfo;
 }
+@property(nonatomic ,retain)NSDictionary *customerInfo;
 @property(nonatomic ,assign)DetailShowType detailType;
-@property(nonatomic ,assign) BOOL isFromApprove;
+@property(nonatomic ,assign)BOOL isFromApprove;
 @end

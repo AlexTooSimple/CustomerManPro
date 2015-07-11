@@ -12,8 +12,15 @@
 #import "OperationClientContactVC.h"
 #import "OperationClientBasicInfoVC.h"
 #import "ActionSheetView.h"
+#import "bussineDataService.h"
 
-@interface DetailInfoVC ()<UIScrollViewDelegate,ActionSheetViewDelegate>
+
+#define DETAIL_BASE_INFO_VIEW_TAG           202
+#define DETAIL_HISTORY_INFO_VIEW_TAG        201
+
+
+
+@interface DetailInfoVC ()<UIScrollViewDelegate,ActionSheetViewDelegate,HttpBackDelegate,UIActionSheetDelegate>
 {
     UIScrollView *contentView;
     UIPageControl *contentControl;
@@ -29,6 +36,7 @@
 
 @implementation DetailInfoVC
 
+@synthesize customerInfo;
 @synthesize contentControl;
 @synthesize contentView;
 @synthesize customerInfoDataList;
@@ -38,6 +46,10 @@
 
 - (void)dealloc
 {
+    if (customerInfo != nil) {
+        [customerInfo release];
+    }
+    
     if (contentView != nil) {
         [contentView release];
     }
@@ -80,8 +92,6 @@
     }
     
     
-    [self initData];
-    
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     scrollView.backgroundColor = [UIColor clearColor];
     scrollView.scrollEnabled = YES;
@@ -116,8 +126,39 @@
         default:
             break;
     }
+    
+    [self initData];
 }
 
+- (void)initData
+{
+    switch (detailType) {
+        case allInfoType:
+        {
+            //组装客户基本信息
+            [self assembCustomerInfo];
+            //获取来访记录
+            [self getVisitHistoryList];
+            
+        }
+            break;
+        case basicInfoType:
+        {
+            //组装客户基本信息
+            [self assembCustomerInfo];
+            [self reloadDetailViewData];
+        }
+            break;
+        case contactInfoType:
+        {
+            //获取来访记录
+            [self getVisitHistoryList];
+        }
+            break;
+        default:
+            break;
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -187,6 +228,7 @@
     //默认出现三屏，第一屏客户基本信息  第2屏客户联系记录  第3屏客户交易记录
     NSInteger cnt = 1;
     DetailInfoView *detailView = [[DetailInfoView alloc] init];
+    detailView.tag = DETAIL_BASE_INFO_VIEW_TAG;
     detailView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:detailView];
     [detailView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -196,12 +238,10 @@
         make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     
-    [detailView reloadViewData:self.customerInfoDataList];
-    
-    
     cnt++;
     ConcactHistoryView *historyView = [[ConcactHistoryView alloc] init];
     historyView.backgroundColor = [UIColor whiteColor];
+    historyView.tag = DETAIL_HISTORY_INFO_VIEW_TAG;
     [self.contentView addSubview:historyView];
     [historyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(detailView.mas_right);
@@ -209,7 +249,6 @@
         make.width.equalTo(self.contentView);
         make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
-    [historyView reloadViewData:self.customerHistoryList];
     
     
     [historyView release];
@@ -227,6 +266,7 @@
 - (void)layoutBasicInfoView
 {
     DetailInfoView *detailView = [[DetailInfoView alloc] init];
+    detailView.tag = DETAIL_BASE_INFO_VIEW_TAG;
     detailView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:detailView];
     [detailView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -236,15 +276,13 @@
         make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     
-    [detailView reloadViewData:self.customerInfoDataList];
-    
     [detailView release];
-
 }
 
 - (void)layoutConcactInfoView;
 {
     ConcactHistoryView *historyView = [[ConcactHistoryView alloc] init];
+    historyView.tag = DETAIL_HISTORY_INFO_VIEW_TAG;
     historyView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:historyView];
     [historyView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -253,8 +291,35 @@
         make.width.equalTo(self.contentView);
         make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
-    [historyView reloadViewData:self.customerHistoryList];
     [historyView release];
+}
+
+#pragma mark
+#pragma mark - 获取来访记录
+- (void)getVisitHistoryList
+{
+    NSString *clientCode = [self.customerInfo objectForKey:@"clientCode"];
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 clientCode,@"clientCode",nil];
+    bussineService.target = self;
+    [bussineService getVisitHistoryList:requestData];
+    [requestData release];
+}
+
+#pragma mark
+#pragma mark - 刷新数据
+- (void)reloadDetailViewData
+{
+    DetailInfoView *detailView = (DetailInfoView *)[self.contentView viewWithTag:DETAIL_BASE_INFO_VIEW_TAG];
+    ConcactHistoryView *historyView = (ConcactHistoryView *)[self.contentView viewWithTag:DETAIL_HISTORY_INFO_VIEW_TAG];
+    if (detailView != nil) {
+        [detailView reloadViewData:self.customerInfoDataList];
+    }
+    
+    if (historyView != nil) {
+        [historyView reloadViewData:self.customerHistoryList];
+    }
 }
 
 #pragma mark
@@ -295,6 +360,36 @@
 
 
 #pragma mark
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+        {
+            //删除客户
+            [self deleteClient];
+        }
+            break;
+        case 1:
+        {
+            //登记联系信息
+            [self gotoOperatClientContactInfoVC];
+        }
+            break;
+        case 2:
+        {
+            //修改客户基本信息
+            [self gotoOperatClientBaiscInfoVC];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+#pragma mark
 #pragma mark - actionSheet对应的操作
 - (void)gotoOperatClientBaiscInfoVC
 {
@@ -321,181 +416,172 @@
 
 #pragma mark
 #pragma mark - 初始化数据
-- (void)initData
-{
-    //组装客户基本信息
-    [self assembCustomerInfo];
-    //组装客户联系记录
-    [self assembConcactHistoryData];
-}
 
 - (void)assembCustomerInfo
 {
-    
-    
     NSMutableArray *infoList = [[NSMutableArray alloc] initWithCapacity:0];
     
     NSDictionary *nameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"客户姓名", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                             @"客户姓名:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"cname"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:nameDic];
     [nameDic release];
     
     NSDictionary *phoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"移动电话", DATA_SHOW_TITLE_COLUM,
-                             @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
+                             @"移动电话:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"mobile"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:phoneDic];
     [phoneDic release];
     
     
     NSDictionary *clientStatusDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"客户状态", DATA_SHOW_TITLE_COLUM,
+                             @"客户状态:", DATA_SHOW_TITLE_COLUM,
                              @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:clientStatusDic];
     [clientStatusDic release];
     
     NSDictionary *clientVistDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"客户所属", DATA_SHOW_TITLE_COLUM,
+                             @"客户所属:", DATA_SHOW_TITLE_COLUM,
                              @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:clientVistDic];
     [clientVistDic release];
     
     NSDictionary *shortNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                  @"缩写", DATA_SHOW_TITLE_COLUM,
-                                  @"lgr",DATA_SHOW_VALUE_COLUM,nil];
+                                  @"缩写:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"shortforname"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:shortNameDic];
     [shortNameDic release];
     
     NSDictionary *engishNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                   @"英文名", DATA_SHOW_TITLE_COLUM,
-                                   @"henry",DATA_SHOW_VALUE_COLUM,nil];
+                                   @"英文名:", DATA_SHOW_TITLE_COLUM,
+                                   [self.customerInfo objectForKey:@"enname"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:engishNameDic];
     [engishNameDic release];
     
     NSDictionary *originalNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     @"原始姓名", DATA_SHOW_TITLE_COLUM,
-                                     @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                                     @"原始姓名:", DATA_SHOW_TITLE_COLUM,
+                                     [self.customerInfo objectForKey:@"fristName"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:originalNameDic];
     [originalNameDic release];
     
     NSDictionary *originalPhoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                      @"原始电话", DATA_SHOW_TITLE_COLUM,
-                                      @"13987232311",DATA_SHOW_VALUE_COLUM,nil];
+                                      @"原始电话:", DATA_SHOW_TITLE_COLUM,
+                                      [self.customerInfo objectForKey:@"fristPhone"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:originalPhoneDic];
     [originalPhoneDic release];
     
     NSDictionary *certTypeDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"证件类型", DATA_SHOW_TITLE_COLUM,
-                             @"身份证",DATA_SHOW_VALUE_COLUM,nil];
+                             @"证件类型:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"idtype"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:certTypeDic];
     [certTypeDic release];
     
     NSDictionary *certIDDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"证件号码", DATA_SHOW_TITLE_COLUM,
-                             @"330521212312313213",DATA_SHOW_VALUE_COLUM,nil];
+                             @"证件号码:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"id"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:certIDDic];
     [certIDDic release];
     
     NSDictionary *startDateDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"出生日期", DATA_SHOW_TITLE_COLUM,
-                             @"1982-3-21",DATA_SHOW_VALUE_COLUM,nil];
+                             @"出生日期:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"birthdayStr"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:startDateDic];
     [startDateDic release];
     
-    NSDictionary *countyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"国籍", DATA_SHOW_TITLE_COLUM,
-                             @"中国",DATA_SHOW_VALUE_COLUM,nil];
-    [infoList addObject:countyDic];
-    [countyDic release];
-    
-    NSDictionary *areaDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"区域", DATA_SHOW_TITLE_COLUM,
-                             @"",DATA_SHOW_VALUE_COLUM,nil];
-    [infoList addObject:areaDic];
-    [areaDic release];
+//    NSDictionary *countyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                             @"国籍", DATA_SHOW_TITLE_COLUM,
+//                             @"",DATA_SHOW_VALUE_COLUM,nil];
+//    [infoList addObject:countyDic];
+//    [countyDic release];
+//    
+//    NSDictionary *areaDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                             @"区域", DATA_SHOW_TITLE_COLUM,
+//                             @"",DATA_SHOW_VALUE_COLUM,nil];
+//    [infoList addObject:areaDic];
+//    [areaDic release];
     
     NSDictionary *professDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"职业", DATA_SHOW_TITLE_COLUM,
-                             @"",DATA_SHOW_VALUE_COLUM,nil];
+                             @"职业:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"business"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:professDic];
     [professDic release];
     
     NSDictionary *companyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"公司", DATA_SHOW_TITLE_COLUM,
-                             @"浙江省杭州市西湖区天目山路278号黄龙时代广场A座1006室很干净啊金卡双方都阿娇款到发货",DATA_SHOW_VALUE_COLUM,nil];
+                             @"公司:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"company"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:companyDic];
     [companyDic release];
     
     NSDictionary *addressDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"联系地址", DATA_SHOW_TITLE_COLUM,
-                             @"浙江省杭州市西湖区天目山路278号黄龙时代广场A座1006室",DATA_SHOW_VALUE_COLUM,nil];
+                             @"联系地址:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"address"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:addressDic];
     [addressDic release];
     
     NSDictionary *businessDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"行业", DATA_SHOW_TITLE_COLUM,
-                             @"",DATA_SHOW_VALUE_COLUM,nil];
+                             @"行业:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"hangye"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:businessDic];
     [businessDic release];
     
     NSDictionary *sexDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"性别", DATA_SHOW_TITLE_COLUM,
-                             @"女",DATA_SHOW_VALUE_COLUM,nil];
+                             @"性别:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"sex"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:sexDic];
     [sexDic release];
     
     NSDictionary *marryDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"婚否", DATA_SHOW_TITLE_COLUM,
-                             @"已婚",DATA_SHOW_VALUE_COLUM,nil];
+                             @"婚否:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"marige"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:marryDic];
     [marryDic release];
     
     NSDictionary *educationDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"学历", DATA_SHOW_TITLE_COLUM,
-                             @"本科",DATA_SHOW_VALUE_COLUM,nil];
+                             @"学历:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"xueli"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:educationDic];
     [educationDic release];
     
     NSDictionary *postNumberDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"邮政编码", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                             @"邮政编码:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"post"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:postNumberDic];
     [postNumberDic release];
     
     
     NSDictionary *companyPhoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"办公电话", DATA_SHOW_TITLE_COLUM,
-                             @"俩大",DATA_SHOW_VALUE_COLUM,nil];
+                             @"办公电话:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"phoneO"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:companyPhoneDic];
     [companyPhoneDic release];
     
     NSDictionary *homePhoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"家庭电话", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                             @"家庭电话:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"phoneH"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:homePhoneDic];
     [homePhoneDic release];
     
     NSDictionary *chuanzhenDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"传真", DATA_SHOW_TITLE_COLUM,
-                             @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
+                             @"传真:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"fax"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:chuanzhenDic];
     [chuanzhenDic release];
     
     NSDictionary *emailDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"电子邮件", DATA_SHOW_TITLE_COLUM,
-                             @"俩大",DATA_SHOW_VALUE_COLUM,nil];
+                             @"电子邮件:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"email"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:emailDic];
     [emailDic release];
     
     NSDictionary *jzjdDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"进展阶段", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                             @"进展阶段:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"steps"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:jzjdDic];
     [jzjdDic release];
     
     NSDictionary *remarkDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"备注", DATA_SHOW_TITLE_COLUM,
-                             @"爱撒娇的安静的会计师阿娇打飞机打分卡阿加咖啡的权利啊见附件按甲方的",DATA_SHOW_VALUE_COLUM,nil];
+                             @"备注:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"remarks"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:remarkDic];
     [remarkDic release];
     
@@ -503,38 +589,40 @@
     [infoList release];
 }
 
-- (void)assembConcactHistoryData
+- (void)assembConcactHistoryData:(NSArray *)concactHistoryItemList
 {
     NSMutableArray *historyList = [[NSMutableArray alloc] initWithCapacity:0];
-    for (int i = 0; i<5; i++) {
+    NSInteger cnt = [concactHistoryItemList count];
+    for (int i = 0; i<cnt; i++) {
+        NSDictionary *oneConcactItem = [concactHistoryItemList objectAtIndex:i];
         NSMutableArray *historyOneItem = [[NSMutableArray alloc] initWithCapacity:0];
         NSDictionary *dateDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"日期",DATA_SHOW_TITLE_COLUM,
+                                 @"日期:",DATA_SHOW_TITLE_COLUM,
                                  @"2014-6-1",DATA_SHOW_VALUE_COLUM ,nil];
         [historyOneItem addObject:dateDic];
         [dateDic release];
         
         NSDictionary *typeDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"类型",DATA_SHOW_TITLE_COLUM,
-                                 @"来访",DATA_SHOW_VALUE_COLUM,nil];
+                                 @"类型:",DATA_SHOW_TITLE_COLUM,
+                                 [oneConcactItem objectForKey:@"type"],DATA_SHOW_VALUE_COLUM,nil];
         [historyOneItem addObject:typeDic];
         [typeDic release];
         
         NSDictionary *willingnessDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                        @"购买意向",DATA_SHOW_TITLE_COLUM,
-                                        @"初步意向",DATA_SHOW_VALUE_COLUM,nil];
+                                        @"购买意向:",DATA_SHOW_TITLE_COLUM,
+                                        [oneConcactItem objectForKey:@"intent"],DATA_SHOW_VALUE_COLUM,nil];
         [historyOneItem addObject:willingnessDic];
         [willingnessDic release];
         
         NSDictionary *peopleDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                   @"黄卓瑜",DATA_SHOW_VALUE_COLUM,
-                                   @"接待人",DATA_SHOW_TITLE_COLUM, nil];
+                                   [oneConcactItem objectForKey:@"receptionist"],DATA_SHOW_VALUE_COLUM,
+                                   @"接待人:",DATA_SHOW_TITLE_COLUM, nil];
         [historyOneItem addObject:peopleDic];
         [peopleDic release];
         
         NSDictionary *remarkDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                   @"备注",DATA_SHOW_TITLE_COLUM,
-                                   @"阿卡基督教啊就卡丁车啊数控技术",DATA_SHOW_VALUE_COLUM,nil];
+                                   @"备注:",DATA_SHOW_TITLE_COLUM,
+                                   [oneConcactItem objectForKey:@"remarks"],DATA_SHOW_VALUE_COLUM,nil];
         [historyOneItem addObject:remarkDic];
         [remarkDic release];
         
@@ -569,5 +657,57 @@
     [self.contentView setContentOffset:CGPointMake(DEVICE_MAINSCREEN_WIDTH*page, currentPoint.y) animated:YES];
 }
 
+
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[GetVisitHistoryListMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo;
+            NSString *data = [rspInfo objectForKey:@"data"];
+            
+            NSArray *rspConcactList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:nil];
+            
+            //组装客户联系记录
+            [self assembConcactHistoryData:rspConcactList];
+            [self reloadDetailViewData];
+           
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[GetVisitHistoryListMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
 
 @end
