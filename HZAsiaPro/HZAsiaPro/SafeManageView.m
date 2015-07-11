@@ -40,7 +40,7 @@
 - (void)layoutContentView
 {
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero
-                                                          style:UITableViewStyleGrouped];
+                                                          style:UITableViewStylePlain];
     tableView.backgroundColor = [UIColor whiteColor];
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -92,7 +92,7 @@
         titleLabel.textColor = [UIColor blackColor];
         [cell.contentView addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(UIEdgeInsetsMake(0, 30, 0, 20));
+            make.edges.mas_equalTo(UIEdgeInsetsMake(0, 10, 0, 20));
         }];
         [titleLabel release];
         
@@ -100,7 +100,7 @@
         seperView.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
         [cell.contentView addSubview:seperView];
         [seperView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(cell.contentView).with.offset(CELL_ROW_HEIGHT-1);
+            make.top.equalTo(cell.contentView).with.offset(CELL_ROW_HEIGHT-0.5);
             make.bottom.equalTo(cell.contentView);
             make.right.equalTo(cell.contentView);
             make.left.equalTo(cell.contentView);

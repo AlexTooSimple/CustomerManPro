@@ -11,6 +11,7 @@
 #import "HomePageSetVC.h"
 #import "AccountManageVC.h"
 #import "ApproveCustomerVC.h"
+#import "AutoCustomVC.h"
 
 @interface SafeManageVC ()<SafeManageViewDelegate>
 {
@@ -103,6 +104,10 @@
         case 2:
         {
             //@"管理客户池"
+            AutoCustomVC *custVC = [[AutoCustomVC alloc] init];
+            custVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:custVC animated:YES];
+            [custVC release];
         }
             break;
         case 3:
