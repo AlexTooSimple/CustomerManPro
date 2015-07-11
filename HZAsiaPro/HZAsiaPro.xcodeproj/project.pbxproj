@@ -1070,11 +1070,8 @@
 				0229648C1AA6B2E000D5BFE5 /* AFNetworkReachabilityManager.m in Sources */,
 				0229649D1AA6B43100D5BFE5 /* LoginVC.m in Sources */,
 				D4F073911B3C3F4700371F37 /* MySwitch.m in Sources */,
-<<<<<<< HEAD
 				02A29EB71B50BB1900E97D0C /* GetVisitHistoryListMessage.m in Sources */,
-=======
 				D4EFC6D01B4EBEF500017F29 /* AutoCustomVC.m in Sources */,
->>>>>>> 3b787d9675e65873713b394b344e5cc815d191aa
 				021683FE1B2D67DE00E94A47 /* SearchConditionVC.m in Sources */,
 				02C09D281B27D350009E823C /* MASLayoutConstraint.m in Sources */,
 				02C09D2C1B27D350009E823C /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
