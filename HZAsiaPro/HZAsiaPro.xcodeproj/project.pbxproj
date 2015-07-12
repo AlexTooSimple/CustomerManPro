@@ -80,6 +80,8 @@
 		02A29EB71B50BB1900E97D0C /* GetVisitHistoryListMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A29EB61B50BB1900E97D0C /* GetVisitHistoryListMessage.m */; };
 		02A38E151B516DC1008C0CA9 /* DeleteClientMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E141B516DC1008C0CA9 /* DeleteClientMessage.m */; };
 		02A38E181B517FB1008C0CA9 /* CheckClientMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E171B517FB1008C0CA9 /* CheckClientMessage.m */; };
+		02A38E1B1B52556F008C0CA9 /* UpdateClientBasicInfoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E1A1B52556F008C0CA9 /* UpdateClientBasicInfoMessage.m */; };
+		02A38E1E1B52559B008C0CA9 /* InsertClientMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E1D1B52559B008C0CA9 /* InsertClientMessage.m */; };
 		02C09D251B27D350009E823C /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D261B27D350009E823C /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D101B27D350009E823C /* MASConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D131B27D350009E823C /* MASConstraintMaker.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -277,6 +279,10 @@
 		02A38E141B516DC1008C0CA9 /* DeleteClientMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteClientMessage.m; path = Message/DeleteClientMessage.m; sourceTree = SOURCE_ROOT; };
 		02A38E161B517FB1008C0CA9 /* CheckClientMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckClientMessage.h; path = Message/CheckClientMessage.h; sourceTree = SOURCE_ROOT; };
 		02A38E171B517FB1008C0CA9 /* CheckClientMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckClientMessage.m; path = Message/CheckClientMessage.m; sourceTree = SOURCE_ROOT; };
+		02A38E191B52556F008C0CA9 /* UpdateClientBasicInfoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateClientBasicInfoMessage.h; path = Message/UpdateClientBasicInfoMessage.h; sourceTree = SOURCE_ROOT; };
+		02A38E1A1B52556F008C0CA9 /* UpdateClientBasicInfoMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateClientBasicInfoMessage.m; path = Message/UpdateClientBasicInfoMessage.m; sourceTree = SOURCE_ROOT; };
+		02A38E1C1B52559B008C0CA9 /* InsertClientMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InsertClientMessage.h; path = Message/InsertClientMessage.h; sourceTree = SOURCE_ROOT; };
+		02A38E1D1B52559B008C0CA9 /* InsertClientMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsertClientMessage.m; path = Message/InsertClientMessage.m; sourceTree = SOURCE_ROOT; };
 		02C09D0D1B27D350009E823C /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Tools/Masonry/MASCompositeConstraint.h; sourceTree = SOURCE_ROOT; };
 		02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASCompositeConstraint.m; path = Tools/Masonry/MASCompositeConstraint.m; sourceTree = SOURCE_ROOT; };
 		02C09D0F1B27D350009E823C /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASConstraint.h; path = Tools/Masonry/MASConstraint.h; sourceTree = SOURCE_ROOT; };
@@ -402,6 +408,8 @@
 		0203F6221AB2C602004B6065 /* login */ = {
 			isa = PBXGroup;
 			children = (
+				021B7A411B4F795A00DAC100 /* UploadAllCustomerMessage.h */,
+				021B7A421B4F795A00DAC100 /* UploadAllCustomerMessage.m */,
 				02D83E1F1B4E5B31008696A6 /* LoginJsonMessage.h */,
 				02D83E201B4E5B31008696A6 /* LoginJsonMessage.m */,
 				02D83E1C1B4E5AA9008696A6 /* StaticDataMessage.h */,
@@ -871,14 +879,16 @@
 				02A29EB61B50BB1900E97D0C /* GetVisitHistoryListMessage.m */,
 				02D83E3C1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.h */,
 				02D83E3D1B4E8C3A008696A6 /* SearchCustomerWithConditionMessage.m */,
-				021B7A411B4F795A00DAC100 /* UploadAllCustomerMessage.h */,
-				021B7A421B4F795A00DAC100 /* UploadAllCustomerMessage.m */,
 				021B7A471B501E4600DAC100 /* AddVisitHistoryMessage.h */,
 				021B7A481B501E4600DAC100 /* AddVisitHistoryMessage.m */,
 				02A38E131B516DC1008C0CA9 /* DeleteClientMessage.h */,
 				02A38E141B516DC1008C0CA9 /* DeleteClientMessage.m */,
 				02A38E161B517FB1008C0CA9 /* CheckClientMessage.h */,
 				02A38E171B517FB1008C0CA9 /* CheckClientMessage.m */,
+				02A38E191B52556F008C0CA9 /* UpdateClientBasicInfoMessage.h */,
+				02A38E1A1B52556F008C0CA9 /* UpdateClientBasicInfoMessage.m */,
+				02A38E1C1B52559B008C0CA9 /* InsertClientMessage.h */,
+				02A38E1D1B52559B008C0CA9 /* InsertClientMessage.m */,
 			);
 			name = customerMan;
 			sourceTree = "<group>";
@@ -1075,6 +1085,7 @@
 				021416A31B25867B00248D48 /* HomeTabBarController.m in Sources */,
 				02EB311A1B369AF200F3AB3F /* OperationClientContactVC.m in Sources */,
 				02C09D261B27D350009E823C /* MASConstraint.m in Sources */,
+				02A38E1B1B52556F008C0CA9 /* UpdateClientBasicInfoMessage.m in Sources */,
 				02C86A191B2AFD5900C37CE7 /* DetailInfoView.m in Sources */,
 				0229648B1AA6B2E000D5BFE5 /* AFHTTPSessionManager.m in Sources */,
 				0229648A1AA6B2E000D5BFE5 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1092,6 +1103,7 @@
 				D4EFC6D01B4EBEF500017F29 /* AutoCustomVC.m in Sources */,
 				021683FE1B2D67DE00E94A47 /* SearchConditionVC.m in Sources */,
 				02C09D281B27D350009E823C /* MASLayoutConstraint.m in Sources */,
+				02A38E1E1B52559B008C0CA9 /* InsertClientMessage.m in Sources */,
 				02C09D2C1B27D350009E823C /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				02D15D021AAECB34004B2746 /* ALView+PureLayout.m in Sources */,
 				021416AC1B25894400248D48 /* CustomerManageVC.m in Sources */,
