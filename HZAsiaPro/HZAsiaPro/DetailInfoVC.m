@@ -491,7 +491,7 @@
         mobile = [self.customerInfo objectForKey:@"mobile"];
     }
     NSDictionary *phoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              @"移动电话:", DATA_SHOW_TITLE_COLUM,
+                              @"联系电话:", DATA_SHOW_TITLE_COLUM,
                               mobile,DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:phoneDic];
     [phoneDic release];

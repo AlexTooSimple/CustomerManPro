@@ -151,6 +151,16 @@
                     isNext = NO;
                     [message appendFormat:@"%@不能为空,请输入%@!",title,title];
                     break;
+                }else{
+                    if ([itemData objectForKey:PLUS_LIMIT_LENGTH] != nil &&
+                        ![[itemData objectForKey:PLUS_LIMIT_LENGTH] isEqualToString:@""]) {
+                        NSInteger plusLength = [detailText length];
+                        if (plusLength != [[itemData objectForKey:PLUS_LIMIT_LENGTH] integerValue]) {
+                            isNext = NO;
+                            [message appendFormat:@"%@长度必须为%@!",title,[itemData objectForKey:PLUS_LIMIT_LENGTH]];
+                            break;
+                        }
+                    }
                 }
             }
             if (detailText == nil) {

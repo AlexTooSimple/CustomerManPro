@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface ShowRepeatClientVC : UIViewController
-
+{
+    NSArray *repeatClientList;
+    NSDictionary *newClientInfo;
+}
+@property (nonatomic ,retain)NSDictionary *newClientInfo;
+@property (nonatomic ,retain)NSArray *repeatClientList;
 @end
