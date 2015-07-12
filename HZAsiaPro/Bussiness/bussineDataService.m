@@ -497,7 +497,6 @@ static bussineDataService *sharedBussineDataService = nil;
     }else if (YES == [[msg getBusinessCode] isEqualToString:GET_CLIENT_MODIFY_HISTORY_BIZCODE]){
         [self getModifyHistoryListFinished:msg];
     }
-    
 }
 
 
