@@ -24,5 +24,8 @@
 #import "InsertClientMessage.h"
 #import "UpdateClientBasicInfoMessage.h"
 #import "UpdateUserMessage.h"
+#import "SearchApproveClientListMessage.h"
+#import "ApproveClientMessage.h"
+#import "GetClientModifyHistoryListMessage.h"
 
 #endif

@@ -7,7 +7,10 @@
 //
 
 #import "JsonMessage.h"
-
+#define SEARCH_APPROVE_CLIENT_LIST_BIZCODE        @"queryPreClient.do?"
 @interface SearchApproveClientListMessage : JsonMessage
-
+{
+    
+}
++ (NSString*)getBizCode;
 @end

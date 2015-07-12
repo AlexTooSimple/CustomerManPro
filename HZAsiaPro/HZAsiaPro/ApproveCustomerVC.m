@@ -9,8 +9,11 @@
 #import "ApproveCustomerVC.h"
 #import "ApproveCustomerView.h"
 #import "DetailInfoVC.h"
+#import "bussineDataService.h"
 
-@interface ApproveCustomerVC ()<ApproveCustomerViewDelegate>
+@interface ApproveCustomerVC ()<ApproveCustomerViewDelegate,
+                                HttpBackDelegate,
+                                AlertShowViewDelegate>
 {
     ApproveCustomerView *contentApproveView;
     NSArray *approveDataList;
@@ -52,9 +55,12 @@
     [self setNavBarSMSItem];
     
     [self layoutContentView];
-    
-    [self initData];
-    [self.contentApproveView reloadDataView:self.approveDataList];
+
+    [NSTimer scheduledTimerWithTimeInterval:0.02f
+                                     target:self
+                                   selector:@selector(sendSearchApproveListMessage)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,50 +104,12 @@
 
 
 #pragma mark
-#pragma mark - 初始化数据
-- (void)initData
+#pragma mark - Send Http Message
+- (void)sendSearchApproveListMessage
 {
-    NSDictionary *data1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"离散",@"title",
-                           @"新增客户",@"typeName",
-                           @"1",@"type",nil];
-    NSDictionary *data2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"离散",@"title",
-                           @"修改登记信息",@"typeName",
-                           @"2",@"type",nil];
-    NSDictionary *data3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"离散",@"title",
-                           @"修改客户基本信息",@"typeName",
-                           @"3",@"type",nil];
-    NSDictionary *data4 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"离散离散",@"title",
-                           @"新增客户",@"typeName",
-                           @"1",@"type",nil];
-    NSDictionary *data5 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"离散",@"title",
-                          @"修改登记信息",@"typeName",
-                           @"2",@"type",nil];
-    NSDictionary *data6 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                          @"离散",@"title",
-                          @"修改客户基本信息",@"typeName",
-                          @"3",@"type",nil];
-    NSDictionary *data7 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           @"离散",@"title",
-                           @"新增客户",@"typeName",
-                           @"1",@"type",nil];
-    
-    NSArray *itemDatas = [[NSArray alloc] initWithObjects:
-                          data1,data2,data3,data4,data5,data6,data7, nil];
-    [data1 release];
-    [data2 release];
-    [data3 release];
-    [data4 release];
-    [data5 release];
-    [data6 release];
-    [data7 release];
-    
-    self.approveDataList = itemDatas;
-    [itemDatas release];
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService searchApproveClientList:nil];
 }
 
 #pragma mark
@@ -173,5 +141,80 @@
 {
     //审批接口调用
 }
+
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[SearchApproveClientListMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo;
+            NSString *data = [rspInfo objectForKey:@"data"];
+            
+            NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:nil];
+            
+            if (rspCustomerList == nil ||
+                [rspCustomerList isEqual:[NSNull null]] ||
+                [rspCustomerList count] == 0) {
+                AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                             message:@"您还没有未审批的客户"
+                                                                            delegate:self
+                                                                                 tag:0
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                [alert show];
+                [alert release];
+            }else{
+                self.approveDataList = rspCustomerList;
+                [self.contentApproveView reloadDataView:self.approveDataList];
+            }
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[SearchApproveClientListMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+#pragma mark
+#pragma mark - AlertShowViewDelegate
+- (void)alertViewWillPresent:(UIAlertController *)alertController
+{
+    [self.navigationController presentViewController:alertController
+                                            animated:YES
+                                          completion:nil];
+}
+
+
+
 
 @end

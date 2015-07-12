@@ -228,24 +228,39 @@ typedef enum ClickedView {
 {
     NSDictionary *customerInfoDic = [self.basicInfoView commitGetAllCustomerData];
     if (customerInfoDic != nil) {
-        NSDictionary *customerContractDic = [self.contactInfoView commitGetAllCustomerData];
-        if (customerContractDic != nil) {
-            //启动接口
-            NSString *clientType = [self.customerInsertInfo objectForKey:@"clientType"];
-            if ([clientType isEqualToString:@"1"]) {
-                //企业用户
-                [self sendInsertBusinessMessage:customerContractDic];
-            }else{
-                //个人用户
-                [self sendInsertIndvialMessage:customerContractDic];
-            }
+        
+        //启动新增基本信息接口
+        NSString *clientType = [self.customerInsertInfo objectForKey:@"clientType"];
+        if ([clientType isEqualToString:@"1"]) {
+            //企业用户
+            [self sendInsertBusinessMessage:customerInfoDic];
+        }else{
+            //个人用户
+            [self sendInsertIndvialMessage:customerInfoDic];
         }
+        
     }
     
 }
 
 #pragma mark
 #pragma mark - SendHttpMessage
+
+//- (void)commitClientContactInfo
+//{
+//    NSDictionary *customerContractDic = [self.contactInfoView commitGetAllCustomerData];
+//    if (customerContractDic != nil) {
+//        NSString *clientType = [self.customerInsertInfo objectForKey:@"clientType"];
+//        if ([clientType isEqualToString:@"1"]) {
+//            //企业用户
+//            [self sendInsertBusinessMessage:customerInfoDic];
+//        }else{
+//            //个人用户
+//            [self sendInsertIndvialMessage:customerInfoDic];
+//        }
+//    }
+//}
+
 //新增企业用户
 - (void)sendInsertBusinessMessage:(NSDictionary *)basicInfo
 {
@@ -283,7 +298,6 @@ typedef enum ClickedView {
     [store release];
     
     NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 
                                  cname,@"cname",
                                  mobile,@"mobile",
                                  shortforname,@"shortforname",
@@ -599,7 +613,6 @@ typedef enum ClickedView {
     NSMutableArray *contactList = [[NSMutableArray alloc] initWithCapacity:0];
     
     //联系方式数据源
-    
     NSArray *contactTypeSource = [store getObjectById:CUSTOMER_VISIT_TYPE_LIST
                                             fromTable:CUSTOMER_DB_TABLE];
     
@@ -607,10 +620,9 @@ typedef enum ClickedView {
                                            @"联系类型",PLUS_CUSTOMER_TITLE,
                                            CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,
                                            contactTypeSource,PLUS_SELECT_DATA_SOURCE,
-                                           [NSNumber numberWithInt:0],PLUS_INIT_VALUE,nil];
+                                           [NSNumber numberWithInt:4],PLUS_INIT_VALUE,nil];
     [contactList addObject:contactTypeDic];
     [contactTypeDic release];
-    [contactTypeSource release];
     
     //购买意向数据源
     NSArray *purposeSourceItem = [store getObjectById:CUSTOMER_PURPOSE_LIST
@@ -912,10 +924,9 @@ typedef enum ClickedView {
                                            @"联系类型",PLUS_CUSTOMER_TITLE,
                                            CUSTOMER_SELECT_TYPE,PLUS_CUSTOMER_TYPE,
                                            contactTypeSource,PLUS_SELECT_DATA_SOURCE,
-                                           [NSNumber numberWithInt:0],PLUS_INIT_VALUE,nil];
+                                           [NSNumber numberWithInt:4],PLUS_INIT_VALUE,nil];
     [contactList addObject:contactTypeDic];
     [contactTypeDic release];
-    [contactTypeSource release];
     
     //购买意向数据源
     NSArray *purposeSourceItem = [store getObjectById:CUSTOMER_PURPOSE_LIST

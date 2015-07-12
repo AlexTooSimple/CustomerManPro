@@ -109,6 +109,18 @@
 #pragma mark - 更新用户基本信息
 - (void)updateUser:(NSDictionary *)paramters;
 
+#pragma mark
+#pragma mark - 审批客户
+- (void)approveClient:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 搜索审批客户
+- (void)searchApproveClientList:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 搜索审批客户
+- (void)getModifyHistoryList:(NSDictionary *)paramters;
+
 @end
 
 

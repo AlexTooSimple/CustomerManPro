@@ -7,7 +7,10 @@
 //
 
 #import "JsonMessage.h"
-
+#define APPROVE_CLIENT_BIZCODE    @"audit.do?"
 @interface ApproveClientMessage : JsonMessage
-
+{
+    
+}
++ (NSString*)getBizCode;
 @end

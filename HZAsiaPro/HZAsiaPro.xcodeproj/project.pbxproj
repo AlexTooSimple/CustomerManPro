@@ -83,6 +83,9 @@
 		02A38E1B1B52556F008C0CA9 /* UpdateClientBasicInfoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E1A1B52556F008C0CA9 /* UpdateClientBasicInfoMessage.m */; };
 		02A38E1E1B52559B008C0CA9 /* InsertClientMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E1D1B52559B008C0CA9 /* InsertClientMessage.m */; };
 		02A38E281B529B93008C0CA9 /* ShowRepeatClientVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E271B529B93008C0CA9 /* ShowRepeatClientVC.m */; };
+		02A38E2C1B52B9B6008C0CA9 /* ApproveClientMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E2B1B52B9B6008C0CA9 /* ApproveClientMessage.m */; };
+		02A38E2F1B52B9E7008C0CA9 /* SearchApproveClientListMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E2E1B52B9E7008C0CA9 /* SearchApproveClientListMessage.m */; };
+		02A38E321B52C25E008C0CA9 /* GetClientModifyHistoryListMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E311B52C25E008C0CA9 /* GetClientModifyHistoryListMessage.m */; };
 		02C09D251B27D350009E823C /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D261B27D350009E823C /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D101B27D350009E823C /* MASConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D131B27D350009E823C /* MASConstraintMaker.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -288,6 +291,12 @@
 		02A38E1D1B52559B008C0CA9 /* InsertClientMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InsertClientMessage.m; path = Message/InsertClientMessage.m; sourceTree = SOURCE_ROOT; };
 		02A38E261B529B93008C0CA9 /* ShowRepeatClientVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowRepeatClientVC.h; sourceTree = "<group>"; };
 		02A38E271B529B93008C0CA9 /* ShowRepeatClientVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowRepeatClientVC.m; sourceTree = "<group>"; };
+		02A38E2A1B52B9B6008C0CA9 /* ApproveClientMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApproveClientMessage.h; path = Message/ApproveClientMessage.h; sourceTree = SOURCE_ROOT; };
+		02A38E2B1B52B9B6008C0CA9 /* ApproveClientMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApproveClientMessage.m; path = Message/ApproveClientMessage.m; sourceTree = SOURCE_ROOT; };
+		02A38E2D1B52B9E7008C0CA9 /* SearchApproveClientListMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchApproveClientListMessage.h; path = Message/SearchApproveClientListMessage.h; sourceTree = SOURCE_ROOT; };
+		02A38E2E1B52B9E7008C0CA9 /* SearchApproveClientListMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchApproveClientListMessage.m; path = Message/SearchApproveClientListMessage.m; sourceTree = SOURCE_ROOT; };
+		02A38E301B52C25E008C0CA9 /* GetClientModifyHistoryListMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetClientModifyHistoryListMessage.h; path = Message/GetClientModifyHistoryListMessage.h; sourceTree = SOURCE_ROOT; };
+		02A38E311B52C25E008C0CA9 /* GetClientModifyHistoryListMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetClientModifyHistoryListMessage.m; path = Message/GetClientModifyHistoryListMessage.m; sourceTree = SOURCE_ROOT; };
 		02C09D0D1B27D350009E823C /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Tools/Masonry/MASCompositeConstraint.h; sourceTree = SOURCE_ROOT; };
 		02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASCompositeConstraint.m; path = Tools/Masonry/MASCompositeConstraint.m; sourceTree = SOURCE_ROOT; };
 		02C09D0F1B27D350009E823C /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASConstraint.h; path = Tools/Masonry/MASConstraint.h; sourceTree = SOURCE_ROOT; };
@@ -619,6 +628,7 @@
 		022964711AA6B1E500D5BFE5 /* Message */ = {
 			isa = PBXGroup;
 			children = (
+				02A38E291B52B982008C0CA9 /* approveMan */,
 				02D83E3B1B4E8A48008696A6 /* customerMan */,
 				0203F6221AB2C602004B6065 /* login */,
 				028207611AB03EB900951CB2 /* JsonMessage.h */,
@@ -796,6 +806,19 @@
 				029FE86A1AB9768C006882DE /* JSONKit.m */,
 			);
 			name = JSON;
+			sourceTree = "<group>";
+		};
+		02A38E291B52B982008C0CA9 /* approveMan */ = {
+			isa = PBXGroup;
+			children = (
+				02A38E2A1B52B9B6008C0CA9 /* ApproveClientMessage.h */,
+				02A38E2B1B52B9B6008C0CA9 /* ApproveClientMessage.m */,
+				02A38E2D1B52B9E7008C0CA9 /* SearchApproveClientListMessage.h */,
+				02A38E2E1B52B9E7008C0CA9 /* SearchApproveClientListMessage.m */,
+				02A38E301B52C25E008C0CA9 /* GetClientModifyHistoryListMessage.h */,
+				02A38E311B52C25E008C0CA9 /* GetClientModifyHistoryListMessage.m */,
+			);
+			name = approveMan;
 			sourceTree = "<group>";
 		};
 		02C09D0B1B27D336009E823C /* Masonry */ = {
@@ -1042,6 +1065,7 @@
 				183185001B29A95200618CE1 /* UserView.m in Sources */,
 				02D83E381B4E608E008696A6 /* FMResultSet.m in Sources */,
 				0216840D1B2D870600E94A47 /* ModelConditionNavVC.m in Sources */,
+				02A38E321B52C25E008C0CA9 /* GetClientModifyHistoryListMessage.m in Sources */,
 				0229649A1AA6B3F100D5BFE5 /* LoginView.m in Sources */,
 				02D15D041AAECB34004B2746 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				022205761B39A3A1005B827A /* SafeManageView.m in Sources */,
@@ -1094,6 +1118,8 @@
 				02C09D2D1B27D350009E823C /* View+MASAdditions.m in Sources */,
 				025760E11B28828400CE588A /* RefreshSingleView.m in Sources */,
 				D43811161B41796100FF56DB /* AccountManageVC.m in Sources */,
+				02A38E2F1B52B9E7008C0CA9 /* SearchApproveClientListMessage.m in Sources */,
+				02A38E2C1B52B9B6008C0CA9 /* ApproveClientMessage.m in Sources */,
 				D41EF7DF1B50FBD000CA744A /* ManageView.m in Sources */,
 				021416A91B25892A00248D48 /* SafeManageVC.m in Sources */,
 				02D83E371B4E608E008696A6 /* FMDatabaseQueue.m in Sources */,
