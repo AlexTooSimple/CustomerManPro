@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface AddCustomerVC : UIViewController
-
+{
+    NSDictionary *customerInsertInfo;
+}
+@property (nonatomic ,retain)NSDictionary *customerInsertInfo;
 @end

@@ -10,6 +10,7 @@
 #import "ItemPickerView.h"
 #import "bussineDataService.h"
 #import "AddCustomerVC.h"
+#import "ShowRepeatClientVC.h"
 
 #define CELL_TYPE_ONE_ROW_TITLE_LABEL_TAG           101
 #define CELL_TYPE_ONE_ROW_TEXT_FIELD_TAG            102
@@ -151,6 +152,19 @@
         [alert show];
         [alert release];
         return;
+    }else{
+        if ([self.phoneField.text length] != 11) {
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:@"手机号码不等于11位"
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+            return;
+
+        }
     }
     
     bussineDataService *bussineService = [bussineDataService sharedDataService];
@@ -191,6 +205,7 @@
     titleLabel = (UILabel *)[phoneView viewWithTag:CELL_TYPE_ONE_ROW_TITLE_LABEL_TAG];
     titleLabel.text = @"手机号码：";
     txtField = (UITextField *)[phoneView viewWithTag:CELL_TYPE_ONE_ROW_TEXT_FIELD_TAG];
+    txtField.keyboardType = UIKeyboardTypePhonePad;
     self.phoneField = txtField;
     
     //布局客户类型
@@ -415,6 +430,17 @@
     return YES;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.phoneField) {
+        NSInteger loc = range.location;
+        if (loc >= 11) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 #pragma mark
 #pragma mark - HttpBackDelegate
 - (void)requestDidFinished:(NSDictionary *)info
@@ -430,13 +456,25 @@
             NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
                                                                        options:NSJSONReadingMutableContainers
                                                                         error:nil];
+            
+            NSString *clientType = [[self.clientTypeSourceList objectAtIndex:selectClientType] objectForKey:SOURCE_DATA_ID_COLUM];
+            NSDictionary *clientData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                                              self.nameField.text,@"cname",
+                                                              self.phoneField.text,@"mobile",
+                                                              clientType,@"clientType",nil];
             if (rspCustomerList == nil || [rspCustomerList isEqual:[NSNull null]] || [rspCustomerList count] == 0) {
                 AddCustomerVC *VC = [[AddCustomerVC alloc] init];
+                VC.customerInsertInfo = clientData;
                 [self.navigationController pushViewController:VC animated:YES];
                 [VC release];
             }else{
-            
+                ShowRepeatClientVC *VC = [[ShowRepeatClientVC alloc] init];
+                VC.repeatClientList = rspCustomerList;
+                VC.newClientInfo = clientData;
+                [self.navigationController pushViewController:VC animated:YES];
+                [VC release];
             }
+            [clientData release];
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                          message:@"校验客户失败"

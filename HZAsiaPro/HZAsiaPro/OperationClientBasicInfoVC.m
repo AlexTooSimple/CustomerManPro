@@ -96,13 +96,15 @@
 - (void)commitClicked:(id)sender
 {
     NSDictionary *addCustomerInfo = [self.basicInfoView commitGetAllCustomerData];
-    NSString *clientType = [self.customerInfo objectForKey:@"clientType"];
-    if ([clientType isEqualToString:@"0"]) {
-        //个人客户
-        [self sendUpdateIndvialMessage:addCustomerInfo];
-    }else if ([clientType isEqualToString:@"1"]){
-        //企业客户
-        [self sendUpdateBusinessMessage:addCustomerInfo];
+    if (addCustomerInfo != nil) {
+        NSString *clientType = [self.customerInfo objectForKey:@"clientType"];
+        if ([clientType isEqualToString:@"0"]) {
+            //个人客户
+            [self sendUpdateIndvialMessage:addCustomerInfo];
+        }else if ([clientType isEqualToString:@"1"]){
+            //企业客户
+            [self sendUpdateBusinessMessage:addCustomerInfo];
+        }
     }
 }
 
@@ -141,8 +143,6 @@
     [self.itemPicker dismiss];
 }
 
-
-
 #pragma mark
 #pragma mark - Send Http Message
 //更新企业用户基本信息
@@ -152,7 +152,7 @@
     NSString *clientCode = [self.customerInfo objectForKey:@"clientCode"];
     
     NSString *cname = [basicInfo objectForKey:@"公司名称"];
-    NSString *mobile = [basicInfo objectForKey:@"移动电话"];
+    NSString *mobile = [basicInfo objectForKey:@"联系电话"];
     NSString *shortforname = [basicInfo objectForKey:@"公司简称"];
     NSString *faren = [basicInfo objectForKey:@"法人代表"];
     NSString *contact = [basicInfo objectForKey:@"联系人"];
@@ -351,11 +351,11 @@
     [nameDic release];
     
     initValue = [self getSourceInitValue:sourceInitData
-                            WithLinkName:@"移动电话"
+                            WithLinkName:@"联系电话"
                            WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *suoxieDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                      @"移动电话", PLUS_CUSTOMER_TITLE,
+                                      @"联系电话", PLUS_CUSTOMER_TITLE,
                                       CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
                                       initValue,PLUS_INIT_VALUE,
                                       PUT_FORCE_YES,PLUS_VALUE_IS_PUT_FORCE,

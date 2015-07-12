@@ -377,6 +377,7 @@ static bussineDataService *sharedBussineDataService = nil;
     [self noticeUI:rspDic];
 }
 
+#pragma mark
 #pragma mark - 更新用户基本信息
 - (void)updateUser:(NSDictionary *)paramters
 {
@@ -396,6 +397,70 @@ static bussineDataService *sharedBussineDataService = nil;
     }
     [self noticeUI:rspDic];
 }
+
+#pragma mark
+#pragma mark - 审批客户
+- (void)approveClient:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"ApproveClientMessage"
+                     param:paramters
+                   funName:@"approveClient:"
+             synchronously:NO];
+}
+
+- (void)approveClientFinished:(id <MessageDelegate>)searchResponse
+{
+    ApproveClientMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+#pragma mark
+#pragma mark - 搜索审批客户
+- (void)searchApproveClientList:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"SearchApproveClientListMessage"
+                     param:paramters
+                   funName:@"searchApproveClientList:"
+             synchronously:NO];
+}
+
+- (void)searchApproveClientListFinished:(id <MessageDelegate>)searchResponse
+{
+    SearchApproveClientListMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+#pragma mark
+#pragma mark - 搜索审批客户
+- (void)getModifyHistoryList:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"GetClientModifyHistoryListMessage"
+                     param:paramters
+                   funName:@"getModifyHistoryList:"
+             synchronously:NO];
+}
+
+- (void)getModifyHistoryListFinished:(id <MessageDelegate>)searchResponse
+{
+    GetClientModifyHistoryListMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
 
 #pragma mark -
 #pragma mark http 回调接口
@@ -425,6 +490,12 @@ static bussineDataService *sharedBussineDataService = nil;
         [self updateCustomerFinished:msg];
     }else if (YES == [[msg getBusinessCode] isEqualToString:UPDATE_USER_BASIC_INFO_BIZCODE]){
         [self updateUserFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:SEARCH_APPROVE_CLIENT_LIST_BIZCODE]){
+        [self searchApproveClientListFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:APPROVE_CLIENT_BIZCODE]){
+        [self approveClientFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:GET_CLIENT_MODIFY_HISTORY_BIZCODE]){
+        [self getModifyHistoryListFinished:msg];
     }
 }
 
