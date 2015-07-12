@@ -35,20 +35,6 @@
     // Do any additional setup after loading the view.
 }
 
-//- (void)setNavBarOperatorItem
-//{
-//    UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑"
-//                                                                    style:UIBarButtonItemStyleBordered
-//                                                                   target:self
-//                                                                   action:@selector(edit:)];
-//    self.navigationItem.rightBarButtonItem = operateItem;
-//    [operateItem release];
-//}
-
-//- (void)edit:(id)sender {
-//    [self.kehu.tbvHome setEditing:!self.kehu.tbvHome.editing animated:YES];
-//}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -58,14 +44,19 @@
     self.kehu = [[ManageView alloc] initWithFrame:CGRectMake(0, 64, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT-64)];
     [self.view addSubview:self.kehu];
     self.kehu.tapBlk = ^(NSIndexPath *index){
-        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
-        detail.detailType = allInfoType;
-        detail.isFromApprove = NO;
-        [self.navigationController pushViewController:detail animated:YES];
-        [detail release];
+        NSLog(@"点击了第%d行",self.kehu);
+//        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+//        detail.detailType = allInfoType;
+//        detail.isFromApprove = NO;
+//        NSMutableDictionary *MDic = [NSMutableDictionary dictionaryWithDictionary:[self.kehu.searchMArr objectAtIndex:index.row]];
+//        detail.customerInfo = MDic;
+//        [self.navigationController pushViewController:detail animated:YES];
+//        [detail release];
     };
 
-//    [self setNavBarOperatorItem];
+    self.kehu.btnTapBlk = ^(UIViewController *saleVC){
+        [self.navigationController pushViewController:saleVC animated:YES];
+    };
     [self searchSimpleCustomer];
 }
 

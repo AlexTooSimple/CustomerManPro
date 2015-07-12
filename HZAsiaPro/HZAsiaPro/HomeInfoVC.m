@@ -17,7 +17,7 @@
 @property(nonatomic,strong)UIScrollView *scvHome;
 @property(nonatomic,strong)UIPageControl *page;
 @property(nonatomic,strong)KehuView *kehuNoCall;
-@property(nonatomic,strong)KehuView *kehuTimeUp;
+//@property(nonatomic,strong)KehuView *kehuTimeUp;
 @property(nonatomic,strong)NSMutableArray *titleMArr;
 
 @end
@@ -48,16 +48,22 @@
     } else {
         self.kehuNoCall.hidden = YES;
     }
-    if([[[NSUserDefaults standardUserDefaults] objectForKey:TimeUp] boolValue]){
-        self.kehuTimeUp.hidden = NO;
-        self.kehuTimeUp.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
-        width += DEVICE_MAINSCREEN_WIDTH;
-        [self.titleMArr addObject:@"到期客户"];
-    } else {
-        self.kehuTimeUp.hidden = YES;
-    }
+//    if([[[NSUserDefaults standardUserDefaults] objectForKey:TimeUp] boolValue]){
+//        self.kehuTimeUp.hidden = NO;
+//        self.kehuTimeUp.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
+//        width += DEVICE_MAINSCREEN_WIDTH;
+//        [self.titleMArr addObject:@"到期客户"];
+//    } else {
+//        self.kehuTimeUp.hidden = YES;
+//    }
     self.scvHome.contentSize = CGSizeMake(width, DEVICE_MAINSCREEN_HEIGHT-64-50);
     self.page.numberOfPages = width/DEVICE_MAINSCREEN_WIDTH;
+    if(self.page.numberOfPages == 1){
+        self.page.hidden = YES;
+    } else {
+        self.page.hidden = NO;
+    }
+    [self setUpdata];
 }
 
 - (void)loadView
@@ -82,28 +88,11 @@
     //未联系客户
     NSArray *contactTypeSource = [store getObjectById:CUSTOMER_NONECONNECT_LIST
                                             fromTable:CUSTOMER_DB_TABLE];
-    
-//    NSMutableArray *tabMArr1 = [[NSMutableArray alloc] initWithCapacity:0];
-//    NSDictionary *dic11 = @{@"name":@"张三",@"source":@"13656687678"};
-//    NSDictionary *dic21 = @{@"name":@"李四",@"source":@"13656687679"};
-//    NSDictionary *dic31 = @{@"name":@"王五",@"source":@"13656687677"};
-//    NSDictionary *dic41 = @{@"name":@"赵六",@"source":@"13678898765"};
-//    NSDictionary *dic51 = @{@"name":@"李七",@"source":@"13656687676"};
-//    [tabMArr1 addObject:dic11];
-//    [tabMArr1 addObject:dic21];
-//    [tabMArr1 addObject:dic31];
-//    [tabMArr1 addObject:dic41];
-//    [tabMArr1 addObject:dic51];
-//    [tabMArr1 addObject:dic51];
-//    [tabMArr1 addObject:dic51];
-//    [tabMArr1 addObject:dic51];
-//    [tabMArr1 addObject:dic51];
-//    [tabMArr1 addObject:dic51];
+
     self.kehuNoCall.tabMArr = [NSMutableArray arrayWithArray:contactTypeSource];
-    self.kehuTimeUp.tabMArr = [NSMutableArray arrayWithArray:contactTypeSource];
+//    self.kehuTimeUp.tabMArr = [NSMutableArray arrayWithArray:contactTypeSource];
     [self.kehuNoCall reloadView];
-    [self.kehuTimeUp reloadView];
-//    [tabMArr1 release];
+//    [self.kehuTimeUp reloadView];
 }
 
 - (void)viewDidLoad {
@@ -131,20 +120,23 @@
         DetailInfoVC *detail = [[DetailInfoVC alloc] init];
         detail.detailType = allInfoType;
         detail.isFromApprove = NO;
+        NSMutableDictionary *MDic = [NSMutableDictionary dictionaryWithDictionary:[self.kehuNoCall.searchMArr objectAtIndex:index.row]];
+        [MDic setObject:[[self.kehuNoCall.searchMArr objectAtIndex:index.row] objectForKey:@"client_code"] forKey:@"clientCode"];
+        detail.customerInfo = MDic;
         [self.navigationController pushViewController:detail animated:YES];
         [detail release];
     };
     
-    self.kehuTimeUp = [[KehuView alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH*2, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds))];
-    self.kehuTimeUp.tbvHome.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
-    [self.scvHome addSubview:self.kehuTimeUp];
-    self.kehuTimeUp.tapBlk = ^(NSIndexPath *index){
-        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
-        detail.detailType = allInfoType;
-        detail.isFromApprove = NO;
-        [self.navigationController pushViewController:detail animated:YES];
-        [detail release];
-    };
+//    self.kehuTimeUp = [[KehuView alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH*2, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds))];
+//    self.kehuTimeUp.tbvHome.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
+//    [self.scvHome addSubview:self.kehuTimeUp];
+//    self.kehuTimeUp.tapBlk = ^(NSIndexPath *index){
+//        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+//        detail.detailType = allInfoType;
+//        detail.isFromApprove = NO;
+//        [self.navigationController pushViewController:detail animated:YES];
+//        [detail release];
+//    };
     [self setUpdata];
     
     
@@ -152,7 +144,7 @@
     self.page.backgroundColor = [UIColor clearColor];
     self.page.currentPageIndicatorTintColor = [UIColor orangeColor];
     self.page.pageIndicatorTintColor = [UIColor grayColor];
-    self.page.numberOfPages = 3;
+    self.page.numberOfPages = 2;
     [self.view addSubview:self.page];
     
     self.titleMArr = [[NSMutableArray alloc] initWithCapacity:0];
@@ -165,7 +157,7 @@
     [self.titleMArr release];
     [self.page release];
     [self.kehuNoCall release];
-    [self.kehuTimeUp release];
+//    [self.kehuTimeUp release];
     [super dealloc];
 }
 
@@ -185,11 +177,11 @@
         switch (page1) {
             case 0:{
                 [self.kehuNoCall.scbHome resignFirstResponder];
-                [self.kehuTimeUp.scbHome resignFirstResponder];
+//                [self.kehuTimeUp.scbHome resignFirstResponder];
                 break;
             }
             case 1:{
-                [self.kehuTimeUp.scbHome resignFirstResponder];
+//                [self.kehuTimeUp.scbHome resignFirstResponder];
                 break;
             }
             case 2:{

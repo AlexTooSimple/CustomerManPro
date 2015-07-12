@@ -16,6 +16,7 @@ typedef void(^tapBlock)(id);
 @property(nonatomic,strong)NSMutableArray *tabMArr;
 @property(nonatomic,strong)UITableView *tbvSaleMan;
 @property(nonatomic,strong)NSMutableArray *selectMArr;
+@property(nonatomic,strong)NSString *selectStr;
 
 @property(copy, nonatomic) tapBlock tapBlk;
 

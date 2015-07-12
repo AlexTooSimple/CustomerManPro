@@ -32,6 +32,11 @@
     [super dealloc];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self initData];
+}
+
 - (void)loadView
 {
     CGRect frame = [UIScreen mainScreen].bounds;
@@ -57,8 +62,7 @@
         make.size.equalTo(self.view);
     }];
     [safeManView release];
-    
-    [self initData];
+    self.itemArr = [[NSMutableArray alloc] initWithCapacity:0];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,7 +72,7 @@
 
 - (void)initData
 {
-    self.itemArr = [[NSMutableArray alloc] initWithCapacity:0];
+    [self.itemArr removeAllObjects];
     //一旦设置用户权限，可以相应修改下列数组
     YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
     NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO

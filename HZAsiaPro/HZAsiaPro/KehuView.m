@@ -56,12 +56,12 @@
         NSMutableArray *arr = [[NSMutableArray alloc] initWithCapacity:0];
         for(int i=0; i<[self.tabMArr count]; i++){
             NSDictionary *dic = [self.tabMArr objectAtIndex:i];
-            NSRange range = [[dic objectForKey:@"name"] rangeOfString:searchStr];
+            NSRange range = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"client_code"]] rangeOfString:searchStr];
             if(range.length>0){
                 [arr addObject:dic];
                 continue;
             } else {
-                range = [[dic objectForKey:@"source"] rangeOfString:searchStr];
+                range = [[NSString stringWithFormat:@"%@",[dic objectForKey:@"cname"]] rangeOfString:searchStr];
                 if(range.length>0){
                     [arr addObject:dic];
                     continue;
@@ -117,7 +117,7 @@
         [labTwo release];
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 43, DEVICE_MAINSCREEN_WIDTH, 1)];
-        view.backgroundColor = [UIColor lightGrayColor];
+        view.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
         [cell addSubview:view];
         [view release];
     }
