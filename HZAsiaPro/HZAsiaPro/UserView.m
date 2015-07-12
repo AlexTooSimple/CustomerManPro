@@ -42,6 +42,31 @@
     [super dealloc];
 }
 
+- (void)setLabOne:(NSString *)one LabTwo:(NSString *)two Withlab:(UILabel *)labOne otherlab:(UILabel *)labTwo {
+    if ([one isEqualToString:@"code"]) {
+        labOne.text = @"业务员编码";
+        labTwo.text = two;
+    } else if([one isEqualToString:@"username"]) {
+        labOne.text = @"用户名";
+        labTwo.text = two;
+    } else if([one isEqualToString:@"password"]) {
+        labOne.text = @"密码";
+        labTwo.text = two;
+    } else if([one isEqualToString:@"status"]) {
+        labOne.text = @"状态";
+        labTwo.text = two;
+    } else if([one isEqualToString:@"isadmin"]) {
+        labOne.text = @"是否管理员";
+        labTwo.text = [two isEqualToString:@"1"]?@"是":@"否";
+    } else if([one isEqualToString:@"ownname"]) {
+        labOne.text = @"姓名";
+        labTwo.text = two;
+    } else {
+        labOne.text = one;
+        labTwo.text = two;
+    }
+}
+
 #pragma mark tableviewDele & tableviewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
@@ -57,7 +82,7 @@
     if(!cell){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellStr];
         
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,DEVICE_MAINSCREEN_WIDTH *1/3 , 44)];
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0,DEVICE_MAINSCREEN_WIDTH *1/4 , 44)];
         lab.backgroundColor = [UIColor clearColor];
         lab.font = [UIFont systemFontOfSize:14];
         lab.textAlignment = NSTextAlignmentRight;
@@ -65,7 +90,7 @@
         [cell addSubview:lab];
         [lab release];
         
-        UILabel *labTwo = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH *2/5, 0,DEVICE_MAINSCREEN_WIDTH *3/5 , 44)];
+        UILabel *labTwo = [[UILabel alloc] initWithFrame:CGRectMake(20+DEVICE_MAINSCREEN_WIDTH *1/4, 0,DEVICE_MAINSCREEN_WIDTH *3/5 , 44)];
         labTwo.backgroundColor = [UIColor clearColor];
         labTwo.font = [UIFont systemFontOfSize:14];
         labTwo.textAlignment = NSTextAlignmentLeft;
@@ -74,14 +99,15 @@
         [labTwo release];
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 43, DEVICE_MAINSCREEN_WIDTH, 1)];
-        view.backgroundColor = [UIColor lightGrayColor];
+        view.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
         [cell addSubview:view];
         [view release];
     }
     UILabel *labOne = (UILabel *)[cell viewWithTag:labOneTag];
     UILabel *labTwo = (UILabel *)[cell viewWithTag:labTwoTag];
-    labOne.text = [NSString stringWithFormat:@"%@",[[self.tabMDic allKeys] objectAtIndex:indexPath.row]];
-    labTwo.text = [NSString stringWithFormat:@"%@",[self.tabMDic objectForKey:labOne.text]];
+    NSString *str1 = [NSString stringWithFormat:@"%@",[[self.tabMDic allKeys] objectAtIndex:indexPath.row]];
+    NSString *str2 = [NSString stringWithFormat:@"%@",[self.tabMDic objectForKey:str1]];
+    [self setLabOne:str1 LabTwo:str2 Withlab:labOne otherlab:labTwo];
     return cell;
 }
 

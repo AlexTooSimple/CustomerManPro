@@ -127,6 +127,7 @@
 		183185031B29B47C00618CE1 /* KehuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 183185021B29B47C00618CE1 /* KehuView.m */; };
 		D41EF7DF1B50FBD000CA744A /* ManageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D41EF7DE1B50FBD000CA744A /* ManageView.m */; };
 		D43811161B41796100FF56DB /* AccountManageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D43811151B41796100FF56DB /* AccountManageVC.m */; };
+		D4C402E11B5253AD00B74035 /* myButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D4C402E01B5253AD00B74035 /* myButton.m */; };
 		D4EF705C1B4FEF21002E68EE /* UserDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF705B1B4FEF21002E68EE /* UserDetailViewController.m */; };
 		D4EF705F1B4FF49D002E68EE /* BaseTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF705E1B4FF49D002E68EE /* BaseTabView.m */; };
 		D4EF70621B4FFFD6002E68EE /* SalesmanSelectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D4EF70611B4FFFD6002E68EE /* SalesmanSelectVC.m */; };
@@ -368,6 +369,8 @@
 		D41EF7DE1B50FBD000CA744A /* ManageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageView.m; sourceTree = "<group>"; };
 		D43811141B41796100FF56DB /* AccountManageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManageVC.h; sourceTree = "<group>"; };
 		D43811151B41796100FF56DB /* AccountManageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManageVC.m; sourceTree = "<group>"; };
+		D4C402DF1B5253AD00B74035 /* myButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myButton.h; sourceTree = "<group>"; };
+		D4C402E01B5253AD00B74035 /* myButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myButton.m; sourceTree = "<group>"; };
 		D4EF705A1B4FEF21002E68EE /* UserDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailViewController.h; sourceTree = "<group>"; };
 		D4EF705B1B4FEF21002E68EE /* UserDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailViewController.m; sourceTree = "<group>"; };
 		D4EF705D1B4FF49D002E68EE /* BaseTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTabView.h; sourceTree = "<group>"; };
@@ -491,6 +494,8 @@
 				D4EFC6CF1B4EBEF500017F29 /* AutoCustomVC.m */,
 				D41EF7DD1B50FBD000CA744A /* ManageView.h */,
 				D41EF7DE1B50FBD000CA744A /* ManageView.m */,
+				D4C402DF1B5253AD00B74035 /* myButton.h */,
+				D4C402E01B5253AD00B74035 /* myButton.m */,
 				D4EF70601B4FFFD6002E68EE /* SalesmanSelectVC.h */,
 				D4EF70611B4FFFD6002E68EE /* SalesmanSelectVC.m */,
 				D4EF705A1B4FEF21002E68EE /* UserDetailViewController.h */,
@@ -1101,6 +1106,7 @@
 				D4F073911B3C3F4700371F37 /* MySwitch.m in Sources */,
 				02A29EB71B50BB1900E97D0C /* GetVisitHistoryListMessage.m in Sources */,
 				D4EFC6D01B4EBEF500017F29 /* AutoCustomVC.m in Sources */,
+				D4C402E11B5253AD00B74035 /* myButton.m in Sources */,
 				021683FE1B2D67DE00E94A47 /* SearchConditionVC.m in Sources */,
 				02C09D281B27D350009E823C /* MASLayoutConstraint.m in Sources */,
 				02A38E1E1B52559B008C0CA9 /* InsertClientMessage.m in Sources */,

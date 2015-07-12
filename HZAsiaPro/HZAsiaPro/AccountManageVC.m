@@ -44,6 +44,14 @@
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightButtonForSearch] autorelease];
 }
 
+- (BOOL)getAdmin{
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+    NSNumber *isadmin = [usrInfo objectForKey:@"isadmin"];
+    return [isadmin boolValue];
+}
+
 - (void)setTable{
     self.tbvAccount = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT - 64 -50) style:UITableViewStylePlain];
     self.tbvAccount.delegate = self;
@@ -55,6 +63,27 @@
 
 - (void)save {
     [self.txfPhoneNum resignFirstResponder];
+    
+    NSString *tableName = CUSTOMER_DB_TABLE;
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSMutableDictionary *usrInfo = [NSMutableDictionary dictionaryWithDictionary:
+                                    [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE]];
+    NSNumber *isadmin = [usrInfo objectForKey:@"isadmin"];
+    if([isadmin integerValue]==1){
+        [usrInfo setObject:@0 forKey:@"isadmin"];
+    }else{
+        [usrInfo setObject:@1 forKey:@"isadmin"];
+    }
+    
+    [store putObject:usrInfo
+              withId:CUSTOMER_USERINFO
+           intoTable:tableName];
+    [store release];
+    
+    UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"" message:@"保存成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [aler show];
+    [aler release];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,11 +136,16 @@
             swtPlay.onTintColor = [UIColor colorWithRed:1 green:0.32 blue:0 alpha:1];
             swtPlay.center = CGPointMake(DEVICE_MAINSCREEN_WIDTH - 40, 22);
             [swtPlay addTarget:self action:@selector(switchIsChanged:) forControlEvents:UIControlEventTouchUpInside];
-            swtPlay.on = NO;
+            if([self getAdmin]){
+                swtPlay.on = YES;
+                labOne.text = @"管理员账户";
+            } else {
+                swtPlay.on = NO;
+                labOne.text = @"普通账户";
+            }
             self.swtRoot = swtPlay;
             [cell addSubview:self.swtRoot];
             [swtPlay release];
-            labOne.text = @"普通账户";
         }
         
     } else if(indexPath.row == 1) {
