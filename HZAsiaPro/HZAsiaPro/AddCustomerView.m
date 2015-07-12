@@ -139,7 +139,7 @@
                 }
             }
             
-            [customerData setObject:[detailDic objectForKey:SOURCE_DATA_ID_COLUM]
+            [customerData setObject:[detailDic objectForKey:SOURCE_DATA_NAME_COULUM]
                              forKey:title];
         }else if ([dataType isEqualToString:CUSTOMER_TEXTFIELD_TYPE]){
             UITextField *detailField = [itemData objectForKey:CELL_CUSTOMER_TEXTFIELD];
@@ -296,6 +296,17 @@
                                                                      duarY:(CELL_ROW_HEIGHT*i+self.sectionHei)];
             UILabel *titleLabel = (UILabel *)[sectionView viewWithTag:CELL_TYPE_ONE_ROW_TITLE_LABEL_TAG];
             UITextField *textField = (UITextField *)[sectionView viewWithTag:CELL_TYPE_ONE_ROW_TEXT_FIELD_TAG];
+            
+            NSString *keyWindowsType = [itemData objectForKey:PLUS_FIELD_KEYWINDOW_TYPE];
+            if (keyWindowsType != nil && ![keyWindowsType isEqualToString:@""]) {
+                if ([keyWindowsType isEqualToString:KEY_WINDOWS_NUMBER]) {
+                    textField.keyboardType = UIKeyboardTypePhonePad;
+                }else if ([keyWindowsType isEqualToString:KEY_WINDOWS_ASCII]){
+                    textField.keyboardType = UIKeyboardTypeASCIICapable;
+                }
+            }else{
+                textField.keyboardType = UIKeyboardTypeDefault;
+            }
             
             NSString *showTitle = [[NSString alloc] initWithFormat:@"%@:",[itemData objectForKey:PLUS_CUSTOMER_TITLE]];
             titleLabel.text = showTitle;
@@ -478,6 +489,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentRight;
+    titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.tag = CELL_TYPE_THREE_ROW_TITLE_LABEL_TAG;
     titleLabel.font = [UIFont systemFontOfSize:13.0f];
     titleLabel.textColor = [UIColor blackColor];
@@ -547,6 +559,7 @@
     titleLabel.font = [UIFont boldSystemFontOfSize:13.5];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.text = self.headerTitle;
+    titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.shadowColor = [UIColor blackColor];
     titleLabel.shadowOffset = CGSizeMake(0.5,0.5);
     titleLabel.backgroundColor = [UIColor clearColor];
@@ -574,6 +587,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentRight;
+    titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.tag = CELL_TYPE_ONE_ROW_TITLE_LABEL_TAG;
     titleLabel.font = [UIFont systemFontOfSize:13.0f];
     titleLabel.textColor = [UIColor blackColor];
@@ -642,6 +656,7 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textAlignment = NSTextAlignmentRight;
+    titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.tag = CELL_TYPE_TWO_ROW_TITLE_LABEL_TAG;
     titleLabel.font = [UIFont systemFontOfSize:13.0f];
     titleLabel.textColor = [UIColor blackColor];

@@ -10,10 +10,16 @@
 #import "ItemPickerView.h"
 #import "AddCustomerView.h"
 #import "MyDatePickerView.h"
+#import "bussineDataService.h"
+
+#define ALTER_SUCCESS_BACK_TAG      205
 
 @interface OperationClientBasicInfoVC ()<AddCustomerViewDelegate,
                                          ItemPickerDelegate,
-                                         MyDatePickerViewDelegate,AlertShowViewDelegate>
+                                         MyDatePickerViewDelegate,
+                                         AlertShowViewDelegate,
+                                         UIAlertViewDelegate,
+                                         HttpBackDelegate>
 {
     MyDatePickerView *datePicker;
     ItemPickerView *itemPicker;
@@ -93,9 +99,10 @@
     NSString *clientType = [self.customerInfo objectForKey:@"clientType"];
     if ([clientType isEqualToString:@"0"]) {
         //个人客户
-        
+        [self sendUpdateIndvialMessage:addCustomerInfo];
     }else if ([clientType isEqualToString:@"1"]){
         //企业客户
+        [self sendUpdateBusinessMessage:addCustomerInfo];
     }
 }
 
@@ -135,9 +142,146 @@
 }
 
 
+
+#pragma mark
+#pragma mark - Send Http Message
+//更新企业用户基本信息
+- (void)sendUpdateBusinessMessage:(NSDictionary *)basicInfo
+{
+    //客户编码
+    NSString *clientCode = [self.customerInfo objectForKey:@"clientCode"];
+    
+    NSString *cname = [basicInfo objectForKey:@"公司名称"];
+    NSString *mobile = [basicInfo objectForKey:@"移动电话"];
+    NSString *shortforname = [basicInfo objectForKey:@"公司简称"];
+    NSString *faren = [basicInfo objectForKey:@"法人代表"];
+    NSString *contact = [basicInfo objectForKey:@"联系人"];
+    NSString *fristName = [self.customerInfo objectForKey:@"cname"];
+    NSString *steps = [basicInfo objectForKey:@"进展阶段"];
+    NSString *phoneO = [self.customerInfo objectForKey:@"mobile"];
+    NSString *zhcaddr = [basicInfo objectForKey:@"注册地址"];
+    
+    NSString *zczj =  [basicInfo objectForKey:@"注册资金"];
+    NSNumber *zhcprice =  [NSNumber numberWithInteger:[zczj integerValue]];//要数字特殊处理
+    
+    NSString *jyfanwei = [basicInfo objectForKey:@"经营范围"];
+    NSString *hyxingzhi = [basicInfo objectForKey:@"行业性质"];
+    NSString *hypaiming = [basicInfo objectForKey:@"行业排名"];
+    NSString *shjhuguan = [basicInfo objectForKey:@"税籍户管"];
+    NSString *idStr = [basicInfo objectForKey:@"工商执照号"];
+    NSString *shwno = [basicInfo objectForKey:@"税务执照号"];
+    NSString *shwcode = [basicInfo objectForKey:@"税务代码"];
+    NSString *address = [basicInfo objectForKey:@"经营地址"];
+    NSString *jyqixian = [basicInfo objectForKey:@"经营期限"];
+    NSString *post = [basicInfo objectForKey:@"邮政编码"];
+    NSString *email = [basicInfo objectForKey:@"E-mail"];
+    NSString *fax = [basicInfo objectForKey:@"组织机构代码"];
+    NSString *remarks = [basicInfo objectForKey:@"备注"];
+    
+    
+    //最后修改人
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+    NSString *lastModifyBy = [usrInfo objectForKey:@"code"];
+    [store release];
+    
+    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 clientCode,@"clientCode",
+                                 cname,@"cname",
+                                 mobile,@"mobile",
+                                 shortforname,@"shortforname",
+                                 faren,@"faren",
+                                 contact,@"contact",
+                                 fristName,@"fristName",
+                                 steps,@"steps",
+                                 phoneO,@"phoneO",
+                                 zhcaddr,@"zhcaddr",
+                                 zhcprice,@"zhcprice",
+                                 jyfanwei,@"jyfanwei",
+                                 hyxingzhi,@"hyxingzhi",
+                                 hypaiming,@"hypaiming",
+                                 shjhuguan,@"shjhuguan",
+                                 idStr,@"id",
+                                 shwno,@"shwno",
+                                 shwcode,@"shwcode",
+                                 address,@"address",
+                                 jyqixian,@"jyqixian",
+                                 post,@"post",
+                                 email,@"email",
+                                 fax,@"fax",
+                                 remarks,@"remarks",
+                                 lastModifyBy,@"lastModifyBy",
+                                 nil];
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService updateCustomer:requestData];
+    [requestData release];
+}
+
+//更新个人用户基本信息
+- (void)sendUpdateIndvialMessage:(NSDictionary *)basicInfo
+{
+    //客户编码
+    NSString *clientCode = [self.customerInfo objectForKey:@"clientCode"];
+    
+    NSString *cname = [basicInfo objectForKey:@"客户姓名"];
+    NSString *shortforname = [basicInfo objectForKey:@"缩写"];
+    NSString *enname = [basicInfo objectForKey:@"英文名"];
+    NSString *sex = [basicInfo objectForKey:@"性别"];
+    NSString *mobile = [basicInfo objectForKey:@"移动电话"];
+    NSString *idtype = [basicInfo objectForKey:@"证件类型"];
+    NSString *idStr = [basicInfo objectForKey:@"证件号码"];
+    NSString *steps = [basicInfo objectForKey:@"进展阶段"];
+    NSString *birthdayStr = [basicInfo objectForKey:@"出生日期"];
+    NSString *business = [basicInfo objectForKey:@"职业"];
+    NSString *company = [basicInfo objectForKey:@"公司"];
+    NSString *address = [basicInfo objectForKey:@"联系地址"];
+    NSString *hangye = [basicInfo objectForKey:@"行业"];
+    NSString *marige = [basicInfo objectForKey:@"婚否"];
+    NSString *xueli = [basicInfo objectForKey:@"学历"];
+    NSString *remarks = [basicInfo objectForKey:@"备注"];
+    NSString *fristName = [self.customerInfo objectForKey:@"cname"];
+    NSString *fristPhone = [self.customerInfo objectForKey:@"mobile"];
+   
+    //最后修改人
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+    NSString *lastModifyBy = [usrInfo objectForKey:@"code"];
+    [store release];
+
+    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 clientCode,@"clientCode",
+                                 cname,@"cname",
+                                 shortforname,@"shortforname",
+                                 enname,@"enname",
+                                 sex,@"sex",
+                                 mobile,@"mobile",
+                                 idtype,@"idtype",
+                                 idStr,@"id",
+                                 steps,@"steps",
+                                 company,@"company",
+                                 business,@"business",
+                                 address,@"address",
+                                 hangye,@"hangye",
+                                 marige,@"marige",
+                                 xueli,@"xueli",
+                                 remarks,@"remarks",
+                                 fristName,@"fristName",
+                                 fristPhone,@"fristPhone",
+                                 lastModifyBy,@"lastModifyBy",
+                                 birthdayStr,@"birthdayStr",
+                                 nil];
+
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService updateCustomer:requestData];
+    [requestData release];
+}
+
 #pragma mark
 #pragma mark - 初始化数据
-
 - (void)reloadInitData:(NSArray *)sourceInitData
 {
     NSString *clientType = [self.customerInfo objectForKey:@"clientType"];
@@ -213,9 +357,25 @@
     NSMutableDictionary *suoxieDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"移动电话", PLUS_CUSTOMER_TITLE,
                                       CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      initValue,PLUS_INIT_VALUE,
+                                      PUT_FORCE_YES,PLUS_VALUE_IS_PUT_FORCE,
+                                      KEY_WINDOWS_NUMBER,PLUS_FIELD_KEYWINDOW_TYPE,
+                                      @"11",PLUS_LIMIT_LENGTH,nil];
     [itemList addObject:suoxieDic];
     [suoxieDic release];
+    
+    initValue = [self getSourceInitValue:sourceInitData
+                            WithLinkName:@"E-mail"
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
+                        WithSelectSource:nil];
+    NSMutableDictionary *emialDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                     @"E-mail",PLUS_CUSTOMER_TITLE,
+                                     CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                     initValue,PLUS_INIT_VALUE,
+                                     KEY_WINDOWS_ASCII,PLUS_FIELD_KEYWINDOW_TYPE,nil];
+    [itemList addObject:emialDic];
+    [emialDic release];
+
     
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"公司简称"
@@ -254,19 +414,6 @@
     [itemList addObject:phoneDic];
     [phoneDic release];
     
-    
-    
-    initValue = [self getSourceInitValue:sourceInitData
-                            WithLinkName:@"原始公司名称"
-                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
-                        WithSelectSource:nil];
-    NSMutableDictionary *certIDDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                      @"原始公司名称", PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
-    [itemList addObject:certIDDic];
-    [certIDDic release];
-    
     //进展阶段数据源
     NSArray *jinzhanSource = [store getObjectById:CUSTOMER_JINZHAN_JIEDUAN_LIST
                                         fromTable:CUSTOMER_DB_TABLE];
@@ -283,19 +430,6 @@
                                                initValue,PLUS_INIT_VALUE,nil];
     [itemList addObject:jianzhanjieduanDic];
     [jianzhanjieduanDic release];
-    
-    
-    initValue = [self getSourceInitValue:sourceInitData
-                            WithLinkName:@"原始电话"
-                           WithValueType:CUSTOMER_DATE_SELECT_TYPE
-                        WithSelectSource:nil];
-    
-    NSMutableDictionary *birthdayDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                        @"原始电话", PLUS_CUSTOMER_TITLE,
-                                        CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
-                                        initValue,PLUS_INIT_VALUE,nil];
-    [itemList addObject:birthdayDic];
-    [birthdayDic release];
     
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"注册地址"
@@ -316,7 +450,8 @@
     NSMutableDictionary *addressDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                        @"注册资金", PLUS_CUSTOMER_TITLE,
                                        CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
-                                       initValue,PLUS_INIT_VALUE,nil];
+                                       initValue,PLUS_INIT_VALUE,
+                                       KEY_WINDOWS_NUMBER,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:addressDic];
     [addressDic release];
     
@@ -352,23 +487,24 @@
     
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"行业排名"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *hypmDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"行业排名",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_NUMBER,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:hypmDic];
     [hypmDic release];
     
     
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"税籍户管"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *sjhgDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"税籍户管",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
                                       initValue,PLUS_INIT_VALUE,nil];
     [itemList addObject:sjhgDic];
     [sjhgDic release];
@@ -376,92 +512,88 @@
 
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"工商执照号"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *gszzDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"工商执照号",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_ASCII,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:gszzDic];
     [gszzDic release];
     
 
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"税务执照号"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *swzzDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"税务执照号",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_ASCII,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:swzzDic];
     [swzzDic release];
     
 
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"税务代码"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *swdmDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"税务代码",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_ASCII,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:swdmDic];
     [swdmDic release];
 
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"经营地址"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *jydzDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"经营地址",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
                                       initValue,PLUS_INIT_VALUE,nil];
     [itemList addObject:jydzDic];
     [jydzDic release];
     
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"经营期限"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *jyqxDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"经营期限",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_NUMBER,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:jyqxDic];
     [jyqxDic release];
     
 
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"邮政编码"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *postDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"邮政编码",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_NUMBER,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:postDic];
     [postDic release];
     
-    initValue = [self getSourceInitValue:sourceInitData
-                            WithLinkName:@"E-mail"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
-                        WithSelectSource:nil];
-    NSMutableDictionary *emialDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                      @"E-mail",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
-    [itemList addObject:emialDic];
-    [emialDic release];
-
+    
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"组织机构代码"
-                           WithValueType:CUSTOMER_TEXTVIEW_TYPE
+                           WithValueType:CUSTOMER_TEXTFIELD_TYPE
                         WithSelectSource:nil];
     NSMutableDictionary *zzjgdmDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"组织机构代码",PLUS_CUSTOMER_TITLE,
-                                      CUSTOMER_TEXTVIEW_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_ASCII,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:zzjgdmDic];
     [zzjgdmDic release];
 
@@ -551,7 +683,6 @@
     [sexDic release];
     [sexSource release];
     
-    
     initValue = [self getSourceInitValue:sourceInitData
                             WithLinkName:@"移动电话"
                            WithValueType:CUSTOMER_TEXTFIELD_TYPE
@@ -559,9 +690,12 @@
     NSMutableDictionary *phoneDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                      @"移动电话", PLUS_CUSTOMER_TITLE,
                                      CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
-                                     initValue,PLUS_INIT_VALUE,nil];
+                                     initValue,PLUS_INIT_VALUE,
+                                     KEY_WINDOWS_NUMBER,PLUS_FIELD_KEYWINDOW_TYPE,
+                                     @"11",PLUS_LIMIT_LENGTH,nil];
     [itemList addObject:phoneDic];
     [phoneDic release];
+   
     
     
     //布局证件类型数据源
@@ -587,7 +721,8 @@
     NSMutableDictionary *certIDDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                       @"证件号码", PLUS_CUSTOMER_TITLE,
                                       CUSTOMER_TEXTFIELD_TYPE,PLUS_CUSTOMER_TYPE,
-                                      initValue,PLUS_INIT_VALUE,nil];
+                                      initValue,PLUS_INIT_VALUE,
+                                      KEY_WINDOWS_ASCII,PLUS_FIELD_KEYWINDOW_TYPE,nil];
     [itemList addObject:certIDDic];
     [certIDDic release];
     
@@ -799,4 +934,75 @@
                                             animated:YES
                                           completion:nil];
 }
+
+- (void)alertShowView:(AlertShowView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(ALTER_SUCCESS_BACK_TAG == alertView.index){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark
+#pragma mark - UIAlterViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(ALTER_SUCCESS_BACK_TAG == alertView.tag){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[UpdateClientBasicInfoMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_UPDATE_MAIN_VC_NOTIFACTION
+                                                                object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_UPDATE_CLIENT_DATA_NOTIFATION
+                                                                object:nil];
+
+
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"修改信息成功"
+                                                                         message:@"您的客户基本信息修改成功,谢谢！"
+                                                                        delegate:self
+                                                                             tag:ALTER_SUCCESS_BACK_TAG
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+            
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[UpdateClientBasicInfoMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
 @end

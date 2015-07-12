@@ -21,5 +21,7 @@
 #import "AddVisitHistoryMessage.h"
 #import "DeleteClientMessage.h"
 #import "CheckClientMessage.h"
+#import "InsertClientMessage.h"
+#import "UpdateClientBasicInfoMessage.h"
 
 #endif

@@ -30,7 +30,9 @@
     
     NSArray *customerInfoDataList;
     NSArray *customerHistoryList;
+    BOOL isUpdate;
 }
+@property (nonatomic ,assign)BOOL isUpdate;
 @property (nonatomic ,retain)UIScrollView *contentView;
 @property (nonatomic ,retain)UIPageControl *contentControl;
 @property (nonatomic ,retain)NSArray *customerInfoDataList;
@@ -46,6 +48,7 @@
 @synthesize customerHistoryList;
 @synthesize detailType;
 @synthesize isFromApprove;
+@synthesize isUpdate;
 
 - (void)dealloc
 {
@@ -69,6 +72,10 @@
         [customerHistoryList release];
     }
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:CUSTOMER_UPDATE_CLIENT_DATA_NOTIFATION
+                                                  object:nil];
+    
     [super dealloc];
 }
 
@@ -86,6 +93,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.isUpdate = NO;
     if (isFromApprove) {
         self.title = @"审批详情";
         [self setNavBarApproveItem];
@@ -94,6 +102,10 @@
         [self setNavBarOperatorItem];
     }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(setDetailUpdateKeyView)
+                                                 name:CUSTOMER_UPDATE_CLIENT_DATA_NOTIFATION
+                                               object:nil];
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
     scrollView.backgroundColor = [UIColor clearColor];
@@ -165,6 +177,23 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (self.isUpdate) {
+        bussineDataService *bussineService = [bussineDataService sharedDataService];
+        bussineService.target = self;
+        NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     [self.customerInfo objectForKey:@"clientCode"],@"clientCode",nil];
+        [bussineService searchCustomerListWithCondition:requestData];
+        [requestData release];
+    }
+}
+
+- (void)setDetailUpdateKeyView
+{
+    self.isUpdate = YES;
 }
 
 #pragma mark
@@ -399,7 +428,9 @@
     OperationClientBasicInfoVC *operationVC = [[OperationClientBasicInfoVC alloc] init];
     NSDictionary *currentCustomerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                          [self.customerInfo objectForKey:@"clientCode"], @"clientCode",
-                                         [self.customerInfo objectForKey:@"clientType"], @"clientType",nil];
+                                         [self.customerInfo objectForKey:@"clientType"], @"clientType",
+                                         [self.customerInfo objectForKey:@"cname"],@"cname",
+                                         [self.customerInfo objectForKey:@"mobile"],@"mobile",nil];
     operationVC.customerInfo = currentCustomerInfo;
     [currentCustomerInfo release];
     
@@ -466,17 +497,17 @@
     [phoneDic release];
     
     
-    NSDictionary *clientStatusDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     @"客户状态:", DATA_SHOW_TITLE_COLUM,
-                                     @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
-    [infoList addObject:clientStatusDic];
-    [clientStatusDic release];
-    
-    NSDictionary *clientVistDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                   @"客户所属:", DATA_SHOW_TITLE_COLUM,
-                                   @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
-    [infoList addObject:clientVistDic];
-    [clientVistDic release];
+//    NSDictionary *clientStatusDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                                     @"客户状态:", DATA_SHOW_TITLE_COLUM,
+//                                     @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+//    [infoList addObject:clientStatusDic];
+//    [clientStatusDic release];
+//    
+//    NSDictionary *clientVistDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                                   @"客户所属:", DATA_SHOW_TITLE_COLUM,
+//                                   @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
+//    [infoList addObject:clientVistDic];
+//    [clientVistDic release];
     
     NSDictionary *shortNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                                   @"公司简称:", DATA_SHOW_TITLE_COLUM,
@@ -633,17 +664,17 @@
     [phoneDic release];
     
     
-    NSDictionary *clientStatusDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                     @"客户状态:", DATA_SHOW_TITLE_COLUM,
-                                     @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
-    [infoList addObject:clientStatusDic];
-    [clientStatusDic release];
-    
-    NSDictionary *clientVistDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                   @"客户所属:", DATA_SHOW_TITLE_COLUM,
-                                   @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
-    [infoList addObject:clientVistDic];
-    [clientVistDic release];
+//    NSDictionary *clientStatusDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                                     @"客户状态:", DATA_SHOW_TITLE_COLUM,
+//                                     @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+//    [infoList addObject:clientStatusDic];
+//    [clientStatusDic release];
+//    
+//    NSDictionary *clientVistDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+//                                   @"客户所属:", DATA_SHOW_TITLE_COLUM,
+//                                   @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
+//    [infoList addObject:clientVistDic];
+//    [clientVistDic release];
     
     NSDictionary *shortNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                                   @"缩写:", DATA_SHOW_TITLE_COLUM,
@@ -911,7 +942,41 @@
             [alert show];
             [alert release];
         }
+    }else if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo;
+            NSString *data = [rspInfo objectForKey:@"data"];
+            
+            NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       options:NSJSONReadingMutableContainers
+                                                                         error:nil];
+            
+            if (self.isUpdate) {
+                self.isUpdate = NO;
+            }
+            
+            self.customerInfo = [rspCustomerList objectAtIndex:0];
+            [self assembCustomerInfo];
+            
+            DetailInfoView *detailView = (DetailInfoView *)[self.contentView viewWithTag:DETAIL_BASE_INFO_VIEW_TAG];
+            if (detailView != nil) {
+                [detailView reloadViewData:self.customerInfoDataList];
+            }
+
+            
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
     }
+
 
     
 }
@@ -930,6 +995,15 @@
         [alert show];
         [alert release];
     }else if([[DeleteClientMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }else if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
         AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                      message:msg
                                                                     delegate:self

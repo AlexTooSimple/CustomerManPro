@@ -97,7 +97,13 @@
 #pragma mark - 检查客户是否存在
 - (void)checkCustomer:(NSDictionary *)paramters;
 
+#pragma mark
+#pragma mark - 新增客户
+- (void)insertCustomer:(NSDictionary *)paramters;
 
+#pragma mark
+#pragma mark - 更新客户基本信息
+- (void)updateCustomer:(NSDictionary *)paramters;
 
 @end
 

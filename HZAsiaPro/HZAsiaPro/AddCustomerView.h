@@ -21,6 +21,11 @@
 #define PLUS_SELECT_DATA_SOURCE         @"source"
 #define PLUS_INIT_VALUE                 @"initValue"
 #define PLUS_VALUE_IS_PUT_FORCE         @"forceInput"
+#define PLUS_FIELD_KEYWINDOW_TYPE       @"keyWindowsType"
+#define PLUS_LIMIT_LENGTH               @"PLUS_LIMIT_LENGTH"
+
+#define KEY_WINDOWS_NUMBER              @"1"  //数字键盘
+#define KEY_WINDOWS_ASCII               @"2"  //Ascii键盘
 
 
 #define PUT_FORCE_YES                   @"1"

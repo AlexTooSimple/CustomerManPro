@@ -333,6 +333,52 @@ static bussineDataService *sharedBussineDataService = nil;
 }
 
 
+#pragma mark
+#pragma mark - 新增客户
+- (void)insertCustomer:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"InsertClientMessage"
+                     param:paramters
+                   funName:@"insertCustomer:"
+             synchronously:NO];
+}
+
+- (void)insertCustomerFinished:(id <MessageDelegate>)searchResponse
+{
+    InsertClientMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+
+
+#pragma mark
+#pragma mark - 更新客户基本信息
+- (void)updateCustomer:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"UpdateClientBasicInfoMessage"
+                     param:paramters
+                   funName:@"updateCustomer:"
+             synchronously:NO];
+}
+
+- (void)updateCustomerFinished:(id <MessageDelegate>)searchResponse
+{
+    UpdateClientBasicInfoMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+
+
 #pragma mark -
 #pragma mark http 回调接口
 - (void)requestDidFinished:(id<MessageDelegate>)msg
@@ -355,6 +401,10 @@ static bussineDataService *sharedBussineDataService = nil;
         [self deleteCustomerFinished:msg];
     }else if (YES == [[msg getBusinessCode] isEqualToString:CHECK_CUSTOMER_BIZCODE]){
         [self checkCustomerFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:INSERT_CUSTOMER_BIZCODE]){
+        [self insertCustomerFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:UPDATE_CLIENT_BASIC_INFO_BIZCODE]){
+        [self updateCustomerFinished:msg];
     }
 }
 

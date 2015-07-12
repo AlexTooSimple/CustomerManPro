@@ -19,10 +19,14 @@
                               HttpBackDelegate>
 {
     NSInteger infoSelectRow;
+    NSDictionary *requestCondition;
+    BOOL isUpdate;
 }
+@property (nonatomic, retain)NSDictionary *requestCondition;
 @property (nonatomic, assign)NSInteger infoSelectRow;
 @property (nonatomic, retain)CustomerListView *customerView;
 @property (nonatomic, retain)NSArray *customerDataList;
+@property (nonatomic, assign)BOOL isUpdate;
 @end
 
 @implementation CustomerManageVC
@@ -30,6 +34,8 @@
 @synthesize infoSelectRow;
 @synthesize customerView;
 @synthesize customerDataList;
+@synthesize requestCondition;
+@synthesize isUpdate;
 
 - (void)dealloc
 {
@@ -39,12 +45,18 @@
     if (customerView != nil) {
         [customerView release];
     }
+    if (requestCondition != nil) {
+        [requestCondition release];
+    }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:CUSTOMER_VC_SEARCH_DONE_NOTIFATION
                                                   object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:CUSTOMER_DELETE_NOTIFATION
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:CUSTOMER_UPDATE_MAIN_VC_NOTIFACTION
                                                   object:nil];
     
     
@@ -66,6 +78,8 @@
 
     self.title = @"客户管理";
     
+    self.isUpdate = NO;
+    
     [self setNavBarSearchItem];
     [self setNavBarInsertItem];
     
@@ -77,6 +91,11 @@
                                              selector:@selector(deleteReloadView)
                                                  name:CUSTOMER_DELETE_NOTIFATION
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(setUpdateKeyView)
+                                                 name:CUSTOMER_UPDATE_MAIN_VC_NOTIFACTION
+                                               object:nil];
+
     
     CustomerListView *listView = [[CustomerListView alloc] init];
     listView.backgroundColor = [UIColor whiteColor];
@@ -100,6 +119,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (self.isUpdate) {
+        bussineDataService *bussineService = [bussineDataService sharedDataService];
+        bussineService.target = self;
+        [bussineService searchCustomerListWithCondition:self.requestCondition];
+    }
 }
 
 - (void)setNavBarInsertItem
@@ -145,6 +173,10 @@
      [self.customerView reloadData:self.customerDataList];
 }
 
+- (void)setUpdateKeyView
+{
+    self.isUpdate = YES;
+}
 #pragma mark
 #pragma mark - 查询客户接口启动
 - (void)searchCustomer:(NSNotification *)noti
@@ -165,10 +197,13 @@
     NSString *operatorCode = [usrInfo objectForKey:@"code"];
     [searchCondition setObject:operatorCode
                         forKey:@"operator"];
+    self.requestCondition = searchCondition;
     
     bussineDataService *bussineService = [bussineDataService sharedDataService];
     bussineService.target = self;
     [bussineService searchCustomerListWithCondition:searchCondition];
+    
+    [searchCondition release];
 }
 
 #pragma mark
@@ -194,9 +229,14 @@
         [searchCondition setObject:operatorCode
                             forKey:@"operator"];
     }
+    
+    self.requestCondition = searchCondition;
+    
     bussineDataService *bussineService = [bussineDataService sharedDataService];
     bussineService.target = self;
     [bussineService searchCustomerListWithCondition:searchCondition];
+    
+    [searchCondition release];
 }
 
 #pragma mark
@@ -215,6 +255,10 @@
             NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
                                                                        options:NSJSONReadingMutableContainers
                                                                          error:nil];
+            
+            if (self.isUpdate) {
+                self.isUpdate = NO;
+            }
             if ([rspCustomerList count] == 0) {
                 AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                              message:@"没有搜索到客户,请重新匹配搜索！"

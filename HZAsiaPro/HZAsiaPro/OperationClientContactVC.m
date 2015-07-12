@@ -339,7 +339,7 @@
     if([[AddVisitHistoryMessage getBizCode] isEqualToString:bussineCode]){
         if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"登记成功"
-                                                                         message:@"您的客户洽谈信息提交成功,等待管理员查看审批中,谢谢！"
+                                                                         message:@"您的客户洽谈信息提交成功,谢谢！"
                                                                         delegate:self
                                                                              tag:ALTER_SUCCESS_BACK_TAG
                                                                cancelButtonTitle:@"确定"
