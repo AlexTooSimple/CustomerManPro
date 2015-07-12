@@ -97,7 +97,7 @@
     [self dismiss];
     NSDateFormatter *df = [[NSDateFormatter alloc]init];
     if (self.datePicker.datePickerMode == UIDatePickerModeTime) {
-        [df setDateFormat:@"hh:mm"];
+        [df setDateFormat:@"hh:mm:ss"];
     }else if(self.datePicker.datePickerMode == UIDatePickerModeDate){
         [df setDateFormat:@"yyyy-MM-dd"];
     }

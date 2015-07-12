@@ -77,6 +77,13 @@
     YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
     [store createTableWithName:tableName];
     
+    NSDictionary *userData  = [data objectForKey:@"allUser"];
+    NSArray *userArray = [self assembData:userData];
+    [store putObject:userArray
+              withId:CUSTOMER_USER_ID_LIST
+           intoTable:tableName];
+
+    
     NSDictionary *vistData  = [data objectForKey:@"访问类型"];
     NSArray *visitArray = [self assembData:vistData];
     [store putObject:visitArray

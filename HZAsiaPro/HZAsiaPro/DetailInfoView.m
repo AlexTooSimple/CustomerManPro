@@ -117,9 +117,13 @@
     CGFloat cellHeight = CELL_ROW_HEIGHT;
     NSDictionary *data = [self.itemDatas objectAtIndex:row];
     
+    if ([[data objectForKey:DATA_SHOW_VALUE_COLUM] isEqual:[NSNull null]] ||
+        ![[data objectForKey:DATA_SHOW_VALUE_COLUM] isKindOfClass:[NSString class]] ||
+        [data objectForKey:DATA_SHOW_VALUE_COLUM] == nil) {
+        return cellHeight;
+    }
+    
     NSString *textStr = [data objectForKey:DATA_SHOW_VALUE_COLUM];
-    
-    
     NSDictionary *attribute = [[NSDictionary alloc] initWithObjectsAndKeys:
                                [UIFont systemFontOfSize:15.0f],NSFontAttributeName,nil];
     CGFloat height = DEVICE_MAINSCREEN_WIDTH/2-10.0f+30.0f;
@@ -219,16 +223,19 @@
     NSDictionary *data = [self.itemDatas objectAtIndex:row];
     
     titleLabel.text = [data objectForKey:DATA_SHOW_TITLE_COLUM];
+    
+    NSString *textStr = nil;
     if ([data objectForKey:DATA_SHOW_VALUE_COLUM] == nil ||
         [[data objectForKey:DATA_SHOW_VALUE_COLUM] isEqual:[NSNull null]] ||
         [[data objectForKey:DATA_SHOW_VALUE_COLUM] isEqualToString:@""]) {
-        valueLabel.text = @"无";
+        textStr = @"无";
+    }else if ([[data objectForKey:DATA_SHOW_VALUE_COLUM] isKindOfClass:[NSNumber class]]){
+        textStr = [NSString stringWithFormat:@"%ld",[[data objectForKey:DATA_SHOW_VALUE_COLUM] integerValue]];
     }else{
-        valueLabel.text = [data objectForKey:DATA_SHOW_VALUE_COLUM];
+        textStr = [data objectForKey:DATA_SHOW_VALUE_COLUM];
     }
     
-    NSString *textStr = [data objectForKey:DATA_SHOW_VALUE_COLUM];
-    
+    valueLabel.text = textStr;
     
     NSDictionary *attribute = [[NSDictionary alloc] initWithObjectsAndKeys:
                                [UIFont systemFontOfSize:15.0f],NSFontAttributeName,nil];

@@ -33,7 +33,7 @@ static HttpConnector *sharedHttpConnector = nil;
 {
     if (self == [super init]) {
         serviceURL = nil;
-        timeOut = 10;
+        timeOut = 20;
     }
     return self;
 }

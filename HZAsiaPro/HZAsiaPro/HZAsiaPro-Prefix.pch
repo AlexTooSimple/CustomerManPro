@@ -15,6 +15,7 @@
 #import "AlertShowView.h"
 #import "Masonry.h"
 #import "YTKKeyValueStore.h"
+#import "ComponentsFactory.h"
 
 //#define service_IP                  @"http://127.0.0.1:8080"
 #define service_IP                  @"http://115.236.80.150:18080"
@@ -39,6 +40,7 @@
 
 #define CUSTOMER_DRAWER_NOTIFATION                      @"CUSTOMER_DRAWER_NOTIFATION"
 #define CUSTOMER_VC_SEARCH_DONE_NOTIFATION              @"CUSTOMER_VC_SEARCH_DONE_NOTIFATION"
+#define CUSTOMER_DELETE_NOTIFATION                      @"CUSTOMER_DELETE_NOTIFATION"
 
 #define SOURCE_DATA_ID_COLUM           @"id"
 #define SOURCE_DATA_NAME_COULUM        @"name"
@@ -57,6 +59,7 @@
 #define CUSTOMER_CLIENT_TYPE_LIST                 @"CUSTOMER_CLIENT_TYPE_LIST"
 #define CUSTOMER_SALE_CONDITION_LIST              @"CUSTOMER_SALE_CONDITION_LIST"
 #define CUSTOMER_PURPOSE_LIST                     @"CUSTOMER_PURPOSE_LIST"
+#define CUSTOMER_USER_ID_LIST                     @"CUSTOMER_USER_ID_LIST"
 #define CUSTOMER_NONECONNECT_LIST                 @"CUSTOMER_NONECONNECT_LIST"
 
 #define CUSTOMER_JINZHAN_JIEDUAN_LIST             @"CUSTOMER_JINZHAN_JIEDUAN_LIST"

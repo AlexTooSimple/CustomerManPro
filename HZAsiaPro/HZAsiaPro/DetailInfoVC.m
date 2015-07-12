@@ -5,7 +5,6 @@
 //  Created by wuhui on 15/6/12.
 //  Copyright (c) 2015年 wuhui. All rights reserved.
 //
-
 #import "DetailInfoVC.h"
 #import "DetailInfoView.h"
 #import "ConcactHistoryView.h"
@@ -13,16 +12,18 @@
 #import "OperationClientBasicInfoVC.h"
 #import "ActionSheetView.h"
 #import "bussineDataService.h"
-#import "SalesmanSelectVC.h"
-
 
 #define DETAIL_BASE_INFO_VIEW_TAG           202
 #define DETAIL_HISTORY_INFO_VIEW_TAG        201
 
-#define TabbarHight (self.isHiddenTabBar?0:DEVICE_TABBAR_HEIGTH)
+#define DELETE_CUSTOMER_TAG                 301
 
-
-@interface DetailInfoVC ()<UIScrollViewDelegate,ActionSheetViewDelegate,HttpBackDelegate,UIActionSheetDelegate>
+@interface DetailInfoVC ()<UIScrollViewDelegate,
+                          ActionSheetViewDelegate,
+                          HttpBackDelegate,
+                          UIActionSheetDelegate,
+                          AlertShowViewDelegate,
+                          UIAlertViewDelegate>
 {
     UIScrollView *contentView;
     UIPageControl *contentControl;
@@ -39,7 +40,6 @@
 @implementation DetailInfoVC
 
 @synthesize customerInfo;
-
 @synthesize contentControl;
 @synthesize contentView;
 @synthesize customerInfoDataList;
@@ -172,32 +172,22 @@
 - (void)setNavBarOperatorItem
 {
     UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"修改"
-                                                                style:UIBarButtonItemStyleBordered
-                                                               target:self
-                                                               action:@selector(operateClicked:)];
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:self
+                                                                   action:@selector(operateClicked:)];
     self.navigationItem.rightBarButtonItem = operateItem;
     [operateItem release];
 }
 
 - (void)operateClicked:(id)sender
 {
-    if(self.isManage){
-        ActionSheetView *sheetView = [[ActionSheetView alloc] initWithTitle:nil
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"取消"
-                                                     destructiveButtonTitle:@"删除"
-                                                          otherButtonTitles:@"登记联系信息",@"修改客户基本信息",@"转移",nil];
-        [sheetView show];
-        [sheetView release];
-    } else {
-        ActionSheetView *sheetView = [[ActionSheetView alloc] initWithTitle:nil
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"取消"
-                                                     destructiveButtonTitle:@"删除"
-                                                          otherButtonTitles:@"登记联系信息",@"修改客户基本信息",nil];
-        [sheetView show];
-        [sheetView release];
-    }
+    ActionSheetView *sheetView = [[ActionSheetView alloc] initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"取消"
+                                                 destructiveButtonTitle:@"删除"
+                                                      otherButtonTitles:@"登记联系信息",@"修改客户基本信息",nil];
+    [sheetView show];
+    [sheetView release];
 }
 
 - (void)setNavBarApproveItem
@@ -208,7 +198,7 @@
                                                                    action:@selector(approveClicked:)];
     self.navigationItem.rightBarButtonItem = approveItem;
     [approveItem release];
-
+    
 }
 
 - (void)approveClicked:(id)sender
@@ -230,7 +220,7 @@
     
     [self.view addSubview:pageControl];
     [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).with.offset(-TabbarHight-31);
+        make.top.equalTo(self.view.mas_bottom).with.offset(-80.0f);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.height.mas_equalTo(30.0f);
@@ -248,7 +238,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     
     cnt++;
@@ -260,7 +250,7 @@
         make.left.equalTo(detailView.mas_right);
         make.top.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     
     
@@ -268,7 +258,7 @@
     [detailView release];
     
     CGFloat contentWidth = self.view.frame.size.width;
-    CGFloat contentHeight = self.view.frame.size.height - TabbarHight - 64.0f;
+    CGFloat contentHeight = self.view.frame.size.height - DEVICE_TABBAR_HEIGTH - 64.0f;
     [self.contentView setContentSize:CGSizeMake(contentWidth *cnt, contentHeight)];
     
     [self.contentControl setNumberOfPages:cnt];
@@ -286,7 +276,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     
     [detailView release];
@@ -302,7 +292,7 @@
         make.left.equalTo(self.contentView);
         make.top.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-TabbarHight-64);
+        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
     }];
     [historyView release];
 }
@@ -358,13 +348,6 @@
             [self gotoOperatClientBaiscInfoVC];
         }
             break;
-        case 3:
-        {
-            //转移
-            [self changeOperatClientWithOtherPeople];
-            
-        }
-            break;
         default:
             break;
     }
@@ -414,6 +397,12 @@
 - (void)gotoOperatClientBaiscInfoVC
 {
     OperationClientBasicInfoVC *operationVC = [[OperationClientBasicInfoVC alloc] init];
+    NSDictionary *currentCustomerInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                         [self.customerInfo objectForKey:@"clientCode"], @"clientCode",
+                                         [self.customerInfo objectForKey:@"clientType"], @"clientType",nil];
+    operationVC.customerInfo = currentCustomerInfo;
+    [currentCustomerInfo release];
+    
     [operationVC reloadInitData:self.customerInfoDataList];
     [self.navigationController pushViewController:operationVC animated:YES];
     [operationVC release];
@@ -423,28 +412,211 @@
 {
     NSDictionary *nameDic = [self.customerInfoDataList objectAtIndex:0];
     OperationClientContactVC *operationVC = [[OperationClientContactVC alloc] init];
+    operationVC.clientCode = [self.customerInfo objectForKey:@"clientCode"];
     [operationVC reloadInitData:nameDic];
     [self.navigationController pushViewController:operationVC animated:YES];
     [operationVC release];
 }
 
-- (void)changeOperatClientWithOtherPeople
-{
-    SalesmanSelectVC *saleVC = [[SalesmanSelectVC alloc] init];
-    [self.navigationController pushViewController:saleVC animated:YES];
-    [saleVC release];
-}
-
 - (void)deleteClient
 {
-
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 [self.customerInfo objectForKey:@"clientCode"], @"clientCode",nil];
+    [bussineService deleteCustomer:requestData];
+    [requestData release];
 }
 
 
 #pragma mark
 #pragma mark - 初始化数据
-
 - (void)assembCustomerInfo
+{
+    NSString *clientType = [self.customerInfo objectForKey:@"clientType"];
+    if ([clientType isEqualToString:@"0"]) {
+        //个人客户
+        [self assembIndividualData];
+    }else if ([clientType isEqualToString:@"1"]){
+        //企业客户
+        [self assembBusinessData];
+    }
+}
+
+- (void)assembBusinessData
+{
+    NSMutableArray *infoList = [[NSMutableArray alloc] initWithCapacity:0];
+    
+    NSDictionary *nameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             @"公司名称:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"cname"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:nameDic];
+    [nameDic release];
+    
+    NSString *mobile = nil;
+    if ([self.customerInfo objectForKey:@"mobile"] == nil || [[self.customerInfo objectForKey:@"mobile"] isEqual:[NSNull null]]) {
+        mobile = [self.customerInfo objectForKey:@"first_phone"];
+    }else{
+        mobile = [self.customerInfo objectForKey:@"mobile"];
+    }
+    NSDictionary *phoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              @"移动电话:", DATA_SHOW_TITLE_COLUM,
+                              mobile,DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:phoneDic];
+    [phoneDic release];
+    
+    
+    NSDictionary *clientStatusDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     @"客户状态:", DATA_SHOW_TITLE_COLUM,
+                                     @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:clientStatusDic];
+    [clientStatusDic release];
+    
+    NSDictionary *clientVistDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                   @"客户所属:", DATA_SHOW_TITLE_COLUM,
+                                   @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:clientVistDic];
+    [clientVistDic release];
+    
+    NSDictionary *shortNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  @"公司简称:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"shortforname"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:shortNameDic];
+    [shortNameDic release];
+    
+    NSDictionary *engishNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                   @"法人代表:", DATA_SHOW_TITLE_COLUM,
+                                   [self.customerInfo objectForKey:@"faren"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:engishNameDic];
+    [engishNameDic release];
+    
+    NSDictionary *originalNameDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     @"联系人:", DATA_SHOW_TITLE_COLUM,
+                                     [self.customerInfo objectForKey:@"contact"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:originalNameDic];
+    [originalNameDic release];
+    
+    NSDictionary *originalPhoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                      @"原始公司名称:", DATA_SHOW_TITLE_COLUM,
+                                      [self.customerInfo objectForKey:@"fristName"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:originalPhoneDic];
+    [originalPhoneDic release];
+    
+    NSDictionary *certTypeDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 @"原始电话:", DATA_SHOW_TITLE_COLUM,
+                                 [self.customerInfo objectForKey:@"phoneO"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:certTypeDic];
+    [certTypeDic release];
+    
+    NSDictionary *certIDDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                               @"注册地址:", DATA_SHOW_TITLE_COLUM,
+                               [self.customerInfo objectForKey:@"zhcaddr"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:certIDDic];
+    [certIDDic release];
+    
+    NSDictionary *startDateDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  @"注册资金:", DATA_SHOW_TITLE_COLUM,
+                                  [NSString stringWithFormat:@"%ld",[[self.customerInfo objectForKey:@"zhcprice"] integerValue] ],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:startDateDic];
+    [startDateDic release];
+    
+    NSDictionary *countyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             @"经营范围:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"jyfanwei"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:countyDic];
+    [countyDic release];
+
+    NSDictionary *areaDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             @"行业性质:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"hyxingzhi"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:areaDic];
+    [areaDic release];
+    
+    NSDictionary *professDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"行业排名:", DATA_SHOW_TITLE_COLUM,
+                                [self.customerInfo objectForKey:@"hypaiming"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:professDic];
+    [professDic release];
+    
+    NSDictionary *companyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"税籍户管:", DATA_SHOW_TITLE_COLUM,
+                                [self.customerInfo objectForKey:@"shjhuguan"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:companyDic];
+    [companyDic release];
+    
+    NSDictionary *addressDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                @"工商执照号:", DATA_SHOW_TITLE_COLUM,
+                                [self.customerInfo objectForKey:@"id"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:addressDic];
+    [addressDic release];
+    
+    NSDictionary *businessDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 @"税务执照号:", DATA_SHOW_TITLE_COLUM,
+                                 [self.customerInfo objectForKey:@"shwno"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:businessDic];
+    [businessDic release];
+    
+    NSDictionary *sexDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                            @"税务代码:", DATA_SHOW_TITLE_COLUM,
+                            [self.customerInfo objectForKey:@"shwcode"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:sexDic];
+    [sexDic release];
+    
+    NSDictionary *marryDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              @"经营地址:", DATA_SHOW_TITLE_COLUM,
+                              [self.customerInfo objectForKey:@"address"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:marryDic];
+    [marryDic release];
+    
+    NSDictionary *educationDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  @"经营期限:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"jyqixian"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:educationDic];
+    [educationDic release];
+    
+    NSDictionary *postNumberDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                   @"邮政编码:", DATA_SHOW_TITLE_COLUM,
+                                   [self.customerInfo objectForKey:@"post"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:postNumberDic];
+    [postNumberDic release];
+    
+    
+    NSDictionary *companyPhoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     @"E-mail:", DATA_SHOW_TITLE_COLUM,
+                                     [self.customerInfo objectForKey:@"email"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:companyPhoneDic];
+    [companyPhoneDic release];
+    
+    NSDictionary *chuanzhenDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  @"组织机构代码:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"fax"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:chuanzhenDic];
+    [chuanzhenDic release];
+    
+    NSDictionary *emailDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                              @"入驻方式:", DATA_SHOW_TITLE_COLUM,
+                              [self.customerInfo objectForKey:@"email"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:emailDic];
+    [emailDic release];
+    
+    NSDictionary *jzjdDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             @"进展阶段:", DATA_SHOW_TITLE_COLUM,
+                             [self.customerInfo objectForKey:@"steps"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:jzjdDic];
+    [jzjdDic release];
+    
+    NSDictionary *remarkDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                               @"备注:", DATA_SHOW_TITLE_COLUM,
+                               [self.customerInfo objectForKey:@"remarks"],DATA_SHOW_VALUE_COLUM,nil];
+    [infoList addObject:remarkDic];
+    [remarkDic release];
+    
+    self.customerInfoDataList = infoList;
+    [infoList release];
+
+}
+
+- (void)assembIndividualData
 {
     NSMutableArray *infoList = [[NSMutableArray alloc] initWithCapacity:0];
     
@@ -455,21 +627,21 @@
     [nameDic release];
     
     NSDictionary *phoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"移动电话:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"mobile"],DATA_SHOW_VALUE_COLUM,nil];
+                              @"移动电话:", DATA_SHOW_TITLE_COLUM,
+                              [self.customerInfo objectForKey:@"mobile"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:phoneDic];
     [phoneDic release];
     
     
     NSDictionary *clientStatusDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"客户状态:", DATA_SHOW_TITLE_COLUM,
-                             @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
+                                     @"客户状态:", DATA_SHOW_TITLE_COLUM,
+                                     @"李光荣",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:clientStatusDic];
     [clientStatusDic release];
     
     NSDictionary *clientVistDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"客户所属:", DATA_SHOW_TITLE_COLUM,
-                             @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
+                                   @"客户所属:", DATA_SHOW_TITLE_COLUM,
+                                   @"13321314132",DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:clientVistDic];
     [clientVistDic release];
     
@@ -498,105 +670,105 @@
     [originalPhoneDic release];
     
     NSDictionary *certTypeDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"证件类型:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"idtype"],DATA_SHOW_VALUE_COLUM,nil];
+                                 @"证件类型:", DATA_SHOW_TITLE_COLUM,
+                                 [self.customerInfo objectForKey:@"idtype"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:certTypeDic];
     [certTypeDic release];
     
     NSDictionary *certIDDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"证件号码:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"id"],DATA_SHOW_VALUE_COLUM,nil];
+                               @"证件号码:", DATA_SHOW_TITLE_COLUM,
+                               [self.customerInfo objectForKey:@"id"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:certIDDic];
     [certIDDic release];
     
     NSDictionary *startDateDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"出生日期:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"birthdayStr"],DATA_SHOW_VALUE_COLUM,nil];
+                                  @"出生日期:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"birthdayStr"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:startDateDic];
     [startDateDic release];
     
-//    NSDictionary *countyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-//                             @"国籍", DATA_SHOW_TITLE_COLUM,
-//                             @"",DATA_SHOW_VALUE_COLUM,nil];
-//    [infoList addObject:countyDic];
-//    [countyDic release];
-//    
-//    NSDictionary *areaDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-//                             @"区域", DATA_SHOW_TITLE_COLUM,
-//                             @"",DATA_SHOW_VALUE_COLUM,nil];
-//    [infoList addObject:areaDic];
-//    [areaDic release];
+    //    NSDictionary *countyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+    //                             @"国籍", DATA_SHOW_TITLE_COLUM,
+    //                             @"",DATA_SHOW_VALUE_COLUM,nil];
+    //    [infoList addObject:countyDic];
+    //    [countyDic release];
+    //
+    //    NSDictionary *areaDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+    //                             @"区域", DATA_SHOW_TITLE_COLUM,
+    //                             @"",DATA_SHOW_VALUE_COLUM,nil];
+    //    [infoList addObject:areaDic];
+    //    [areaDic release];
     
     NSDictionary *professDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"职业:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"business"],DATA_SHOW_VALUE_COLUM,nil];
+                                @"职业:", DATA_SHOW_TITLE_COLUM,
+                                [self.customerInfo objectForKey:@"business"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:professDic];
     [professDic release];
     
     NSDictionary *companyDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"公司:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"company"],DATA_SHOW_VALUE_COLUM,nil];
+                                @"公司:", DATA_SHOW_TITLE_COLUM,
+                                [self.customerInfo objectForKey:@"company"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:companyDic];
     [companyDic release];
     
     NSDictionary *addressDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"联系地址:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"address"],DATA_SHOW_VALUE_COLUM,nil];
+                                @"联系地址:", DATA_SHOW_TITLE_COLUM,
+                                [self.customerInfo objectForKey:@"address"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:addressDic];
     [addressDic release];
     
     NSDictionary *businessDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"行业:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"hangye"],DATA_SHOW_VALUE_COLUM,nil];
+                                 @"行业:", DATA_SHOW_TITLE_COLUM,
+                                 [self.customerInfo objectForKey:@"hangye"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:businessDic];
     [businessDic release];
     
     NSDictionary *sexDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"性别:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"sex"],DATA_SHOW_VALUE_COLUM,nil];
+                            @"性别:", DATA_SHOW_TITLE_COLUM,
+                            [self.customerInfo objectForKey:@"sex"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:sexDic];
     [sexDic release];
     
     NSDictionary *marryDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"婚否:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"marige"],DATA_SHOW_VALUE_COLUM,nil];
+                              @"婚否:", DATA_SHOW_TITLE_COLUM,
+                              [self.customerInfo objectForKey:@"marige"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:marryDic];
     [marryDic release];
     
     NSDictionary *educationDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"学历:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"xueli"],DATA_SHOW_VALUE_COLUM,nil];
+                                  @"学历:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"xueli"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:educationDic];
     [educationDic release];
     
     NSDictionary *postNumberDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"邮政编码:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"post"],DATA_SHOW_VALUE_COLUM,nil];
+                                   @"邮政编码:", DATA_SHOW_TITLE_COLUM,
+                                   [self.customerInfo objectForKey:@"post"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:postNumberDic];
     [postNumberDic release];
     
     
     NSDictionary *companyPhoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"办公电话:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"phoneO"],DATA_SHOW_VALUE_COLUM,nil];
+                                     @"办公电话:", DATA_SHOW_TITLE_COLUM,
+                                     [self.customerInfo objectForKey:@"phoneO"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:companyPhoneDic];
     [companyPhoneDic release];
     
     NSDictionary *homePhoneDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"家庭电话:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"phoneH"],DATA_SHOW_VALUE_COLUM,nil];
+                                  @"家庭电话:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"phoneH"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:homePhoneDic];
     [homePhoneDic release];
     
     NSDictionary *chuanzhenDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"传真:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"fax"],DATA_SHOW_VALUE_COLUM,nil];
+                                  @"传真:", DATA_SHOW_TITLE_COLUM,
+                                  [self.customerInfo objectForKey:@"fax"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:chuanzhenDic];
     [chuanzhenDic release];
     
     NSDictionary *emailDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"电子邮件:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"email"],DATA_SHOW_VALUE_COLUM,nil];
+                              @"电子邮件:", DATA_SHOW_TITLE_COLUM,
+                              [self.customerInfo objectForKey:@"email"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:emailDic];
     [emailDic release];
     
@@ -607,13 +779,14 @@
     [jzjdDic release];
     
     NSDictionary *remarkDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"备注:", DATA_SHOW_TITLE_COLUM,
-                             [self.customerInfo objectForKey:@"remarks"],DATA_SHOW_VALUE_COLUM,nil];
+                               @"备注:", DATA_SHOW_TITLE_COLUM,
+                               [self.customerInfo objectForKey:@"remarks"],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:remarkDic];
     [remarkDic release];
     
     self.customerInfoDataList = infoList;
     [infoList release];
+
 }
 
 - (void)assembConcactHistoryData:(NSArray *)concactHistoryItemList
@@ -700,13 +873,34 @@
             NSString *data = [rspInfo objectForKey:@"data"];
             
             NSArray *rspConcactList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
-                                                                       options:NSJSONReadingMutableContainers
-                                                                         error:nil];
+                                                                      options:NSJSONReadingMutableContainers
+                                                                        error:nil];
             
             //组装客户联系记录
             [self assembConcactHistoryData:rspConcactList];
             [self reloadDetailViewData];
-           
+            
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }else if([[DeleteClientMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"删除成功"
+                                                                         message:@"客户已被删除，谢谢！"
+                                                                        delegate:self
+                                                                             tag:DELETE_CUSTOMER_TAG
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                          message:msg
@@ -718,6 +912,7 @@
             [alert release];
         }
     }
+
     
 }
 
@@ -734,6 +929,45 @@
                                                            otherButtonTitles:nil];
         [alert show];
         [alert release];
+    }else if([[DeleteClientMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+#pragma mark
+#pragma mark - AlertShowViewDelegate
+- (void)alertViewWillPresent:(UIAlertController *)alertController
+{
+    [self.navigationController presentViewController:alertController
+                                            animated:YES
+                                          completion:nil];
+}
+
+- (void)alertShowView:(AlertShowView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView.index == DELETE_CUSTOMER_TAG) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_DELETE_NOTIFATION
+                                                            object:nil];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark
+#pragma mark - UIAlterViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == DELETE_CUSTOMER_TAG) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_DELETE_NOTIFATION
+                                                            object:nil];
+
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

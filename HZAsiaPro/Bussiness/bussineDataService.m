@@ -289,6 +289,49 @@ static bussineDataService *sharedBussineDataService = nil;
     [self noticeUI:rspDic];
 }
 
+#pragma mark
+#pragma mark - 删除客户
+- (void)deleteCustomer:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"DeleteClientMessage"
+                     param:paramters
+                   funName:@"deleteCustomer:"
+             synchronously:NO];
+}
+
+- (void)deleteCustomerFinished:(id <MessageDelegate>)searchResponse
+{
+    DeleteClientMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+
+#pragma mark
+#pragma mark - 检查客户是否存在
+- (void)checkCustomer:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"CheckClientMessage"
+                     param:paramters
+                   funName:@"checkCustomer:"
+             synchronously:NO];
+}
+
+- (void)checkCustomerFinished:(id <MessageDelegate>)searchResponse
+{
+    CheckClientMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
 
 #pragma mark -
 #pragma mark http 回调接口
@@ -308,6 +351,10 @@ static bussineDataService *sharedBussineDataService = nil;
         [self getVisitHistoryListFinished:msg];
     }else if (YES == [[msg getBusinessCode] isEqualToString:ADD_VISIT_HISTORY_BIZCODE]){
         [self addVisitHistoryFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:DELETE_CUSTOMER_BIZCODE]){
+        [self deleteCustomerFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:CHECK_CUSTOMER_BIZCODE]){
+        [self checkCustomerFinished:msg];
     }
 }
 
