@@ -71,42 +71,39 @@
 }
 
 - (void)setUpdata{
-    NSMutableArray *tabMArr = [[NSMutableArray alloc] initWithCapacity:0];
-    NSDictionary *dic1 = @{@"name":@"姓名：",@"source":@"张三"};
-    NSDictionary *dic2 = @{@"name":@"性别：",@"source":@"男"};
-    NSDictionary *dic3 = @{@"name":@"职位：",@"source":@"业务员"};
-    NSDictionary *dic4 = @{@"name":@"手机号码：",@"source":@"13678898765"};
-    NSDictionary *dic5 = @{@"name":@"工号：",@"source":@"123456"};
-    [tabMArr addObject:dic1];
-    [tabMArr addObject:dic2];
-    [tabMArr addObject:dic3];
-    [tabMArr addObject:dic4];
-    [tabMArr addObject:dic5];
-    self.userV.tabMArr = tabMArr;
-    [tabMArr release];
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    //用户信息
+    NSDictionary *userInfoSource = [store getObjectById:CUSTOMER_USERINFO
+                                            fromTable:CUSTOMER_DB_TABLE];
+
+    self.userV.tabMDic = [NSMutableDictionary dictionaryWithDictionary:userInfoSource];
     [self.userV reloadView];
     
-    NSMutableArray *tabMArr1 = [[NSMutableArray alloc] initWithCapacity:0];
-    NSDictionary *dic11 = @{@"name":@"张三",@"source":@"13656687678"};
-    NSDictionary *dic21 = @{@"name":@"李四",@"source":@"13656687679"};
-    NSDictionary *dic31 = @{@"name":@"王五",@"source":@"13656687677"};
-    NSDictionary *dic41 = @{@"name":@"赵六",@"source":@"13678898765"};
-    NSDictionary *dic51 = @{@"name":@"李七",@"source":@"13656687676"};
-    [tabMArr1 addObject:dic11];
-    [tabMArr1 addObject:dic21];
-    [tabMArr1 addObject:dic31];
-    [tabMArr1 addObject:dic41];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    [tabMArr1 addObject:dic51];
-    self.kehuNoCall.tabMArr = tabMArr1;
-    self.kehuTimeUp.tabMArr = tabMArr1;
+    //未联系客户
+    NSArray *contactTypeSource = [store getObjectById:CUSTOMER_NONECONNECT_LIST
+                                            fromTable:CUSTOMER_DB_TABLE];
+    
+//    NSMutableArray *tabMArr1 = [[NSMutableArray alloc] initWithCapacity:0];
+//    NSDictionary *dic11 = @{@"name":@"张三",@"source":@"13656687678"};
+//    NSDictionary *dic21 = @{@"name":@"李四",@"source":@"13656687679"};
+//    NSDictionary *dic31 = @{@"name":@"王五",@"source":@"13656687677"};
+//    NSDictionary *dic41 = @{@"name":@"赵六",@"source":@"13678898765"};
+//    NSDictionary *dic51 = @{@"name":@"李七",@"source":@"13656687676"};
+//    [tabMArr1 addObject:dic11];
+//    [tabMArr1 addObject:dic21];
+//    [tabMArr1 addObject:dic31];
+//    [tabMArr1 addObject:dic41];
+//    [tabMArr1 addObject:dic51];
+//    [tabMArr1 addObject:dic51];
+//    [tabMArr1 addObject:dic51];
+//    [tabMArr1 addObject:dic51];
+//    [tabMArr1 addObject:dic51];
+//    [tabMArr1 addObject:dic51];
+    self.kehuNoCall.tabMArr = [NSMutableArray arrayWithArray:contactTypeSource];
+    self.kehuTimeUp.tabMArr = [NSMutableArray arrayWithArray:contactTypeSource];
     [self.kehuNoCall reloadView];
     [self.kehuTimeUp reloadView];
-    [tabMArr1 release];
+//    [tabMArr1 release];
 }
 
 - (void)viewDidLoad {

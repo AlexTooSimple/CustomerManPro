@@ -26,7 +26,7 @@
 }
 
 - (void)setUpView{
-    self.tabMArr = [[NSMutableArray alloc] initWithCapacity:0];
+    self.tabMDic = [[NSMutableDictionary alloc] initWithCapacity:0];
     self.tbvHome = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT - 64 -50) style:UITableViewStylePlain];
     self.tbvHome.delegate = self;
     self.tbvHome.dataSource = self;
@@ -37,7 +37,7 @@
 }
 
 - (void)dealloc{
-    [self.tabMArr release];
+    [self.tabMDic release];
     [self.tbvHome release];
     [super dealloc];
 }
@@ -48,7 +48,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.tabMArr count];
+    return [[self.tabMDic allKeys] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,8 +80,8 @@
     }
     UILabel *labOne = (UILabel *)[cell viewWithTag:labOneTag];
     UILabel *labTwo = (UILabel *)[cell viewWithTag:labTwoTag];
-    labOne.text = [[self.tabMArr objectAtIndex:indexPath.row] objectForKey:@"name"];
-    labTwo.text = [[self.tabMArr objectAtIndex:indexPath.row] objectForKey:@"source"];
+    labOne.text = [NSString stringWithFormat:@"%@",[[self.tabMDic allKeys] objectAtIndex:indexPath.row]];
+    labTwo.text = [NSString stringWithFormat:@"%@",[self.tabMDic objectForKey:labOne.text]];
     return cell;
 }
 
