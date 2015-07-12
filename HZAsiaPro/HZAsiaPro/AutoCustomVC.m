@@ -35,19 +35,19 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)setNavBarOperatorItem
-{
-    UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑"
-                                                                    style:UIBarButtonItemStyleBordered
-                                                                   target:self
-                                                                   action:@selector(edit:)];
-    self.navigationItem.rightBarButtonItem = operateItem;
-    [operateItem release];
-}
+//- (void)setNavBarOperatorItem
+//{
+//    UIBarButtonItem *operateItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑"
+//                                                                    style:UIBarButtonItemStyleBordered
+//                                                                   target:self
+//                                                                   action:@selector(edit:)];
+//    self.navigationItem.rightBarButtonItem = operateItem;
+//    [operateItem release];
+//}
 
-- (void)edit:(id)sender {
-    [self.kehu.tbvHome setEditing:!self.kehu.tbvHome.editing animated:YES];
-}
+//- (void)edit:(id)sender {
+//    [self.kehu.tbvHome setEditing:!self.kehu.tbvHome.editing animated:YES];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -67,7 +67,7 @@
         [detail release];
     };
 
-    [self setNavBarOperatorItem];
+//    [self setNavBarOperatorItem];
     [self searchSimpleCustomer];
 }
 

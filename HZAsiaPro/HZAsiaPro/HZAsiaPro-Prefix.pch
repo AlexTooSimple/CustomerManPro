@@ -69,7 +69,7 @@
 #define CUSTOMER_INDUSTRY_DIC                     @"CUSTOMER_INDUSTRY_DIC"//行业
 #define CUSTOMER_EDUCATION_LIST                   @"CUSTOMER_EDUCATION_LIST"//学历
 #define CUSTOMER_EDUCATION_DIC                    @"CUSTOMER_EDUCATION_DIC"//学历
-
+#define CUSTOMER_ALLUSER_DIC                      @"CUSTOMER_ALLUSER_DIC"//所有业务员
 
 
 #endif

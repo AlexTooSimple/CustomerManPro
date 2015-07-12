@@ -18,6 +18,7 @@
     SafeManageView *safeView;
 }
 @property (nonatomic ,retain)SafeManageView *safeView;
+@property (nonatomic ,strong)NSMutableArray *itemArr;
 @end
 
 @implementation SafeManageVC
@@ -27,7 +28,7 @@
 - (void)dealloc
 {
     [safeView release];
-    
+    [self.itemArr release];
     [super dealloc];
 }
 
@@ -67,70 +68,49 @@
 
 - (void)initData
 {
+    self.itemArr = [[NSMutableArray alloc] initWithCapacity:0];
     //一旦设置用户权限，可以相应修改下列数组
-    NSArray *itemDatas = [[NSArray alloc] initWithObjects:
-                          @"调整账号权限并绑定手机号",
-                          @"设定首页提醒内容",
-                          @"管理客户池",
-                          @"审批客户上报",
-                          @"查看客户历史修改记录",nil];
-    [self.safeView reloadViewData:itemDatas];
-    [itemDatas release];
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+    NSNumber *isadmin = [usrInfo objectForKey:@"isadmin"];
+    [self.itemArr addObject:@"调整账号权限并绑定手机号"];
+    [self.itemArr addObject:@"设定首页提醒内容"];
+    if ([isadmin integerValue] == PRO_MANAGER_LIMIT) {
+        [self.itemArr addObject:@"管理客户池"];
+    }
+    [self.itemArr addObject:@"审批客户上报"];
+    [self.itemArr addObject:@"查看客户历史修改记录"];
+    [self.safeView reloadViewData:self.itemArr];
 }
 
 #pragma mark
 #pragma mark - SafeManageViewDelegate
 - (void)safeManageView:(SafeManageView *)safeView didSelectRow:(NSInteger)row
 {
-    switch (row) {
-        case 0:
-        {
-            //@"调整账号权限并绑定手机号"
-            AccountManageVC *accountVC = [[AccountManageVC alloc] init];
-            accountVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:accountVC animated:YES];
-            [accountVC release];
-        }
-            break;
-        case 1:
-        {
-            //@"设定首页提醒内容"
-            HomePageSetVC *setVC = [[HomePageSetVC alloc] init];
-            setVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:setVC animated:YES];
-            [setVC release];
-        }
-            break;
-        case 2:
-        {
-            //@"管理客户池"
-            AutoCustomVC *custVC = [[AutoCustomVC alloc] init];
-            custVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:custVC animated:YES];
-            [custVC release];
-        }
-            break;
-        case 3:
-        {
-            //@"审批客户上报"
-            ApproveCustomerVC *approveVC = [[ApproveCustomerVC alloc] init];
-            approveVC.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:approveVC animated:YES];
-            [approveVC release];
-        }
-            break;
-        case 4:
-        {
-            //@"查看客户历史修改记录"
-        }
-            break;
-        case 5:
-        {
-            
-        }
-            break;
-        default:
-            break;
+    NSString *TitleString = [self.itemArr objectAtIndex:row];
+    if ([TitleString isEqualToString:@"调整账号权限并绑定手机号"]) {
+        AccountManageVC *accountVC = [[AccountManageVC alloc] init];
+        accountVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:accountVC animated:YES];
+        [accountVC release];
+    } else if ([TitleString isEqualToString:@"设定首页提醒内容"]) {
+        HomePageSetVC *setVC = [[HomePageSetVC alloc] init];
+        setVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:setVC animated:YES];
+        [setVC release];
+    } else if ([TitleString isEqualToString:@"管理客户池"]) {
+        AutoCustomVC *custVC = [[AutoCustomVC alloc] init];
+        custVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:custVC animated:YES];
+        [custVC release];
+    } else if ([TitleString isEqualToString:@"审批客户上报"]) {
+        ApproveCustomerVC *approveVC = [[ApproveCustomerVC alloc] init];
+        approveVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:approveVC animated:YES];
+        [approveVC release];
+    } else if ([TitleString isEqualToString:@"查看客户历史修改记录"]) {
+        
     }
 }
 @end

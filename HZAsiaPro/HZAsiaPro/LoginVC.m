@@ -83,6 +83,12 @@
               withId:CUSTOMER_VISIT_TYPE_LIST
            intoTable:tableName];
     
+    NSDictionary *userData  = [data objectForKey:@"allUser"];
+    NSArray *userArray = [self assembData:userData];
+    [store putObject:userArray
+              withId:CUSTOMER_ALLUSER_DIC
+           intoTable:tableName];
+    
     NSDictionary *saleCondition  = [data objectForKey:@"销售情况"];
     NSArray *saleConditionArray = [self assembData:saleCondition];
     [store putObject:saleConditionArray
