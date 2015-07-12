@@ -106,7 +106,7 @@
     if(self.btnTapBlk){
         myButton *btn = (myButton *)sender;
         SalesmanSelectVC *saleVC = [[SalesmanSelectVC alloc] init];
-        saleVC.selectStr = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:btn.selectRow] objectForKey:@"operator"]];
+        saleVC.userDic =  [NSMutableDictionary dictionaryWithDictionary:[self.searchMArr objectAtIndex:btn.selectRow]];
         self.btnTapBlk(saleVC);
     }
 }
