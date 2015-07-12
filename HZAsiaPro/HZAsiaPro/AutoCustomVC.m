@@ -42,8 +42,6 @@
         DetailInfoVC *detail = [[DetailInfoVC alloc] init];
         detail.detailType = allInfoType;
         detail.isFromApprove = NO;
-        detail.isManage = YES;
-        detail.isHiddenTabBar = YES;
         [self.navigationController pushViewController:detail animated:YES];
         [detail release];
     };
