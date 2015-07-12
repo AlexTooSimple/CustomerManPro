@@ -78,6 +78,8 @@
 		029FE86B1AB9768C006882DE /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE86A1AB9768C006882DE /* JSONKit.m */; };
 		029FE86E1ABAAACC006882DE /* bussineDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 029FE86D1ABAAACC006882DE /* bussineDataService.m */; };
 		02A29EB71B50BB1900E97D0C /* GetVisitHistoryListMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A29EB61B50BB1900E97D0C /* GetVisitHistoryListMessage.m */; };
+		02A38E151B516DC1008C0CA9 /* DeleteClientMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E141B516DC1008C0CA9 /* DeleteClientMessage.m */; };
+		02A38E181B517FB1008C0CA9 /* CheckClientMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 02A38E171B517FB1008C0CA9 /* CheckClientMessage.m */; };
 		02C09D251B27D350009E823C /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D261B27D350009E823C /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D101B27D350009E823C /* MASConstraint.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		02C09D271B27D350009E823C /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C09D131B27D350009E823C /* MASConstraintMaker.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -270,6 +272,10 @@
 		029FE86D1ABAAACC006882DE /* bussineDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = bussineDataService.m; path = Bussiness/bussineDataService.m; sourceTree = SOURCE_ROOT; };
 		02A29EB51B50BB1900E97D0C /* GetVisitHistoryListMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetVisitHistoryListMessage.h; path = Message/GetVisitHistoryListMessage.h; sourceTree = SOURCE_ROOT; };
 		02A29EB61B50BB1900E97D0C /* GetVisitHistoryListMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetVisitHistoryListMessage.m; path = Message/GetVisitHistoryListMessage.m; sourceTree = SOURCE_ROOT; };
+		02A38E131B516DC1008C0CA9 /* DeleteClientMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeleteClientMessage.h; path = Message/DeleteClientMessage.h; sourceTree = SOURCE_ROOT; };
+		02A38E141B516DC1008C0CA9 /* DeleteClientMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeleteClientMessage.m; path = Message/DeleteClientMessage.m; sourceTree = SOURCE_ROOT; };
+		02A38E161B517FB1008C0CA9 /* CheckClientMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckClientMessage.h; path = Message/CheckClientMessage.h; sourceTree = SOURCE_ROOT; };
+		02A38E171B517FB1008C0CA9 /* CheckClientMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckClientMessage.m; path = Message/CheckClientMessage.m; sourceTree = SOURCE_ROOT; };
 		02C09D0D1B27D350009E823C /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Tools/Masonry/MASCompositeConstraint.h; sourceTree = SOURCE_ROOT; };
 		02C09D0E1B27D350009E823C /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MASCompositeConstraint.m; path = Tools/Masonry/MASCompositeConstraint.m; sourceTree = SOURCE_ROOT; };
 		02C09D0F1B27D350009E823C /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MASConstraint.h; path = Tools/Masonry/MASConstraint.h; sourceTree = SOURCE_ROOT; };
@@ -864,6 +870,10 @@
 				021B7A421B4F795A00DAC100 /* UploadAllCustomerMessage.m */,
 				021B7A471B501E4600DAC100 /* AddVisitHistoryMessage.h */,
 				021B7A481B501E4600DAC100 /* AddVisitHistoryMessage.m */,
+				02A38E131B516DC1008C0CA9 /* DeleteClientMessage.h */,
+				02A38E141B516DC1008C0CA9 /* DeleteClientMessage.m */,
+				02A38E161B517FB1008C0CA9 /* CheckClientMessage.h */,
+				02A38E171B517FB1008C0CA9 /* CheckClientMessage.m */,
 			);
 			name = customerMan;
 			sourceTree = "<group>";
@@ -1043,6 +1053,7 @@
 				022964891AA6B2E000D5BFE5 /* AFHTTPRequestOperation.m in Sources */,
 				02137C6B1ACA94E400C87B63 /* MBProgressHUD.m in Sources */,
 				0293A8381B2EF07D0086C602 /* AddCustomerVC.m in Sources */,
+				02A38E181B517FB1008C0CA9 /* CheckClientMessage.m in Sources */,
 				0224E98D1B38EDC60080067A /* VerifyCustomerVC.m in Sources */,
 				022964911AA6B2E000D5BFE5 /* AFURLSessionManager.m in Sources */,
 				02D83E271B4E6063008696A6 /* YTKKeyValueStore.m in Sources */,
@@ -1061,6 +1072,7 @@
 				02C86A191B2AFD5900C37CE7 /* DetailInfoView.m in Sources */,
 				0229648B1AA6B2E000D5BFE5 /* AFHTTPSessionManager.m in Sources */,
 				0229648A1AA6B2E000D5BFE5 /* AFHTTPRequestOperationManager.m in Sources */,
+				02A38E151B516DC1008C0CA9 /* DeleteClientMessage.m in Sources */,
 				029FE86B1AB9768C006882DE /* JSONKit.m in Sources */,
 				021416B01B25896100248D48 /* HomeInfoVC.m in Sources */,
 				022964941AA6B2FF00D5BFE5 /* HttpConnector.m in Sources */,
