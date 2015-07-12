@@ -23,5 +23,6 @@
 #import "CheckClientMessage.h"
 #import "InsertClientMessage.h"
 #import "UpdateClientBasicInfoMessage.h"
+#import "UpdateUserMessage.h"
 
 #endif

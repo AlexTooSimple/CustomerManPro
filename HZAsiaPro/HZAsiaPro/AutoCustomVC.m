@@ -10,6 +10,7 @@
 #import "ManageView.h"
 #import "UserDetailViewController.h"
 #import "DetailInfoVC.h"
+#import "SalesmanSelectVC.h"
 
 @interface AutoCustomVC ()
 
@@ -44,7 +45,7 @@
     self.kehu = [[ManageView alloc] initWithFrame:CGRectMake(0, 64, DEVICE_MAINSCREEN_WIDTH, DEVICE_MAINSCREEN_HEIGHT-64)];
     [self.view addSubview:self.kehu];
     self.kehu.tapBlk = ^(NSIndexPath *index){
-        NSLog(@"点击了第%d行",self.kehu);
+        NSLog(@"点击了第%@行",self.kehu);
 //        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
 //        detail.detailType = allInfoType;
 //        detail.isFromApprove = NO;
@@ -54,7 +55,10 @@
 //        [detail release];
     };
 
-    self.kehu.btnTapBlk = ^(UIViewController *saleVC){
+    self.kehu.btnTapBlk = ^(SalesmanSelectVC *saleVC){
+        saleVC.tapBlk = ^(id sender){
+            [self searchSimpleCustomer];
+        };
         [self.navigationController pushViewController:saleVC animated:YES];
     };
     [self searchSimpleCustomer];

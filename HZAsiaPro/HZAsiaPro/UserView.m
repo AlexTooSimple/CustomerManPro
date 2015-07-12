@@ -61,7 +61,10 @@
     } else if([one isEqualToString:@"ownname"]) {
         labOne.text = @"姓名";
         labTwo.text = two;
-    } else {
+    } else if([one isEqualToString:@"phone"]) {
+        labOne.text = @"电话";
+        labTwo.text = two;
+    }  else {
         labOne.text = one;
         labTwo.text = two;
     }
@@ -112,7 +115,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

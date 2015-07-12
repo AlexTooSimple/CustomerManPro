@@ -377,7 +377,25 @@ static bussineDataService *sharedBussineDataService = nil;
     [self noticeUI:rspDic];
 }
 
+#pragma mark - 更新用户基本信息
+- (void)updateUser:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"UpdateUserMessage"
+                     param:paramters
+                   funName:@"updateUser:"
+             synchronously:NO];
+}
 
+- (void)updateUserFinished:(id <MessageDelegate>)searchResponse
+{
+    UpdateUserMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
 
 #pragma mark -
 #pragma mark http 回调接口
@@ -405,6 +423,8 @@ static bussineDataService *sharedBussineDataService = nil;
         [self insertCustomerFinished:msg];
     }else if (YES == [[msg getBusinessCode] isEqualToString:UPDATE_CLIENT_BASIC_INFO_BIZCODE]){
         [self updateCustomerFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:UPDATE_USER_BASIC_INFO_BIZCODE]){
+        [self updateUserFinished:msg];
     }
 }
 

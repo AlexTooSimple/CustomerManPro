@@ -15,6 +15,7 @@
 
 @property(nonatomic,strong)UITextField *txfPhoneNum;
 @property(nonatomic,strong)UISwitch *swtRoot;
+@property(nonatomic,strong)NSMutableDictionary *StaticMDic;
 
 @end
 
@@ -42,6 +43,12 @@
     [rightButtonForSearch setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [rightButtonForSearch addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightButtonForSearch] autorelease];
+    self.StaticMDic = [[NSMutableDictionary alloc] initWithCapacity:0];
+    
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    [self.StaticMDic setDictionary:[NSMutableDictionary dictionaryWithDictionary:
+                          [store getObjectById:CUSTOMER_USERINFO
+                                     fromTable:CUSTOMER_DB_TABLE]]];
 }
 
 - (BOOL)getAdmin{
@@ -64,26 +71,9 @@
 - (void)save {
     [self.txfPhoneNum resignFirstResponder];
     
-    NSString *tableName = CUSTOMER_DB_TABLE;
-    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
-    NSMutableDictionary *usrInfo = [NSMutableDictionary dictionaryWithDictionary:
-                                    [store getObjectById:CUSTOMER_USERINFO
-                                       fromTable:CUSTOMER_DB_TABLE]];
-    NSNumber *isadmin = [usrInfo objectForKey:@"isadmin"];
-    if([isadmin integerValue]==1){
-        [usrInfo setObject:@0 forKey:@"isadmin"];
-    }else{
-        [usrInfo setObject:@1 forKey:@"isadmin"];
-    }
-    
-    [store putObject:usrInfo
-              withId:CUSTOMER_USERINFO
-           intoTable:tableName];
-    [store release];
-    
-    UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"" message:@"保存成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [aler show];
-    [aler release];
+    [self.StaticMDic setObject:self.swtRoot.on?@1:@0 forKey:@"isadmin"];
+    [self.StaticMDic setObject:self.txfPhoneNum.text forKey:@"phone"];
+    [self sendUpdateIndvialMessage:self.StaticMDic];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,6 +86,65 @@
     [self.txfPhoneNum release];
     [self.swtRoot release];
     [super dealloc];
+}
+
+- (void)sendUpdateIndvialMessage:(NSDictionary *)basicInfo
+{
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService updateUser:basicInfo];
+}
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[UpdateUserMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            NSString *tableName = CUSTOMER_DB_TABLE;
+            YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+            [store putObject:self.StaticMDic
+                      withId:CUSTOMER_USERINFO
+                   intoTable:tableName];
+            [store release];
+            
+            UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"修改信息成功"
+                                                           message:@"您的基本信息修改成功,谢谢！"
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"确定"
+                                                 otherButtonTitles:nil];
+            [aler show];
+            [aler release];
+            
+        }else{
+            UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                           message:msg
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"确定"
+                                                 otherButtonTitles:nil];
+            [aler show];
+            [aler release];
+        }
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[UpdateUserMessage getBizCode] isEqualToString:bussineCode]){
+        UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                       message:msg
+                                                      delegate:nil
+                                             cancelButtonTitle:@"确定"
+                                             otherButtonTitles:nil];
+        [aler show];
+        [aler release];
+    }
 }
 
 #pragma mark tableviewDele & tableviewDataSource
@@ -162,6 +211,7 @@
             txf.backgroundColor = [UIColor clearColor];
             txf.font = [UIFont systemFontOfSize:14];
             txf.textColor = [UIColor blackColor];
+            txf.text = [self.StaticMDic objectForKey:@"phone"];
             [cell addSubview:txf];
             self.txfPhoneNum = txf;
             [txf release];

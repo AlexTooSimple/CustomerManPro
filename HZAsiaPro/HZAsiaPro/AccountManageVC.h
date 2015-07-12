@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "bussineDataService.h"
 
-@interface AccountManageVC : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface AccountManageVC : UIViewController<UITableViewDelegate,UITableViewDataSource,HttpBackDelegate>
 
 @property (nonatomic,strong)UITableView *tbvAccount;
 

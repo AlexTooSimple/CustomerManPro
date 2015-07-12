@@ -49,22 +49,6 @@
     [self getAllSaleMan];
 }
 
-- (void)requestFailed:(NSDictionary *)info
-{
-    NSString *bussineCode = [info objectForKey:@"bussineCode"];
-    NSString *msg = [info objectForKey:@"MSG"];
-    if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
-        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
-                                                                     message:msg
-                                                                    delegate:self
-                                                                         tag:0
-                                                           cancelButtonTitle:@"确定"
-                                                           otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-    }
-}
-
 - (void)getAllSaleMan {
     YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
     //用户列表
@@ -73,7 +57,7 @@
     [self.tabMArr setArray:userInfoSource];
     for (int i=0; i<[self.tabMArr count]; i++) {
         NSDictionary *dic = [self.tabMArr objectAtIndex:i];
-        if([[dic objectForKey:@"id"] isEqualToString:self.selectStr]){
+        if([[dic objectForKey:@"id"] isEqualToString:[NSString stringWithFormat:@"%@",[self.userDic objectForKey:@"operator"]]]){
             self.selectRow = i;
             [self.selectMArr addObject:@{@"select":@1}];
         }else
@@ -93,10 +77,64 @@
         [aler show];
         [aler release];
     } else {
-        if(self.tapBlk){
-            self.tapBlk(sender);
+        [self.userDic setObject:[[self.tabMArr objectAtIndex:self.selectRow] objectForKey:@"id"] forKey:@"operator"];
+        [self sendUpdateIndvialMessage:self.userDic];
+    }
+}
+
+//更新个人用户基本信息
+- (void)sendUpdateIndvialMessage:(NSDictionary *)basicInfo
+{
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService updateCustomer:basicInfo];
+}
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[UpdateClientBasicInfoMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"操作成功"
+                                                           message:@"您的客户基本信息修改成功,谢谢！"
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"确定"
+                                                 otherButtonTitles:nil];
+            [aler show];
+            [aler release];
+            if(self.tapBlk){
+                self.tapBlk(@"成功");
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                           message:msg
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"确定"
+                                                 otherButtonTitles:nil];
+            [aler show];
+            [aler release];
         }
-        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *msg = [info objectForKey:@"MSG"];
+    if([[UpdateClientBasicInfoMessage getBizCode] isEqualToString:bussineCode]){
+        UIAlertView *aler = [[UIAlertView alloc] initWithTitle:@"提示"
+                                                       message:msg
+                                                      delegate:nil
+                                             cancelButtonTitle:@"确定"
+                                             otherButtonTitles:nil];
+        [aler show];
+        [aler release];
     }
 }
 

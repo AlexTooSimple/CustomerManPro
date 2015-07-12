@@ -121,7 +121,9 @@
         detail.detailType = allInfoType;
         detail.isFromApprove = NO;
         NSMutableDictionary *MDic = [NSMutableDictionary dictionaryWithDictionary:[self.kehuNoCall.searchMArr objectAtIndex:index.row]];
-        [MDic setObject:[[self.kehuNoCall.searchMArr objectAtIndex:index.row] objectForKey:@"client_code"] forKey:@"clientCode"];
+//        NSLog(@"%@",[self.kehuNoCall.searchMArr objectAtIndex:index.row]);
+//        [MDic setObject:[[self.kehuNoCall.searchMArr objectAtIndex:index.row] objectForKey:@"client_type"] forKey:@"clientType"];
+//        [MDic setObject:[[self.kehuNoCall.searchMArr objectAtIndex:index.row] objectForKey:@"CLIENT_CODE"] forKey:@"clientCode"];
         detail.customerInfo = MDic;
         [self.navigationController pushViewController:detail animated:YES];
         [detail release];

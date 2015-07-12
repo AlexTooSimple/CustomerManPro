@@ -105,6 +105,10 @@
 #pragma mark - 更新客户基本信息
 - (void)updateCustomer:(NSDictionary *)paramters;
 
+#pragma mark
+#pragma mark - 更新用户基本信息
+- (void)updateUser:(NSDictionary *)paramters;
+
 @end
 
 
