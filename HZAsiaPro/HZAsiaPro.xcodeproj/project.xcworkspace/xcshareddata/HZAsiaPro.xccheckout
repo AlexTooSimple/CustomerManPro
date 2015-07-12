@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>02675005-3685-46E7-9A1F-3E592F32C2EB</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>HZAsiaPro</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>B68A06D4FB8E9687FA787C9029DE2099FE2408CB</key>
 		<string>https://github.com/AlexTooSimple/CustomerManPro.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>HZAsiaPro/HZAsiaPro.xcodeproj/project.xcworkspace</string>
+	<string>HZAsiaPro/HZAsiaPro.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>B68A06D4FB8E9687FA787C9029DE2099FE2408CB</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>B68A06D4FB8E9687FA787C9029DE2099FE2408CB</string>
 			<key>IDESourceControlWCCName</key>
-			<string>CustomerManPro</string>
+			<string>CustomerPro</string>
 		</dict>
 	</array>
 </dict>
