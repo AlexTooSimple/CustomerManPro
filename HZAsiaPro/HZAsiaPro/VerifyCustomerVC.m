@@ -8,6 +8,7 @@
 
 #import "VerifyCustomerVC.h"
 #import "ItemPickerView.h"
+#import "bussineDataService.h"
 #import "AddCustomerVC.h"
 
 #define CELL_TYPE_ONE_ROW_TITLE_LABEL_TAG           101
@@ -19,7 +20,9 @@
 
 @interface VerifyCustomerVC ()<ItemPickerDelegate,
                                UIGestureRecognizerDelegate,
-                               UITextFieldDelegate>
+                               UITextFieldDelegate,
+                               HttpBackDelegate,
+                               AlertShowViewDelegate>
 {
     ItemPickerView *itemPicker;
     
@@ -126,9 +129,41 @@
 
 - (void)nextStep:(id)sender
 {
-    AddCustomerVC *VC = [[AddCustomerVC alloc] init];
-    [self.navigationController pushViewController:VC animated:YES];
-    [VC release];
+    if (self.nameField.text == nil || [self.nameField.text isEqualToString:@""]) {
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:@"客户姓名不能为空"
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        return;
+    }
+    
+    if (self.phoneField.text == nil || [self.phoneField.text isEqualToString:@""]) {
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:@"手机号码不能为空"
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        return;
+    }
+    
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    
+    NSString *clientType = [[self.clientTypeSourceList objectAtIndex:selectClientType] objectForKey:SOURCE_DATA_ID_COLUM];
+    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:
+                          self.nameField.text,@"cname",
+                          self.phoneField.text,@"mobile",
+                          clientType,@"clientType",nil];
+    
+    [bussineService checkCustomer:data];
+    [data release];
 }
 
 
@@ -379,5 +414,66 @@
     [textField resignFirstResponder];
     return YES;
 }
+
+#pragma mark
+#pragma mark - HttpBackDelegate
+- (void)requestDidFinished:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    NSString *errorCode = [info objectForKey:@"errorCode"];
+    if([[CheckClientMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo;
+            NSString *data = [rspInfo objectForKey:@"data"];
+            
+            NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                       options:NSJSONReadingMutableContainers
+                                                                        error:nil];
+            if (rspCustomerList == nil || [rspCustomerList isEqual:[NSNull null]] || [rspCustomerList count] == 0) {
+                AddCustomerVC *VC = [[AddCustomerVC alloc] init];
+                [self.navigationController pushViewController:VC animated:YES];
+                [VC release];
+            }else{
+            
+            }
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:@"校验客户失败"
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+    }
+    
+}
+
+- (void)requestFailed:(NSDictionary *)info
+{
+    NSString *bussineCode = [info objectForKey:@"bussineCode"];
+    if([[CheckClientMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:@"校验客户失败"
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+}
+
+#pragma mark
+#pragma mark - AlertShowViewDelegate
+- (void)alertViewWillPresent:(UIAlertController *)alertController
+{
+    [self.navigationController presentViewController:alertController
+                                            animated:YES
+                                          completion:nil];
+}
+
 
 @end

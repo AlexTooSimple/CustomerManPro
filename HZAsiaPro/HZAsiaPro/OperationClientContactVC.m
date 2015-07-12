@@ -12,10 +12,13 @@
 #import "ItemPickerView.h"
 #import "bussineDataService.h"
 
+#define ALTER_SUCCESS_BACK_TAG      205
+
 @interface OperationClientContactVC ()<AddCustomerViewDelegate,
                                        ItemPickerDelegate,
                                        MyDatePickerViewDelegate,
-                                       HttpBackDelegate>
+                                       HttpBackDelegate,
+                                       AlertShowViewDelegate,UIAlertViewDelegate>
 {
     MyDatePickerView *datePicker;
     ItemPickerView *itemPicker;
@@ -32,6 +35,7 @@
 
 @implementation OperationClientContactVC
 
+@synthesize clientCode;
 @synthesize datePicker;
 @synthesize itemPicker;
 @synthesize contactInfoView;
@@ -39,6 +43,9 @@
 
 - (void)dealloc
 {
+    if (clientCode != nil) {
+        [clientCode release];
+    }
     [datePicker release];
     [itemPicker release];
     [contactInfoView release];
@@ -87,7 +94,34 @@
 {
     //组装数据
     NSDictionary *concactInfo = [self.contactInfoView commitGetAllCustomerData];
+    
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *usrinfo = [store getObjectById:CUSTOMER_USERINFO
+                                       fromTable:CUSTOMER_DB_TABLE];
+    
+    NSString *visitDate_o = [concactInfo objectForKey:@"日期"];
+    NSString *visitDate = [ComponentsFactory getDateString:visitDate_o
+                                         fromSourceFormate:@"yyyy-MM-dd"
+                                             toDestFormate:@"yyyy-MM-dd hh:mm:ss"];
+    
+//    [ComponentsFactory getCurrentDateWithFormate:@"yyyy-MM-dd hh:mm:ss"],@"created",
+    NSDictionary *requestInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 self.clientCode,@"clientCode",
+                                 [concactInfo objectForKey:@"联系类型"],@"type",
+                                 [concactInfo objectForKey:@"购买意向"],@"intent",
+                                 [concactInfo objectForKey:@"来访形式"],@"visitMode",
+                                 [concactInfo objectForKey:@"来访人数"],@"withManCount",
+                                 [concactInfo objectForKey:@"来访频率"],@"firstVisit",
+                                 [concactInfo objectForKey:@"备注"],@"remarks",
+                                 visitDate,@"visitDateStr",
+                                 [usrinfo objectForKey:@"code"],@"createBy",
+                                 [usrinfo objectForKey:@"ownname"],@"receptionist",nil];
+    [store release];
+    
     bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService addVisitHistory:requestInfo];
+    [requestInfo release];
 }
 
 #pragma mark
@@ -252,11 +286,11 @@
     [contactDateDic release];
     [df release];
     
-    NSMutableDictionary *contactTimeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                           @"时间",PLUS_CUSTOMER_TITLE,
-                                           CUSTOMER_TIME_SELECT_TYPE,PLUS_CUSTOMER_TYPE,nil];
-    [contactList addObject:contactTimeDic];
-    [contactTimeDic release];
+//    NSMutableDictionary *contactTimeDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+//                                           @"时间",PLUS_CUSTOMER_TITLE,
+//                                           CUSTOMER_TIME_SELECT_TYPE,PLUS_CUSTOMER_TYPE,nil];
+//    [contactList addObject:contactTimeDic];
+//    [contactTimeDic release];
     
 //    NSMutableDictionary *contactPhoneDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
 //                                            @"接待人员",PLUS_CUSTOMER_TITLE,
@@ -304,13 +338,15 @@
     NSString *errorCode = [info objectForKey:@"errorCode"];
     if([[AddVisitHistoryMessage getBizCode] isEqualToString:bussineCode]){
         if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
-            message *msg = [info objectForKey:@"message"];
-            NSDictionary *rspInfo = msg.rspInfo;
-            NSString *data = [rspInfo objectForKey:@"data"];
-            
-            NSArray *rspConcactList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
-                                                                      options:NSJSONReadingMutableContainers
-                                                                        error:nil];
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"登记成功"
+                                                                         message:@"您的客户洽谈信息提交成功,等待管理员查看审批中,谢谢！"
+                                                                        delegate:self
+                                                                             tag:ALTER_SUCCESS_BACK_TAG
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                          message:msg
@@ -370,5 +406,28 @@
     [self closeViewResponse];
 }
 
+#pragma mark
+#pragma mark - AlertShowViewDelegate
+- (void)alertViewWillPresent:(UIAlertController *)alertController
+{
+    [self.navigationController presentViewController:alertController
+                                            animated:YES
+                                          completion:nil];
+}
 
+- (void)alertShowView:(AlertShowView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(ALTER_SUCCESS_BACK_TAG == alertView.index){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+#pragma mark
+#pragma mark - UIAlterViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if(ALTER_SUCCESS_BACK_TAG == alertView.tag){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 @end

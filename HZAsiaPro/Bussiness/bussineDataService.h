@@ -89,6 +89,14 @@
 #pragma mark - 新增访问记录
 - (void)addVisitHistory:(NSDictionary *)paramters;
 
+#pragma mark
+#pragma mark - 删除客户
+- (void)deleteCustomer:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 检查客户是否存在
+- (void)checkCustomer:(NSDictionary *)paramters;
+
 
 
 @end

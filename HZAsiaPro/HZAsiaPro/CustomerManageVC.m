@@ -17,12 +17,17 @@
 @interface CustomerManageVC ()<CustomerListViewDelegate,
                               MFMessageComposeViewControllerDelegate,
                               HttpBackDelegate>
+{
+    NSInteger infoSelectRow;
+}
+@property (nonatomic, assign)NSInteger infoSelectRow;
 @property (nonatomic, retain)CustomerListView *customerView;
 @property (nonatomic, retain)NSArray *customerDataList;
 @end
 
 @implementation CustomerManageVC
 
+@synthesize infoSelectRow;
 @synthesize customerView;
 @synthesize customerDataList;
 
@@ -38,6 +43,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:CUSTOMER_VC_SEARCH_DONE_NOTIFATION
                                                   object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:CUSTOMER_DELETE_NOTIFATION
+                                                  object:nil];
+    
     
     [super dealloc];
 }
@@ -63,6 +72,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(searchCustomer:)
                                                  name:CUSTOMER_VC_SEARCH_DONE_NOTIFATION
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(deleteReloadView)
+                                                 name:CUSTOMER_DELETE_NOTIFATION
                                                object:nil];
     
     CustomerListView *listView = [[CustomerListView alloc] init];
@@ -120,6 +133,19 @@
 }
 
 #pragma mark
+#pragma mark - 删除通知
+- (void)deleteReloadView
+{
+    NSMutableArray *allCustomerItems = [[NSMutableArray alloc] initWithArray:self.customerDataList
+                                                                   copyItems:YES];
+    [allCustomerItems removeObjectAtIndex:self.infoSelectRow];
+    self.customerDataList = allCustomerItems;
+    [allCustomerItems release];
+ 
+     [self.customerView reloadData:self.customerDataList];
+}
+
+#pragma mark
 #pragma mark - 查询客户接口启动
 - (void)searchCustomer:(NSNotification *)noti
 {
@@ -162,7 +188,7 @@
     }
     
     
-    if ([isadmin integerValue] != PRO_MANAGER_LIMIT) {
+    if (isadmin == nil || [isadmin integerValue] != PRO_MANAGER_LIMIT) {
         //不是管理员
         NSString *operatorCode = [usrInfo objectForKey:@"code"];
         [searchCondition setObject:operatorCode
@@ -189,8 +215,19 @@
             NSArray *rspCustomerList = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
                                                                        options:NSJSONReadingMutableContainers
                                                                          error:nil];
-            self.customerDataList = rspCustomerList;
-            [self.customerView reloadData:self.customerDataList];
+            if ([rspCustomerList count] == 0) {
+                AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                             message:@"没有搜索到客户,请重新匹配搜索！"
+                                                                            delegate:self
+                                                                                 tag:0
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+                [alert show];
+                [alert release];
+            }else{
+                self.customerDataList = rspCustomerList;
+                [self.customerView reloadData:self.customerDataList];
+            }
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                          message:msg
@@ -240,6 +277,8 @@
 #pragma mark - CustomerListViewDelegate
 - (void)customerListView:(CustomerListView *)listView didSelectRow:(NSInteger)row
 {
+    self.infoSelectRow = row;
+    
     NSDictionary *selectCustomer = [self.customerDataList objectAtIndex:row];
     
     DetailInfoVC *VC = [[DetailInfoVC alloc] init];

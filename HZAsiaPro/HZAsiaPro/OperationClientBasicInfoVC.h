@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface OperationClientBasicInfoVC : UIViewController
+{
+    NSDictionary *customerInfo;
+}
+@property (nonatomic ,retain)NSDictionary *customerInfo;
 - (void)reloadInitData:(NSArray *)sourceInitData;
 @end

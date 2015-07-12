@@ -14,6 +14,8 @@
 
 #define CELL_ROW_TITLW_LABEL_TAG        101
 #define CELL_ROW_VALUE_LABEL_TAG        102
+#define CELL_ROW_SEPER_VIEW_TAG         103
+
 
 @implementation ConcactHistoryView
 
@@ -120,9 +122,13 @@
     CGFloat cellHeight = CELL_ROW_HEIGHT;
     NSDictionary *data = [[self.itemDatas objectAtIndex:section] objectAtIndex:row];
     
+    
+    if ([[data objectForKey:DATA_SHOW_VALUE_COLUM] isEqual:[NSNull null]] ||
+        [data objectForKey:DATA_SHOW_VALUE_COLUM] == nil) {
+        return cellHeight;
+    }
+    
     NSString *textStr = [data objectForKey:DATA_SHOW_VALUE_COLUM];
-    
-    
     NSDictionary *attribute = [[NSDictionary alloc] initWithObjectsAndKeys:
                                [UIFont systemFontOfSize:15.0f],NSFontAttributeName,nil];
     CGFloat height = DEVICE_MAINSCREEN_WIDTH/2-10.0f+30.0f;
@@ -186,6 +192,7 @@
         [valueLabel release];
         
         UIView *seperView = [[UIView alloc] initWithFrame:CGRectZero];
+        seperView.tag = CELL_ROW_SEPER_VIEW_TAG;
         seperView.backgroundColor = [ComponentsFactory createColorByHex:@"#DDDDDD"];
         [cell.contentView addSubview:seperView];
         [seperView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -197,13 +204,43 @@
     
     UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:CELL_ROW_TITLW_LABEL_TAG];
     UILabel *valueLabel = (UILabel *)[cell.contentView viewWithTag:CELL_ROW_VALUE_LABEL_TAG];
+    UIView *seperView = (UIView *)[cell.contentView viewWithTag:CELL_ROW_SEPER_VIEW_TAG];
     
     NSInteger row = indexPath.row;
     NSInteger section = indexPath.section;
     NSDictionary *data = [[self.itemDatas objectAtIndex:section] objectAtIndex:row];
     
     titleLabel.text = [data objectForKey:DATA_SHOW_TITLE_COLUM];
-    valueLabel.text = [data objectForKey:DATA_SHOW_VALUE_COLUM];
+    NSString *textStr = nil;
+    
+    if ([data objectForKey:DATA_SHOW_VALUE_COLUM] == nil ||
+        [[data objectForKey:DATA_SHOW_VALUE_COLUM] isEqual:[NSNull null]] ||
+        [[data objectForKey:DATA_SHOW_VALUE_COLUM] isEqualToString:@""]) {
+        textStr = @"无";
+    }else{
+        textStr = [data objectForKey:DATA_SHOW_VALUE_COLUM];
+    }
+    
+    valueLabel.text = textStr;
+    
+    NSDictionary *attribute = [[NSDictionary alloc] initWithObjectsAndKeys:
+                               [UIFont systemFontOfSize:15.0f],NSFontAttributeName,nil];
+    CGFloat height = DEVICE_MAINSCREEN_WIDTH/2-10.0f+30.0f;
+    CGRect rect = [textStr boundingRectWithSize:CGSizeMake(height, MAXFLOAT)
+                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading |NSStringDrawingTruncatesLastVisibleLine
+                                     attributes:attribute
+                                        context:nil];
+    [attribute release];
+    if (rect.size.height > CELL_ROW_HEIGHT) {
+        [seperView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake((rect.size.height+10-1), 0, 0, 0));
+        }];
+    }else{
+        [seperView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(CELL_ROW_HEIGHT-1, 0, 0, 0));
+        }];
+    }
+
     
     return cell;
 }

@@ -123,8 +123,8 @@
     }
     UILabel *labOne = (UILabel *)[cell viewWithTag:labOneTag];
     UILabel *labTwo = (UILabel *)[cell viewWithTag:labTwoTag];
-    labOne.text = [[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"name"];
-    labTwo.text = [[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"source"];
+    labOne.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"client_code"]];
+    labTwo.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"cname"]];
     return cell;
 }
 

@@ -165,6 +165,21 @@
     
 }
 
+- (void)initCustomerNoneConnectData:(id)data
+{
+    NSString *tableName = CUSTOMER_DB_TABLE;
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    [store createTableWithName:tableName];
+    
+    [store putObject:data
+              withId:CUSTOMER_NONECONNECT_LIST
+           intoTable:tableName];
+    
+    [store close];
+    [store release];
+    
+}
+
 - (NSArray *)assembData:(NSDictionary *)data
 {
     NSArray *allKey = [data allKeys];
@@ -261,6 +276,12 @@
         if ([[errorCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]) {
             message *msg = [info objectForKey:@"message"];
             NSDictionary *rspInfo = msg.rspInfo; //获取客户的未联系客户
+            
+            NSString *data = [rspInfo objectForKey:@"data"];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:nil];
+            [self initCustomerNoneConnectData:dic];
             
             [(AppDelegate *)([UIApplication sharedApplication].delegate) setHomeTabVC];
         }else{

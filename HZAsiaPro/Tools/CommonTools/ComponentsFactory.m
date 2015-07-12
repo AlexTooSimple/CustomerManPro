@@ -153,6 +153,25 @@
     return outstring;
 }
 
++(NSString*)getCurrentDateWithFormate:(NSString *)formate
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc]init];
+    [df setDateFormat:formate];
+    
+    NSString *currentDateString = [df stringFromDate:[NSDate date]];
+    return currentDateString;
+}
 
++(NSString*)getDateString:(NSString *)sourceDate fromSourceFormate:(NSString *)source toDestFormate:(NSString *)dest
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc]init];
+    [df setDateFormat:source];
+    NSDate *date = [df dateFromString:sourceDate];
+    
+    [df setDateFormat:dest];
+    NSString *destDate = [df stringFromDate:date];
+    
+    return destDate;
+}
 
 @end

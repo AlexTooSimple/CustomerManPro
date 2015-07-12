@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface OperationClientContactVC : UIViewController
+{
+    NSString *clientCode;
+}
+@property (nonatomic ,retain)NSString *clientCode;
 - (void)reloadInitData:(NSDictionary *)sourceInitData;
 @end

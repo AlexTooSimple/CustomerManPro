@@ -19,6 +19,7 @@
 #import "UploadAllCustomerMessage.h"
 #import "GetVisitHistoryListMessage.h"
 #import "AddVisitHistoryMessage.h"
-
+#import "DeleteClientMessage.h"
+#import "CheckClientMessage.h"
 
 #endif
