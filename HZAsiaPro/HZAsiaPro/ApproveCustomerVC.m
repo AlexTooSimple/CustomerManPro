@@ -17,15 +17,18 @@
 {
     ApproveCustomerView *contentApproveView;
     NSArray *approveDataList;
+    NSInteger selectRow;
 }
 @property (nonatomic ,retain)ApproveCustomerView *contentApproveView;
 @property (nonatomic ,retain)NSArray *approveDataList;
+@property (nonatomic ,assign)NSInteger selectRow;
 @end
 
 @implementation ApproveCustomerVC
 
 @synthesize contentApproveView;
 @synthesize approveDataList;
+@synthesize selectRow;
 
 - (void)dealloc
 {
@@ -33,7 +36,9 @@
     if (approveDataList != nil) {
         [approveDataList release];
     }
-   
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:CUSTOMER_APPROVE_CLIENT_NOTIFACTION
+                                                  object:nil];
     
     [super dealloc];
 }
@@ -55,6 +60,11 @@
     [self setNavBarSMSItem];
     
     [self layoutContentView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reloadView)
+                                                 name:CUSTOMER_APPROVE_CLIENT_NOTIFACTION
+                                               object:nil];
 
     [NSTimer scheduledTimerWithTimeInterval:0.02f
                                      target:self
@@ -102,6 +112,10 @@
     [approveView release];
 }
 
+- (void)reloadView
+{
+    [self.contentApproveView resetRowCell:self.selectRow];
+}
 
 #pragma mark
 #pragma mark - Send Http Message
@@ -112,34 +126,36 @@
     [bussineService searchApproveClientList:nil];
 }
 
+
 #pragma mark
 #pragma mark - ApproveCustomerViewDelegate
 - (void)approveView:(ApproveCustomerView *)approveView didShowApproveDetail:(NSInteger)row
 {
-    NSDictionary *itemData = [self.approveDataList objectAtIndex:row];
-    DetailShowType showType;
-    NSString *type = [itemData objectForKey:@"type"];
-    if ([type isEqualToString:@"1"]) {
-        //新增
-        showType = allInfoType;
-    }else if ([type isEqualToString:@"2"]){
-        //新增登记信息
-        showType = contactInfoType;
-    }else if ([type isEqualToString:@"3"]){
-        //修改基本信息
-        showType = basicInfoType;
-    }
+    self.selectRow = row;
     
+    NSDictionary *itemData = [self.approveDataList objectAtIndex:row];
+
     DetailInfoVC *detailVC = [[DetailInfoVC alloc] init];
-    detailVC.detailType = showType;
+    detailVC.detailType = basicInfoType;
+    detailVC.customerInfo = itemData;
     detailVC.isFromApprove = YES;
     [self.navigationController pushViewController:detailVC animated:YES];
-
+    [detailVC release];
 }
 
 - (void)approveView:(ApproveCustomerView *)approveView didClickedApprove:(NSInteger)row
 {
+    self.selectRow = row;
     //审批接口调用
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    
+    NSDictionary *selectApprove = [self.approveDataList objectAtIndex:row];
+    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 [selectApprove objectForKey:@"clientCode"],@"id",nil];
+    
+    [bussineService approveClient:requestData];
+    [requestData release];
 }
 
 
@@ -185,7 +201,21 @@
             [alert show];
             [alert release];
         }
+    }else if([[ApproveClientMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            [self.contentApproveView resetRowCell:self.selectRow];
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
     }
+
     
 }
 
@@ -202,7 +232,17 @@
                                                            otherButtonTitles:nil];
         [alert show];
         [alert release];
+    }else if([[ApproveClientMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
     }
+
 }
 
 #pragma mark
@@ -213,8 +253,4 @@
                                             animated:YES
                                           completion:nil];
 }
-
-
-
-
 @end

@@ -55,20 +55,6 @@
     self.title = @"搜索条件";
     [self setNavBarSearchItem];
     
-    SearchConditionView *conditionView = [[SearchConditionView alloc] init];
-    conditionView.backgroundColor = [UIColor whiteColor];
-    conditionView.delegate = self;
-    [self.view addSubview:conditionView];
-    self.contentView = conditionView;
-    [conditionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
-        make.bottom.equalTo(self.view);
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view.mas_left).with.offset(270.0f);
-    }];
-    [conditionView release];
-    
-    
     ItemPickerView *searchItemPicker = [[ItemPickerView alloc] initWithFrame:CGRectMake(0, DEVICE_MAINSCREEN_HEIGHT-220-DEVICE_TABBAR_HEIGTH+9, DEVICE_MAINSCREEN_WIDTH, 220)];
     searchItemPicker.delegate = self;
     self.itemPicker = searchItemPicker;
@@ -82,6 +68,27 @@
     [datePickerView release];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (self.contentView != nil) {
+        [self.contentView removeFromSuperview];
+        self.contentView = nil;
+    }
+    
+    SearchConditionView *conditionView = [[SearchConditionView alloc] init];
+    conditionView.backgroundColor = [UIColor whiteColor];
+    conditionView.delegate = self;
+    [self.view addSubview:conditionView];
+    self.contentView = conditionView;
+    [conditionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).with.offset(64.0f);
+        make.bottom.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view.mas_left).with.offset(270.0f);
+    }];
+    [conditionView release];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

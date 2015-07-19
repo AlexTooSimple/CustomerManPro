@@ -82,6 +82,9 @@
     [store putObject:userArray
               withId:CUSTOMER_USER_ID_LIST
            intoTable:tableName];
+    [store putObject:userData
+              withId:CUSTOMER_USER_ID_DIC
+           intoTable:tableName];
 
     
     NSDictionary *vistData  = [data objectForKey:@"访问类型"];

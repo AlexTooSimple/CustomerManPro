@@ -43,14 +43,15 @@
 #define CUSTOMER_DELETE_NOTIFATION                      @"CUSTOMER_DELETE_NOTIFATION"
 #define CUSTOMER_UPDATE_MAIN_VC_NOTIFACTION             @"CUSTOMER_UPDATE_MAIN_VC_NOTIFACTION"
 #define CUSTOMER_UPDATE_CLIENT_DATA_NOTIFATION          @"CUSTOMER_UPDATE_CLIENT_DATA_NOTIFATION"
+#define CUSTOMER_APPROVE_CLIENT_NOTIFACTION             @"CUSTOMER_APPROVE_CLIENT_NOTIFACTION"
 
-#define SOURCE_DATA_ID_COLUM           @"id"
-#define SOURCE_DATA_NAME_COULUM        @"name"
+#define SOURCE_DATA_ID_COLUM                            @"id"
+#define SOURCE_DATA_NAME_COULUM                         @"name"
 
-#define RESPONE_RESULT_TRUE             @"true"
-#define RESPONE_RESULT_FALSE            @"false"
+#define RESPONE_RESULT_TRUE                             @"true"
+#define RESPONE_RESULT_FALSE                            @"false"
 
-#define PRO_MANAGER_LIMIT               1
+#define PRO_MANAGER_LIMIT                               1
 
 #define CUSTOMER_DATA_BASE_DB                     @"customer_wh_ylj.db"
 #define CUSTOMER_DB_TABLE                         @"CUSTOMER_DB_TABLE"
@@ -62,6 +63,7 @@
 #define CUSTOMER_SALE_CONDITION_LIST              @"CUSTOMER_SALE_CONDITION_LIST"
 #define CUSTOMER_PURPOSE_LIST                     @"CUSTOMER_PURPOSE_LIST"
 #define CUSTOMER_USER_ID_LIST                     @"CUSTOMER_USER_ID_LIST"
+#define CUSTOMER_USER_ID_DIC                      @"CUSTOMER_USER_ID_DIC"
 #define CUSTOMER_NONECONNECT_LIST                 @"CUSTOMER_NONECONNECT_LIST"
 
 #define CUSTOMER_JINZHAN_JIEDUAN_LIST             @"CUSTOMER_JINZHAN_JIEDUAN_LIST"

@@ -26,6 +26,9 @@
     if (itemList != nil) {
         [itemList release];
     }
+    if (approves != NULL) {
+        free(approves);
+    }
     
     [super dealloc];
 }
@@ -33,6 +36,7 @@
 - (id)init
 {
     if (self = [super init]) {
+        approves = NULL;
         [self layoutContentView];
     }
     return self;
@@ -62,7 +66,21 @@
 - (void)reloadDataView:(NSArray *)itemDatas
 {
     self.itemList = itemDatas;
+    if (approves != NULL) {
+        free(approves);
+    }
+    NSInteger cnt = [itemDatas count];
+    approves = malloc(sizeof(BOOL)*cnt);
+    memset(approves, NO, cnt);
     [self.contentTable reloadData];
+}
+
+- (void)resetRowCell:(NSInteger)row
+{
+    approves[row] = YES;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+    [self.contentTable reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark
@@ -71,10 +89,11 @@
 {
     UIButton *clickedBtn = (UIButton *)sender;
     NSInteger index = clickedBtn.tag - CELL_APPROVE_BUTTON_BASE_TAG;
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(approveView:didClickedApprove:)]) {
-        [self.delegate approveView:self didClickedApprove:index];
+    if (!approves[index]) {
+        if (self.delegate != nil && [self.delegate respondsToSelector:@selector(approveView:didClickedApprove:)]) {
+            [self.delegate approveView:self didClickedApprove:index];
+        }
     }
-    
 }
 
 #pragma mark
@@ -138,8 +157,17 @@
     
     NSInteger row = indexPath.row;
     NSDictionary *data = [self.itemList objectAtIndex:row];
-    titleLabel.text = [data objectForKey:@"title"];
-    typeLabel.text = [data objectForKey:@"typeName"];
+    
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    NSDictionary *userDic = [store getObjectById:CUSTOMER_USER_ID_DIC
+                                  fromTable:CUSTOMER_DB_TABLE];
+    
+    NSString *operator = [[NSString alloc] initWithFormat:@"%ld",[[data objectForKey:@"operator"] longValue]];
+    titleLabel.text = [userDic objectForKey:operator];
+    typeLabel.text = @"新增客户";
+    
+    [store release];
+    [operator release];
     
     //布局审批按钮
     UIButton *approveBtn = (UIButton *)[cell.contentView viewWithTag:CELL_APPROVE_BUTTON_BASE_TAG+row];
@@ -152,14 +180,18 @@
     [approveBtn setBackgroundImage:[[UIImage imageNamed:@"new_user_picker_bg.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10]
                           forState:UIControlStateNormal];
     approveBtn.tag = CELL_APPROVE_BUTTON_BASE_TAG+row;
-    [approveBtn setTitle:@"审批" forState:UIControlStateNormal];
+    if (approves[row]) {
+        [approveBtn setTitle:@"已审批" forState:UIControlStateNormal];
+    }else{
+        [approveBtn setTitle:@"审批" forState:UIControlStateNormal];
+    }
     [approveBtn addTarget:self
                    action:@selector(approveClicked:)
          forControlEvents:UIControlEventTouchUpInside];
     [approveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [cell.contentView addSubview:approveBtn];
     [approveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(cell.contentView.mas_right).with.offset(-60);
+        make.left.equalTo(cell.contentView.mas_right).with.offset(-80);
         make.right.equalTo(cell.contentView).with.offset(-10);
         make.centerY.equalTo(cell.contentView);
         make.height.mas_equalTo(60/2.0f);

@@ -230,7 +230,7 @@
         [[data objectForKey:DATA_SHOW_VALUE_COLUM] isEqualToString:@""]) {
         textStr = @"无";
     }else if ([[data objectForKey:DATA_SHOW_VALUE_COLUM] isKindOfClass:[NSNumber class]]){
-        textStr = [NSString stringWithFormat:@"%ld",[[data objectForKey:DATA_SHOW_VALUE_COLUM] integerValue]];
+        textStr = [NSString stringWithFormat:@"%d",[[data objectForKey:DATA_SHOW_VALUE_COLUM] integerValue]];
     }else{
         textStr = [data objectForKey:DATA_SHOW_VALUE_COLUM];
     }

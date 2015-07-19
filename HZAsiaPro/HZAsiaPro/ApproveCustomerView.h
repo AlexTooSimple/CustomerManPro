@@ -14,13 +14,15 @@
     UITableView *contentTable;
     NSArray *itemList;
     id<ApproveCustomerViewDelegate> delegate;
+    
+    BOOL *approves;
 }
 @property (nonatomic ,retain)UITableView *contentTable;
 @property (nonatomic ,retain)NSArray *itemList;
 @property (nonatomic ,assign)id<ApproveCustomerViewDelegate> delegate;
 
 - (void)reloadDataView:(NSArray *)itemDatas;
-
+- (void)resetRowCell:(NSInteger)row;
 @end
 
 @protocol ApproveCustomerViewDelegate <NSObject>

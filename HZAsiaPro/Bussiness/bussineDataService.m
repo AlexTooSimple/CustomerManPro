@@ -441,7 +441,7 @@ static bussineDataService *sharedBussineDataService = nil;
 }
 
 #pragma mark
-#pragma mark - 搜索审批客户
+#pragma mark - 获取历史修改记录
 - (void)getModifyHistoryList:(NSDictionary *)paramters
 {
     [self readySendMessage:@"GetClientModifyHistoryListMessage"
@@ -554,6 +554,42 @@ static bussineDataService *sharedBussineDataService = nil;
     [rspDic release];	
 }
 
+#pragma mark
+#pragma mark - UIAlterViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (kForceUpdateTag == alertView.tag) {
+        // 强制升级
+        if (1 == buttonIndex)
+        {
+            NSLog(@"updateUrl:%@",self.updateUrl);
+            NSURL* url = [NSURL URLWithString:self.updateUrl];
+            if([[UIApplication sharedApplication] canOpenURL:url]){
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }
+    }
+    
+    if (kLinkErrorTag == alertView.tag || kTimeOutErrorTag == alertView.tag) {
+        //超时或者连接错误，重试
+        if (buttonIndex == 1) {
+            if ([self respondsToSelector:sendMessageSelector]) {
+                [self performSelector:sendMessageSelector withObject:sendDataDic];
+            }
+        }
+        
+        if (buttonIndex == 0) {
+            if (nil != self.target && [self.target respondsToSelector:@selector(cancelTimeOutAndLinkError)]) {
+                [self.target cancelTimeOutAndLinkError];
+            }
+        }
+    }
+    
+    if (kSessionTimeOutTag == alertView.tag) {
+        //回到登陆页
+        //        [(AppDelegate*)[UIApplication sharedApplication].delegate relogin];
+    }
+}
 
 #pragma mark
 #pragma mark -  AlertShowViewDelegate

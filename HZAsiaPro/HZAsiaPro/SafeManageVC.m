@@ -82,9 +82,10 @@
     [self.itemArr addObject:@"设定首页提醒内容"];
     if ([isadmin integerValue] == PRO_MANAGER_LIMIT) {
         [self.itemArr addObject:@"管理客户池"];
+        [self.itemArr addObject:@"审批客户上报"];
+        [self.itemArr addObject:@"查看客户历史修改记录"];
     }
-    [self.itemArr addObject:@"审批客户上报"];
-    [self.itemArr addObject:@"查看客户历史修改记录"];
+    
     [self.safeView reloadViewData:self.itemArr];
 }
 

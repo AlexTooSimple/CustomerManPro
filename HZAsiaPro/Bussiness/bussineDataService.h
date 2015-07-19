@@ -31,7 +31,7 @@
 @end
 
 
-@interface bussineDataService : NSObject <AlertShowViewDelegate, HttpStatus> {
+@interface bussineDataService : NSObject <AlertShowViewDelegate, HttpStatus,UIAlertViewDelegate> {
 	NSString *receiveString;
 	
 	NSDictionary *sendDataDic;
@@ -118,7 +118,7 @@
 - (void)searchApproveClientList:(NSDictionary *)paramters;
 
 #pragma mark
-#pragma mark - 搜索审批客户
+#pragma mark - 获取历史修改记录
 - (void)getModifyHistoryList:(NSDictionary *)paramters;
 
 @end

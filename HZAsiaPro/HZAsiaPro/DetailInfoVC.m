@@ -233,6 +233,14 @@
 - (void)approveClicked:(id)sender
 {
     //审批
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    
+    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 [self.customerInfo objectForKey:@"clientCode"],@"id",nil];
+    
+    [bussineService approveClient:requestData];
+    [requestData release];
 }
 
 #pragma mark
@@ -248,8 +256,16 @@
           forControlEvents:UIControlEventValueChanged];
     
     [self.view addSubview:pageControl];
+    
+    CGFloat hei;
+    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
+    if (visibleVC.hidesBottomBarWhenPushed) {
+        hei = 0;
+    }else{
+        hei = DEVICE_TABBAR_HEIGTH;
+    }
     [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).with.offset(-80.0f);
+        make.top.equalTo(self.view.mas_bottom).with.offset(-hei-36.0f);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.height.mas_equalTo(30.0f);
@@ -267,7 +283,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-hei-64);
     }];
     
     cnt++;
@@ -279,7 +295,7 @@
         make.left.equalTo(detailView.mas_right);
         make.top.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-hei-64);
     }];
     
     
@@ -287,7 +303,7 @@
     [detailView release];
     
     CGFloat contentWidth = self.view.frame.size.width;
-    CGFloat contentHeight = self.view.frame.size.height - DEVICE_TABBAR_HEIGTH - 64.0f;
+    CGFloat contentHeight = self.view.frame.size.height - hei - 64.0f;
     [self.contentView setContentSize:CGSizeMake(contentWidth *cnt, contentHeight)];
     
     [self.contentControl setNumberOfPages:cnt];
@@ -297,6 +313,13 @@
 
 - (void)layoutBasicInfoView
 {
+    CGFloat hei;
+    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
+    if (visibleVC.hidesBottomBarWhenPushed) {
+        hei = 0;
+    }else{
+        hei = DEVICE_TABBAR_HEIGTH;
+    }
     DetailInfoView *detailView = [[DetailInfoView alloc] init];
     detailView.tag = DETAIL_BASE_INFO_VIEW_TAG;
     detailView.backgroundColor = [UIColor whiteColor];
@@ -305,7 +328,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-hei-64);
     }];
     
     [detailView release];
@@ -313,6 +336,14 @@
 
 - (void)layoutConcactInfoView;
 {
+    CGFloat hei;
+    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
+    if (visibleVC.hidesBottomBarWhenPushed) {
+        hei = 0;
+    }else{
+        hei = DEVICE_TABBAR_HEIGTH;
+    }
+    
     ConcactHistoryView *historyView = [[ConcactHistoryView alloc] init];
     historyView.tag = DETAIL_HISTORY_INFO_VIEW_TAG;
     historyView.backgroundColor = [UIColor whiteColor];
@@ -321,7 +352,7 @@
         make.left.equalTo(self.contentView);
         make.top.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-DEVICE_TABBAR_HEIGTH-64);
+        make.height.equalTo(self.contentView).with.offset(-hei-64);
     }];
     [historyView release];
 }
@@ -547,7 +578,7 @@
     
     NSDictionary *startDateDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                                   @"注册资金:", DATA_SHOW_TITLE_COLUM,
-                                  [NSString stringWithFormat:@"%ld",[[self.customerInfo objectForKey:@"zhcprice"] integerValue] ],DATA_SHOW_VALUE_COLUM,nil];
+                                  [NSString stringWithFormat:@"%ld",[[self.customerInfo objectForKey:@"zhcprice"] longValue]],DATA_SHOW_VALUE_COLUM,nil];
     [infoList addObject:startDateDic];
     [startDateDic release];
     
@@ -975,9 +1006,23 @@
             [alert show];
             [alert release];
         }
+    }else if([[ApproveClientMessage getBizCode] isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_APPROVE_CLIENT_NOTIFACTION
+                                                                object:nil];
+            
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
     }
-
-
     
 }
 
@@ -1004,6 +1049,15 @@
         [alert show];
         [alert release];
     }else if([[SearchCustomerWithConditionMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }else if([[ApproveClientMessage getBizCode] isEqualToString:bussineCode]){
         AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                      message:msg
                                                                     delegate:self

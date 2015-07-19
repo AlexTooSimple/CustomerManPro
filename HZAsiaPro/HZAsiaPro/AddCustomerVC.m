@@ -318,6 +318,7 @@ typedef enum ClickedView {
                                  post,@"post",
                                  email,@"email",
                                  fax,@"fax",
+                                 @"1",@"clientType",
                                  remarks,@"remarks",
                                  createBy,@"createBy",
                                  nil];
@@ -370,6 +371,7 @@ typedef enum ClickedView {
                                  hangye,@"hangye",
                                  marige,@"marige",
                                  xueli,@"xueli",
+                                 @"0",@"clientType",
                                  remarks,@"remarks",
                                  createBy,@"createBy",
                                  birthdayStr,@"birthdayStr",
