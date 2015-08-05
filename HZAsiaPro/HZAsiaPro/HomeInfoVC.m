@@ -11,12 +11,13 @@
 #import "KehuView.h"
 #import "DetailInfoVC.h"
 
-@interface HomeInfoVC ()<UIScrollViewDelegate>
+@interface HomeInfoVC ()<UIScrollViewDelegate,MFMessageComposeViewControllerDelegate>
 
 @property(nonatomic,strong)UserView *userV;
 @property(nonatomic,strong)UIScrollView *scvHome;
 @property(nonatomic,strong)UIPageControl *page;
 @property(nonatomic,strong)KehuView *kehuNoCall;
+@property(nonatomic,strong)KehuView *kehuHasOK;
 //@property(nonatomic,strong)KehuView *kehuTimeUp;
 @property(nonatomic,strong)NSMutableArray *titleMArr;
 
@@ -48,6 +49,16 @@
     } else {
         self.kehuNoCall.hidden = YES;
     }
+    
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:Tongguo] boolValue]){
+        self.kehuHasOK.hidden = NO;
+        self.kehuHasOK.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
+        width += DEVICE_MAINSCREEN_WIDTH;
+        [self.titleMArr addObject:@"审核通过列表"];
+    } else {
+        self.kehuHasOK.hidden = YES;
+    }
+    
 //    if([[[NSUserDefaults standardUserDefaults] objectForKey:TimeUp] boolValue]){
 //        self.kehuTimeUp.hidden = NO;
 //        self.kehuTimeUp.frame = CGRectMake(width, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds));
@@ -93,6 +104,13 @@
 //    self.kehuTimeUp.tabMArr = [NSMutableArray arrayWithArray:contactTypeSource];
     [self.kehuNoCall reloadView];
 //    [self.kehuTimeUp reloadView];
+    
+    //审核通过客户
+    NSArray *isOKTypeSource = [store getObjectById:CUSTOMER_ISOK_LIST
+                                            fromTable:CUSTOMER_DB_TABLE];
+    
+    self.kehuHasOK.tabMArr = [NSMutableArray arrayWithArray:isOKTypeSource];
+    [self.kehuHasOK reloadView];
 }
 
 - (void)viewDidLoad {
@@ -116,14 +134,51 @@
     self.kehuNoCall.tbvHome.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
     [self.scvHome addSubview:self.kehuNoCall];
     
+    self.kehuNoCall.messageBlk = ^(NSArray *arr){
+        BOOL canSendSMS = [MFMessageComposeViewController canSendText];
+        if (canSendSMS) {
+            MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+            picker.messageComposeDelegate = self;
+            picker.body = nil;
+            picker.recipients = arr;
+            [self presentViewController:picker
+                               animated:YES
+                             completion:nil];
+            [picker release];
+        }
+    };
     self.kehuNoCall.tapBlk = ^(NSIndexPath *index){
         DetailInfoVC *detail = [[DetailInfoVC alloc] init];
         detail.detailType = allInfoType;
         detail.isFromApprove = NO;
         NSMutableDictionary *MDic = [NSMutableDictionary dictionaryWithDictionary:[self.kehuNoCall.searchMArr objectAtIndex:index.row]];
-//        NSLog(@"%@",[self.kehuNoCall.searchMArr objectAtIndex:index.row]);
-//        [MDic setObject:[[self.kehuNoCall.searchMArr objectAtIndex:index.row] objectForKey:@"client_type"] forKey:@"clientType"];
-//        [MDic setObject:[[self.kehuNoCall.searchMArr objectAtIndex:index.row] objectForKey:@"CLIENT_CODE"] forKey:@"clientCode"];
+        detail.customerInfo = MDic;
+        [self.navigationController pushViewController:detail animated:YES];
+        [detail release];
+    };
+    
+    self.kehuHasOK = [[KehuView alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH*2, 0, DEVICE_MAINSCREEN_WIDTH, CGRectGetHeight(self.scvHome.bounds))];
+    self.kehuHasOK.tbvHome.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
+    [self.scvHome addSubview:self.kehuHasOK];
+    
+    self.kehuHasOK.messageBlk = ^(NSArray *arr){
+        BOOL canSendSMS = [MFMessageComposeViewController canSendText];
+        if (canSendSMS) {
+            MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+            picker.messageComposeDelegate = self;
+            picker.body = nil;
+            picker.recipients = arr;
+            [self presentViewController:picker
+                               animated:YES
+                             completion:nil];
+            [picker release];
+        }
+    };
+    self.kehuHasOK.tapBlk = ^(NSIndexPath *index){
+        DetailInfoVC *detail = [[DetailInfoVC alloc] init];
+        detail.detailType = allInfoType;
+        detail.isFromApprove = NO;
+        NSMutableDictionary *MDic = [NSMutableDictionary dictionaryWithDictionary:[self.kehuHasOK.searchMArr objectAtIndex:index.row]];
         detail.customerInfo = MDic;
         [self.navigationController pushViewController:detail animated:YES];
         [detail release];
@@ -146,11 +201,11 @@
     self.page.backgroundColor = [UIColor clearColor];
     self.page.currentPageIndicatorTintColor = [UIColor orangeColor];
     self.page.pageIndicatorTintColor = [UIColor grayColor];
-    self.page.numberOfPages = 2;
+    self.page.numberOfPages = 3;
     [self.view addSubview:self.page];
     
     self.titleMArr = [[NSMutableArray alloc] initWithCapacity:0];
-    [self.titleMArr setArray:@[@"首页",@"未联系客户",@"到期客户"]];
+    [self.titleMArr setArray:@[@"首页",@"未联系客户",@"审核通过列表"/*,@"到期客户"*/]];
 }
 
 - (void)dealloc {
@@ -166,6 +221,72 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark
+#pragma mark - MFMessageComposeViewControllerDelegate
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    switch (result) {
+        case MessageComposeResultCancelled:
+        {
+            [controller dismissViewControllerAnimated:YES
+                                           completion:nil];
+        }
+            break;
+        case MessageComposeResultSent:
+        {
+            [controller dismissViewControllerAnimated:YES
+                                           completion:nil];
+            AlertShowView  *alert = [[AlertShowView alloc] initWithAlertViewTitle:nil
+                                                                          message:@"短信发送成功"
+                                                                         delegate:self
+                                                                              tag:0
+                                                                cancelButtonTitle:nil
+                                                                otherButtonTitles:nil];
+            [alert show];
+            [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                             target:self
+                                           selector:@selector(cancelAlterTimer:)
+                                           userInfo:alert
+                                            repeats:NO];
+            [alert release];
+            
+            
+        }
+            break;
+        case MessageComposeResultFailed:
+        {
+            [controller dismissViewControllerAnimated:YES
+                                           completion:nil];
+            AlertShowView  *alert = [[AlertShowView alloc] initWithAlertViewTitle:nil
+                                                                          message:@"短信发送失败"
+                                                                         delegate:self
+                                                                              tag:0
+                                                                cancelButtonTitle:nil
+                                                                otherButtonTitles:nil];
+            [alert show];
+            [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                             target:self
+                                           selector:@selector(cancelAlterTimer:)
+                                           userInfo:alert
+                                            repeats:NO];
+            [alert release];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    
+}
+
+#pragma mark
+#pragma mark -  取消显示Alert
+- (void)cancelAlterTimer:(NSTimer *)timer
+{
+    AlertShowView *alter = (AlertShowView *)[timer userInfo];
+    [alter dismiss];
 }
 
 #pragma mark scrollViewDelegate

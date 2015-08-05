@@ -196,6 +196,20 @@
     
 }
 
+- (void)initCustomerOk:(id)data
+{
+    NSString *tableName = CUSTOMER_DB_TABLE;
+    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+    [store createTableWithName:tableName];
+    
+    [store putObject:data
+              withId:CUSTOMER_ISOK_LIST
+           intoTable:tableName];
+    
+    [store close];
+    [store release];
+}
+
 - (NSArray *)assembData:(NSDictionary *)data
 {
     NSArray *allKey = [data allKeys];
@@ -299,7 +313,11 @@
                                                                   error:nil];
             [self initCustomerNoneConnectData:dic];
             
-            [(AppDelegate *)([UIApplication sharedApplication].delegate) setHomeTabVC];
+            bussineDataService *bussineService = [bussineDataService sharedDataService];
+            bussineService.target = self;
+            [bussineService searchApprovePassClientList:nil];
+            
+            
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                          message:MSG
@@ -310,6 +328,29 @@
             [alert show];
             [alert release];
 
+        }
+    }else if ([bussineCode isEqualToString:[SearchApprovePassListMessage getBizCode]]){
+        if ([[errorCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo; //获取审核通过客户
+            
+            NSString *data = [rspInfo objectForKey:@"data"];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:nil];
+            [self initCustomerOk:dic];
+            
+            [(AppDelegate *)([UIApplication sharedApplication].delegate) setHomeTabVC];
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:MSG
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+            
         }
     }else if ([bussineCode isEqualToString:[UpdateVersionMessage getBizCode]]){
         if ([[errorCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]) {

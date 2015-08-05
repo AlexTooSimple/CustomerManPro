@@ -60,7 +60,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -104,13 +104,22 @@
             switchTwo.on = NO;
         }
     } else if(indexPath.row == 2) {
-        labOne.text = @"到期客户";
-        if([[[NSUserDefaults standardUserDefaults] objectForKey:TimeUp] boolValue]){
+        labOne.text = @"审核通过客户";
+        if([[[NSUserDefaults standardUserDefaults] objectForKey:Tongguo] boolValue]){
             switchTwo.on = YES;
         } else {
             switchTwo.on = NO;
         }
     }
+
+//    } else if(indexPath.row == 2) {
+//        labOne.text = @"到期客户";
+//        if([[[NSUserDefaults standardUserDefaults] objectForKey:TimeUp] boolValue]){
+//            switchTwo.on = YES;
+//        } else {
+//            switchTwo.on = NO;
+//        }
+//    }
     return cell;
 }
 
@@ -133,7 +142,7 @@
             break;
         }
         case 2:{
-            [[NSUserDefaults standardUserDefaults] setBool:swt.on forKey:TimeUp];
+            [[NSUserDefaults standardUserDefaults] setBool:swt.on forKey:Tongguo];
             [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         }

@@ -285,7 +285,7 @@
     btn.selectRow = indexPath.row;
     labCode.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"clientCode"]];
     labOne.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"cname"]];
-    labTwo.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"fristPhone"]];
+    labTwo.text = [NSString stringWithFormat:@"%@",[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"fristPhone"]==[NSNull null]?@"":[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"fristPhone"]];
     if([[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"operator"] == [NSNull null]||[[self.searchMArr objectAtIndex:indexPath.row] objectForKey:@"operator"] == nil) {
         labThree.text = @"未安排业务员";
         [btn setTitle:@"分配" forState:UIControlStateNormal];

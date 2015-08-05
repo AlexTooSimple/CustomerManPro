@@ -37,6 +37,10 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:Nocontent];
     }
     
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:Tongguo]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:Tongguo];
+    }
+    
     if (![[NSUserDefaults standardUserDefaults] objectForKey:TimeUp]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:TimeUp];
     }

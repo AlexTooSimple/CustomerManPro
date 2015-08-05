@@ -26,6 +26,7 @@
 #define UserInfo    @"userInfo"     //用户信息
 #define Nocontent   @"Nocontent"    //未联系客户
 #define TimeUp      @"TimeUp"       //到期客户
+#define Tongguo      @"Tongguo"      //审核通过列表
 
 #define DEVICE_MAINSCREEN [UIScreen mainScreen].bounds
 #define DEVICE_MAINSCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -67,6 +68,7 @@
 #define CUSTOMER_USER_ID_LIST                     @"CUSTOMER_USER_ID_LIST"
 #define CUSTOMER_USER_ID_DIC                      @"CUSTOMER_USER_ID_DIC"
 #define CUSTOMER_NONECONNECT_LIST                 @"CUSTOMER_NONECONNECT_LIST"
+#define CUSTOMER_ISOK_LIST                        @"CUSTOMER_ISOK_LIST"
 
 #define CUSTOMER_JINZHAN_JIEDUAN_LIST             @"CUSTOMER_JINZHAN_JIEDUAN_LIST"
 #define CUSTOMER_JINZHAN_JIEDUAN_DIC              @"CUSTOMER_JINZHAN_JIEDUAN_DIC"
