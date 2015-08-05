@@ -69,6 +69,20 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)relogin
+{
+    if (self.window.rootViewController != nil && [self.window.rootViewController isKindOfClass:[HomeTabBarController class]]) {
+        [self.window.rootViewController.view removeFromSuperview];
+        self.window.rootViewController = nil;
+    }
+    LoginVC *loginVC = [[LoginVC alloc] init];
+    self.window.rootViewController = loginVC;
+    [self.window addSubview:loginVC.view];
+    [loginVC release];
+    
+    [self.window makeKeyAndVisible];
+}
+
 - (void)setHomeTabVC
 {
     if (self.window.rootViewController != nil && [self.window.rootViewController isKindOfClass:[LoginVC class]]) {

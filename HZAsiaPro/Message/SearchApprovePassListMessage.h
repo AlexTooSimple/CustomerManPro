@@ -1,5 +1,5 @@
 //
-//  SearchApprovePassList.h
+//  SearchApprovePassListMessage.h
 //  HZAsiaPro
 //
 //  Created by wuhui on 15/8/4.
@@ -8,6 +8,9 @@
 
 #import "JsonMessage.h"
 
-@interface SearchApprovePassList : JsonMessage
-
+#define SEARCH_APPROVE_PASS_LIST_BIZCODE    @"queryAuditedClient.do"
+@interface SearchApprovePassListMessage : JsonMessage
+{
+}
++ (NSString*)getBizCode;
 @end

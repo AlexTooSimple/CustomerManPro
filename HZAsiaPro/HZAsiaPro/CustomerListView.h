@@ -13,6 +13,7 @@
 #define CUSTOMER_DIC_NAME_KEY           @"cname"
 #define CUSTOMER_DIC_PHONE_KEY          @"mobile"
 
+
 @protocol CustomerListViewDelegate;
 
 @interface CustomerListView : UIView<RefreshSingleViewDataSource,

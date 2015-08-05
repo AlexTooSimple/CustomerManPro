@@ -56,6 +56,8 @@
 		025760E11B28828400CE588A /* RefreshSingleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 025760E01B28828400CE588A /* RefreshSingleView.m */; };
 		025760E41B28832600CE588A /* RefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 025760E31B28832600CE588A /* RefreshTableHeaderView.m */; };
 		025760E71B288BE500CE588A /* ComponentsFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 025760E61B288BE500CE588A /* ComponentsFactory.m */; };
+		0264FBB71B70FB3200595244 /* SearchApprovePassListMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0264FBB61B70FB3200595244 /* SearchApprovePassListMessage.m */; };
+		0264FBBA1B70FFC300595244 /* UpdateVersionMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 0264FBB91B70FFC300595244 /* UpdateVersionMessage.m */; };
 		027B59351B5B83370054913C /* ShowHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 027B59341B5B83370054913C /* ShowHistoryVC.m */; };
 		027B59381B5B83D50054913C /* QueryClientVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 027B59371B5B83D50054913C /* QueryClientVC.m */; };
 		027B593B1B5B84580054913C /* QueryClientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 027B593A1B5B84580054913C /* QueryClientView.m */; };
@@ -247,6 +249,10 @@
 		025760E31B28832600CE588A /* RefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RefreshTableHeaderView.m; path = Tools/CommonTools/RefreshTableHeaderView.m; sourceTree = SOURCE_ROOT; };
 		025760E51B28855600CE588A /* ComponentsFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ComponentsFactory.h; path = Tools/CommonTools/ComponentsFactory.h; sourceTree = SOURCE_ROOT; };
 		025760E61B288BE500CE588A /* ComponentsFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ComponentsFactory.m; path = Tools/CommonTools/ComponentsFactory.m; sourceTree = SOURCE_ROOT; };
+		0264FBB51B70FB3200595244 /* SearchApprovePassListMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchApprovePassListMessage.h; path = Message/SearchApprovePassListMessage.h; sourceTree = SOURCE_ROOT; };
+		0264FBB61B70FB3200595244 /* SearchApprovePassListMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchApprovePassListMessage.m; path = Message/SearchApprovePassListMessage.m; sourceTree = SOURCE_ROOT; };
+		0264FBB81B70FFC300595244 /* UpdateVersionMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateVersionMessage.h; sourceTree = "<group>"; };
+		0264FBB91B70FFC300595244 /* UpdateVersionMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateVersionMessage.m; sourceTree = "<group>"; };
 		027B59331B5B83370054913C /* ShowHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowHistoryVC.h; sourceTree = "<group>"; };
 		027B59341B5B83370054913C /* ShowHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowHistoryVC.m; sourceTree = "<group>"; };
 		027B59361B5B83D50054913C /* QueryClientVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryClientVC.h; sourceTree = "<group>"; };
@@ -441,6 +447,10 @@
 				02D83E201B4E5B31008696A6 /* LoginJsonMessage.m */,
 				02D83E1C1B4E5AA9008696A6 /* StaticDataMessage.h */,
 				02D83E1D1B4E5AA9008696A6 /* StaticDataMessage.m */,
+				0264FBB51B70FB3200595244 /* SearchApprovePassListMessage.h */,
+				0264FBB61B70FB3200595244 /* SearchApprovePassListMessage.m */,
+				0264FBB81B70FFC300595244 /* UpdateVersionMessage.h */,
+				0264FBB91B70FFC300595244 /* UpdateVersionMessage.m */,
 			);
 			name = login;
 			sourceTree = "<group>";
@@ -1132,6 +1142,7 @@
 				022964901AA6B2E000D5BFE5 /* AFURLResponseSerialization.m in Sources */,
 				0216840A1B2D845D00E94A47 /* ModelCustomerNavVC.m in Sources */,
 				D4EF705F1B4FF49D002E68EE /* BaseTabView.m in Sources */,
+				0264FBBA1B70FFC300595244 /* UpdateVersionMessage.m in Sources */,
 				02C09D2D1B27D350009E823C /* View+MASAdditions.m in Sources */,
 				025760E11B28828400CE588A /* RefreshSingleView.m in Sources */,
 				D43811161B41796100FF56DB /* AccountManageVC.m in Sources */,
@@ -1151,6 +1162,7 @@
 				0229648A1AA6B2E000D5BFE5 /* AFHTTPRequestOperationManager.m in Sources */,
 				02A38E151B516DC1008C0CA9 /* DeleteClientMessage.m in Sources */,
 				029FE86B1AB9768C006882DE /* JSONKit.m in Sources */,
+				0264FBB71B70FB3200595244 /* SearchApprovePassListMessage.m in Sources */,
 				021416B01B25896100248D48 /* HomeInfoVC.m in Sources */,
 				022964941AA6B2FF00D5BFE5 /* HttpConnector.m in Sources */,
 				028207631AB03EB900951CB2 /* JsonMessage.m in Sources */,

@@ -121,6 +121,15 @@
 #pragma mark - 获取历史修改记录
 - (void)getModifyHistoryList:(NSDictionary *)paramters;
 
+#pragma mark
+#pragma mark - 获取业务员下面审核通过的客户列表
+- (void)searchApprovePassClientList:(NSDictionary *)paramters;
+
+#pragma mark
+#pragma mark - 更新接口
+- (void)updateVersion:(NSDictionary *)paramters;
+
+
 @end
 
 

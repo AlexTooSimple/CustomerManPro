@@ -116,6 +116,7 @@ static bussineDataService *sharedBussineDataService = nil;
     [rspDic setObject:rspCode forKey:@"errorCode"];
     [rspDic setObject:bussineCode forKey:@"bussineCode"];
     [rspDic setObject:msg forKey:@"message"];
+
     if (rspDesc != nil) {
         [rspDic setObject:rspDesc forKey:@"MSG"];
     }
@@ -128,8 +129,22 @@ static bussineDataService *sharedBussineDataService = nil;
     if (rspDic == nil) {
         return;
     }
-    
     NSString* rspCode = [rspDic objectForKey:@"errorCode"];
+    NSString* rspDesc = [rspDic objectForKey:@"MSG"];
+    if ([rspCode isEqualToString:RESPONE_RESULT_FALSE] &&
+        [rspDesc isEqualToString:@"未登录"]) {
+        //重新登录
+        AlertShowView *alterView = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:@"登录超时,请重新登录！"
+                                                                        delegate:self
+                                                                             tag:kSessionTimeOutTag
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+        [alterView show];
+        [alterView release];
+        
+        return;
+    }
     
     if([rspCode isEqualToString:RESPONE_RESULT_TRUE]){
         if (nil != self.target && [self.target respondsToSelector:@selector(requestDidFinished:)]) {
@@ -461,6 +476,67 @@ static bussineDataService *sharedBussineDataService = nil;
     [self noticeUI:rspDic];
 }
 
+#pragma mark
+#pragma mark - 获取业务员下面审核通过的客户列表
+- (void)searchApprovePassClientList:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"SearchApprovePassListMessage"
+                     param:paramters
+                   funName:@"searchApprovePassClientList:"
+             synchronously:NO];
+}
+
+- (void)searchApprovePassClientListFinished:(id <MessageDelegate>)searchResponse
+{
+    SearchApprovePassListMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        
+    }
+    [self noticeUI:rspDic];
+}
+
+#pragma mark
+#pragma mark - 更新接口
+- (void)updateVersion:(NSDictionary *)paramters
+{
+    [self readySendMessage:@"UpdateVersionMessage"
+                     param:paramters
+                   funName:@"updateVersion:"
+             synchronously:NO];
+}
+
+- (void)updateVersionFinished:(id <MessageDelegate>)searchResponse
+{
+    UpdateVersionMessage* Msg = searchResponse;
+    NSDictionary* rspDic = [self handleRspInfo:Msg];
+    NSString* rspCode = [Msg getRspcode];
+    if([[rspCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]){
+        //处理更新的业务逻辑
+        NSDictionary *versionData =  [NSJSONSerialization JSONObjectWithData:[[Msg.rspInfo objectForKey:@"data"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                                     options:NSJSONReadingMutableContainers
+                                                                       error:nil];
+        NSString *url = [versionData objectForKey:@"url"];
+        self.updateUrl = url;
+        NSString *forse = [versionData objectForKey:@"forse"];
+        if ([forse isEqualToString:RESPONE_RESULT_TRUE]) {
+            //强制更新
+            AlertShowView *alterView = [[AlertShowView alloc] initWithAlertViewTitle:@"强制更新"
+                                                                             message:@"您的版本太低,请强制升级!"
+                                                                            delegate:self
+                                                                                 tag:kForceUpdateTag
+                                                                   cancelButtonTitle:@"确定"
+                                                                   otherButtonTitles:nil];
+            [alterView show];
+            [alterView release];
+            return;
+        }
+        
+    }
+    [self noticeUI:rspDic];
+}
+
 
 #pragma mark -
 #pragma mark http 回调接口
@@ -496,6 +572,10 @@ static bussineDataService *sharedBussineDataService = nil;
         [self approveClientFinished:msg];
     }else if (YES == [[msg getBusinessCode] isEqualToString:GET_CLIENT_MODIFY_HISTORY_BIZCODE]){
         [self getModifyHistoryListFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:SEARCH_APPROVE_PASS_LIST_BIZCODE]){
+        [self searchApprovePassClientListFinished:msg];
+    }else if (YES == [[msg getBusinessCode] isEqualToString:UPDATE_VERSION_BIZCODE]){
+        [self updateVersionFinished:msg];
     }
 }
 
@@ -587,7 +667,7 @@ static bussineDataService *sharedBussineDataService = nil;
     
     if (kSessionTimeOutTag == alertView.tag) {
         //回到登陆页
-        //        [(AppDelegate*)[UIApplication sharedApplication].delegate relogin];
+        [(AppDelegate*)[UIApplication sharedApplication].delegate relogin];
     }
 }
 
@@ -624,7 +704,7 @@ static bussineDataService *sharedBussineDataService = nil;
     
     if (kSessionTimeOutTag == alertView.index) {
         //回到登陆页
-//        [(AppDelegate*)[UIApplication sharedApplication].delegate relogin];
+        [(AppDelegate*)[UIApplication sharedApplication].delegate relogin];
     }
 
 }

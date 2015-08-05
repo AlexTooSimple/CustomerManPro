@@ -128,6 +128,7 @@
         typeLabel.textAlignment = NSTextAlignmentLeft;
         typeLabel.font = [UIFont systemFontOfSize:14.0f];
         typeLabel.textColor = [UIColor blackColor];
+        typeLabel.adjustsFontSizeToFitWidth = YES;
         typeLabel.tag = CELL_TYPE_LABEL_TAG;
         [cell.contentView addSubview:typeLabel];
         [typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -164,7 +165,10 @@
     
     NSString *operator = [[NSString alloc] initWithFormat:@"%ld",[[data objectForKey:@"operator"] longValue]];
     titleLabel.text = [userDic objectForKey:operator];
-    typeLabel.text = @"新增客户";
+    
+    NSString *typeString = [[NSString alloc] initWithFormat:@"新增%@",[data objectForKey:@"cname"]];
+    typeLabel.text = typeString;
+    [typeString release];
     
     [store release];
     [operator release];

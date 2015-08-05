@@ -11,9 +11,12 @@
 #import "DetailInfoVC.h"
 #import "bussineDataService.h"
 
+#define ALTER_APPROVE_SUCCESS_TAG   101
+
 @interface ApproveCustomerVC ()<ApproveCustomerViewDelegate,
                                 HttpBackDelegate,
-                                AlertShowViewDelegate>
+                                AlertShowViewDelegate,
+                                UIAlertViewDelegate>
 {
     ApproveCustomerView *contentApproveView;
     NSArray *approveDataList;
@@ -57,7 +60,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"审批上报";
-    [self setNavBarSMSItem];
+//    [self setNavBarSMSItem];
     
     [self layoutContentView];
     
@@ -114,7 +117,24 @@
 
 - (void)reloadView
 {
-    [self.contentApproveView resetRowCell:self.selectRow];
+    NSMutableArray *clientArray = [[NSMutableArray alloc] initWithArray:self.approveDataList
+                                                              copyItems:YES];
+    [clientArray removeObjectAtIndex:self.selectRow];
+    self.approveDataList = clientArray;
+    [clientArray release];
+    [self.contentApproveView reloadDataView:self.approveDataList];
+//    if ([self.approveDataList count] == 0) {
+//        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+//                                                                     message:@"您已经审批完所有客户"
+//                                                                    delegate:self
+//                                                                         tag:0
+//                                                           cancelButtonTitle:@"确定"
+//                                                           otherButtonTitles:nil];
+//        [alert show];
+//        [alert release];
+//    }
+
+//    [self.contentApproveView resetRowCell:self.selectRow];
 }
 
 #pragma mark
@@ -203,7 +223,14 @@
         }
     }else if([[ApproveClientMessage getBizCode] isEqualToString:bussineCode]){
         if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
-            [self.contentApproveView resetRowCell:self.selectRow];
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@""
+                                                                         message:@"客户审批通过"
+                                                                        delegate:self
+                                                                             tag:ALTER_APPROVE_SUCCESS_TAG
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                          message:msg
@@ -253,4 +280,30 @@
                                             animated:YES
                                           completion:nil];
 }
+
+- (void)alertShowView:(AlertShowView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView.index == ALTER_APPROVE_SUCCESS_TAG) {
+        NSMutableArray *clientArray = [[NSMutableArray alloc] initWithArray:self.approveDataList
+                                                                  copyItems:YES];
+        [clientArray removeObjectAtIndex:self.selectRow];
+        self.approveDataList = clientArray;
+        [clientArray release];
+        [self.contentApproveView reloadDataView:self.approveDataList];
+    }
+}
+#pragma mark
+#pragma mark - UIAlterViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == ALTER_APPROVE_SUCCESS_TAG) {
+        NSMutableArray *clientArray = [[NSMutableArray alloc] initWithArray:self.approveDataList
+                                                                  copyItems:YES];
+        [clientArray removeObjectAtIndex:self.selectRow];
+        self.approveDataList = clientArray;
+        [clientArray release];
+        [self.contentApproveView reloadDataView:self.approveDataList];
+    }
+}
+
 @end

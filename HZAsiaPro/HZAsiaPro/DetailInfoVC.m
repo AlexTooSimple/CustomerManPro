@@ -17,6 +17,7 @@
 #define DETAIL_HISTORY_INFO_VIEW_TAG        201
 
 #define DELETE_CUSTOMER_TAG                 301
+#define ALTER_APPROVE_SUCCESS_TAG           401
 
 @interface DetailInfoVC ()<UIScrollViewDelegate,
                           ActionSheetViewDelegate,
@@ -1008,10 +1009,15 @@
         }
     }else if([[ApproveClientMessage getBizCode] isEqualToString:bussineCode]){
         if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_APPROVE_CLIENT_NOTIFACTION
-                                                                object:nil];
             
-            [self.navigationController popViewControllerAnimated:YES];
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@""
+                                                                         message:@"客户审批通过"
+                                                                        delegate:self
+                                                                             tag:ALTER_APPROVE_SUCCESS_TAG
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                          message:msg
@@ -1084,6 +1090,11 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_DELETE_NOTIFATION
                                                             object:nil];
         [self.navigationController popViewControllerAnimated:YES];
+    }else if (ALTER_APPROVE_SUCCESS_TAG == alertView.index){
+        [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_APPROVE_CLIENT_NOTIFACTION
+                                                            object:nil];
+        
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -1095,6 +1106,10 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_DELETE_NOTIFATION
                                                             object:nil];
 
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if (ALTER_APPROVE_SUCCESS_TAG == alertView.tag){
+        [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_APPROVE_CLIENT_NOTIFACTION
+                                                            object:nil];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

@@ -39,6 +39,12 @@
     
     [loginView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [loginView release];
+    
+//    [NSTimer scheduledTimerWithTimeInterval:0.01f
+//                                     target:self
+//                                   selector:@selector(sendUpdateVersion)
+//                                   userInfo:nil
+//                                    repeats:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,6 +62,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)sendUpdateVersion
+{
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService updateVersion:nil];
+}
 
 #pragma mark
 #pragma mark - 存取数据
@@ -298,7 +311,46 @@
             [alert release];
 
         }
+    }else if ([bussineCode isEqualToString:[UpdateVersionMessage getBizCode]]){
+        if ([[errorCode lowercaseString] isEqualToString:RESPONE_RESULT_TRUE]) {
+            message *msg = [info objectForKey:@"message"];
+            NSDictionary *rspInfo = msg.rspInfo; //获取客户的未联系客户
+            
+            NSString *data = [rspInfo objectForKey:@"data"];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding]
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:nil];
+            NSString *version = [dic objectForKey:@"version"];
+            NSString *currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+            if ([version compare:currentVersion] == NSOrderedDescending) {
+                //可选更新
+                AlertShowView *alterView = [[AlertShowView alloc] initWithAlertViewTitle:@"版本升级"
+                                                                                 message:@"有新的版本可以升级!"
+                                                                                delegate:self
+                                                                                     tag:0
+                                                                       cancelButtonTitle:@"下次"
+                                                                       otherButtonTitles:@"更新",nil];
+                [alterView show];
+                [alterView release];
+            }
+            
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:MSG
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+            
+        }
     }
+
+
+    
+
+
 }
 
 - (void)requestFailed:(NSDictionary *)info
@@ -324,6 +376,15 @@
         [alert show];
         [alert release];
     }else if ([bussineCode isEqualToString:[UploadAllCustomerMessage getBizCode]]) {
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:MSG
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }else if ([bussineCode isEqualToString:[UpdateVersionMessage getBizCode]]) {
         AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                      message:MSG
                                                                     delegate:self

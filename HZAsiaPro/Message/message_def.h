@@ -27,5 +27,7 @@
 #import "SearchApproveClientListMessage.h"
 #import "ApproveClientMessage.h"
 #import "GetClientModifyHistoryListMessage.h"
+#import "SearchApprovePassListMessage.h"
+#import "UpdateVersionMessage.h"
 
 #endif

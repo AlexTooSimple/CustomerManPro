@@ -269,7 +269,14 @@
                 [alert show];
                 [alert release];
             }else{
-                self.customerDataList = rspCustomerList;
+                NSMutableArray *itemArray = [[NSMutableArray alloc] initWithCapacity:0];
+                NSInteger cnt = [rspCustomerList count];
+                for (int i=0; i<cnt; i++) {
+                    [itemArray insertObject:[rspCustomerList objectAtIndex:i]
+                                    atIndex:0];
+                }
+                self.customerDataList = itemArray;
+                [itemArray release];
                 [self.customerView reloadData:self.customerDataList];
             }
         }else{

@@ -9,10 +9,13 @@
 #import "LoginView.h"
 #import "ComponentsFactory.h"
 
+#define REMEMBER_VIEW_TAP_TAG      101
+
 @interface LoginView()
 @property (nonatomic,retain)UITextField *userField;
 @property (nonatomic,retain)UITextField *passwdField;
 @property (nonatomic,retain)UIButton *loginBtn;
+@property (nonatomic,assign)BOOL isRememberUser;
 @end
 
 @implementation LoginView
@@ -21,6 +24,7 @@
 @synthesize passwdField;
 @synthesize loginBtn;
 @synthesize delegate;
+@synthesize isRememberUser;
 
 - (id)init
 {
@@ -85,6 +89,9 @@
         make.right.equalTo(nameView).with.offset(-40);
     }];
     
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:LOGIN_REMEMBER_USER_NAME] != nil) {
+        user_Field.text = [[NSUserDefaults standardUserDefaults] objectForKey:LOGIN_REMEMBER_USER_NAME];
+    }
     
     [userNameView release];
     [user_Field release];
@@ -125,6 +132,7 @@
     passwd_Field.backgroundColor = [UIColor clearColor];
     passwd_Field.clearButtonMode = UITextFieldViewModeWhileEditing;
     passwd_Field.font = [UIFont systemFontOfSize:15.0f];
+    passwd_Field.secureTextEntry = YES;
     passwd_Field.textAlignment = NSTextAlignmentLeft;
     passwd_Field.placeholder = @"请输入密码";
     passwd_Field.contentMode = UIViewContentModeCenter;
@@ -151,7 +159,57 @@
         make.height.mas_equalTo(1);
     }];
 
+    //布局记住密码视图
+    UIView *registerPasswdView = [[UIView alloc] initWithFrame:CGRectZero];
+    registerPasswdView.backgroundColor = [UIColor clearColor];
+    [contentView addSubview:registerPasswdView];
+    [registerPasswdView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(seperView2.mas_bottom).with.offset(5.0f);
+        make.left.equalTo(contentView);
+        make.right.equalTo(contentView);
+        make.height.equalTo(@25);
+    }];
     
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(handleFromTap:)];
+    tapGesture.numberOfTapsRequired = 1;
+    tapGesture.numberOfTouchesRequired = 1;
+    [registerPasswdView addGestureRecognizer:tapGesture];
+    [tapGesture release];
+    
+    isRememberUser = YES;
+    UIImageView *selectView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    selectView.backgroundColor = [UIColor clearColor];
+    selectView.tag = REMEMBER_VIEW_TAP_TAG;
+    selectView.image = [UIImage imageNamed:@"bg_content_select_hover.png"];
+    [registerPasswdView addSubview:selectView];
+    [selectView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(registerPasswdView).with.offset(30.0f);
+        make.top.equalTo(registerPasswdView).with.offset(2.5f);
+        make.width.mas_equalTo(20.0f);
+        make.height.mas_equalTo(20.0f);
+    }];
+    
+    
+   
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textAlignment = NSTextAlignmentLeft;
+    titleLabel.text = @"记住用户名";
+    titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    titleLabel.textColor = [UIColor blackColor];
+    [registerPasswdView addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(selectView.mas_right).with.offset(8);
+        make.right.equalTo(registerPasswdView).with.offset(-50);
+        make.top.equalTo(registerPasswdView);
+        make.bottom.equalTo(registerPasswdView);
+    }];
+    
+    [titleLabel release];
+    [selectView release];
+    
+    //布局登录按钮
     UIButton *login_btn = [UIButton buttonWithType:UIButtonTypeCustom];
     login_btn.backgroundColor = [UIColor clearColor];
     [login_btn setBackgroundImage:[UIImage imageNamed:@"login_button.png"]
@@ -168,7 +226,7 @@
                forState:UIControlStateNormal];
     [contentView addSubview:login_btn];
     [login_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(seperView2.mas_bottom).with.offset(30);
+        make.top.equalTo(registerPasswdView.mas_bottom).with.offset(20);
         make.centerX.equalTo(contentView);
         make.size.mas_equalTo(CGSizeMake(300.0f, 45.0f));
     }];
@@ -178,16 +236,38 @@
     [pwdView release];
     [seperView release];
     [seperView2 release];
+    [registerPasswdView release];
     [contentView release];
-    
-    
    
 }
 
 #pragma mark
 #pragma mark - UIAction
+- (void)handleFromTap:(UIGestureRecognizer *)recognizer
+{
+    UIView *touchView = [recognizer view];
+    UIImageView *selectView = (UIImageView *)[touchView viewWithTag:REMEMBER_VIEW_TAP_TAG];
+    self.isRememberUser = !self.isRememberUser;
+    if (self.isRememberUser) {
+        selectView.image = [UIImage imageNamed:@"bg_content_select_hover.png"];
+    }else{
+        selectView.image = [UIImage imageNamed:@"bg_content_select_n.png"];
+    }
+}
+
 - (void)login:(id)sender
 {
+    
+    if (self.isRememberUser) {
+        if (self.userField.text != nil && ![self.userField.text isEqualToString:@""]) {
+            [[NSUserDefaults standardUserDefaults] setObject:self.userField.text forKey:LOGIN_REMEMBER_USER_NAME];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }else{
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:LOGIN_REMEMBER_USER_NAME];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(loginWithUserName:Passwd:)]) {
         [self.delegate loginWithUserName:self.userField.text
                                   Passwd:self.passwdField.text];

@@ -161,11 +161,30 @@
     if ([itemData objectForKey:CUSTOMER_DIC_PHONE_KEY] != nil && ![[itemData objectForKey:CUSTOMER_DIC_PHONE_KEY] isEqual:[NSNull null]]) {
         phoneLabel.text = [itemData objectForKey:CUSTOMER_DIC_PHONE_KEY];
     }
-
     
+    NSString *created = [itemData objectForKey:@"created"];
     
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate *  senddate= [NSDate date];
+    //结束时间
+    NSDate *endDate = [dateFormatter dateFromString:created];
+    //当前时间
+    NSDate *senderDate = [dateFormatter dateFromString:[dateFormatter stringFromDate:senddate]];
+    //得到相差秒数
+    NSTimeInterval time=[endDate timeIntervalSinceDate:senderDate];
+    
+    int days = ((int)time)/(3600*24);
+    if (days >= -7) {
+        nameLabel.textColor = [ComponentsFactory createColorByHex:@"#FF8000"];
+        phoneLabel.textColor = [ComponentsFactory createColorByHex:@"#FF8000"];
+    }else{
+        nameLabel.textColor = [UIColor blackColor];
+        phoneLabel.textColor = [UIColor blackColor];
+    }
     return cell;
 }
+
 
 - (void)refreshSingleView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

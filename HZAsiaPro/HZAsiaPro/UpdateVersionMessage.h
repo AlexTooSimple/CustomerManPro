@@ -8,6 +8,9 @@
 
 #import "JsonMessage.h"
 
+#define UPDATE_VERSION_BIZCODE    @"version.do"
 @interface UpdateVersionMessage : JsonMessage
-
+{
+}
++ (NSString*)getBizCode;
 @end
