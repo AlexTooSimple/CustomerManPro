@@ -13,11 +13,22 @@
 #import "AppDelegate.h"
 #import "YTKKeyValueStore.h"
 
-@interface LoginVC ()<LoginViewDelegate,HttpBackDelegate,AlertShowViewDelegate>
+#define ALTER_VIEW_UPDATE_SELECT_TAG        101
 
+@interface LoginVC ()<LoginViewDelegate,HttpBackDelegate,AlertShowViewDelegate,UIAlertViewDelegate>
+@property (nonatomic,retain)NSString *updateUrl;
 @end
 
 @implementation LoginVC
+
+@synthesize updateUrl;
+
+- (void)dealloc
+{
+    self.updateUrl = nil;
+    
+    [super dealloc];
+}
 
 - (void)loadView
 {
@@ -40,11 +51,11 @@
     [loginView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [loginView release];
     
-//    [NSTimer scheduledTimerWithTimeInterval:0.01f
-//                                     target:self
-//                                   selector:@selector(sendUpdateVersion)
-//                                   userInfo:nil
-//                                    repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:0.01f
+                                     target:self
+                                   selector:@selector(sendUpdateVersion)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -362,13 +373,14 @@
                                                                 options:NSJSONReadingMutableContainers
                                                                   error:nil];
             NSString *version = [dic objectForKey:@"version"];
+            self.updateUrl = [dic objectForKey:@"url"];
             NSString *currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
             if ([version compare:currentVersion] == NSOrderedDescending) {
                 //可选更新
                 AlertShowView *alterView = [[AlertShowView alloc] initWithAlertViewTitle:@"版本升级"
                                                                                  message:@"有新的版本可以升级!"
                                                                                 delegate:self
-                                                                                     tag:0
+                                                                                     tag:ALTER_VIEW_UPDATE_SELECT_TAG
                                                                        cancelButtonTitle:@"下次"
                                                                        otherButtonTitles:@"更新",nil];
                 [alterView show];
@@ -446,4 +458,29 @@
                      completion:nil];
 }
 
+- (void)alertShowView:(AlertShowView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView.index == ALTER_VIEW_UPDATE_SELECT_TAG) {
+        if (buttonIndex == 1) {
+            NSURL* url = [NSURL URLWithString:self.updateUrl];
+            if([[UIApplication sharedApplication] canOpenURL:url]){
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }
+    }
+}
+
+#pragma mark
+#pragma mark - UIAlterViewDelegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == ALTER_VIEW_UPDATE_SELECT_TAG) {
+        if (buttonIndex == 1) {
+            NSURL* url = [NSURL URLWithString:self.updateUrl];
+            if([[UIApplication sharedApplication] canOpenURL:url]){
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }
+    }
+}
 @end
