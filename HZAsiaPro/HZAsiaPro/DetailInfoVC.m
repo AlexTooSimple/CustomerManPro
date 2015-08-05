@@ -84,7 +84,7 @@
 {
     CGRect frame = [UIScreen mainScreen].bounds;
     UIView *rootView = [[UIView alloc] initWithFrame:frame];
-    rootView.backgroundColor = [UIColor clearColor];
+    rootView.backgroundColor = [UIColor whiteColor];
     self.view = rootView;
     [rootView release];
 }
@@ -94,6 +94,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
     self.isUpdate = NO;
     if (isFromApprove) {
         self.title = @"审批详情";
@@ -112,14 +113,25 @@
     scrollView.backgroundColor = [UIColor clearColor];
     scrollView.scrollEnabled = YES;
     scrollView.pagingEnabled = YES;
-    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = YES;
+    scrollView.showsVerticalScrollIndicator = NO;
     scrollView.delegate = self;
     self.contentView = scrollView;
     [self.view addSubview:scrollView];
     
+    
+    CGFloat hei;
+    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
+    if (visibleVC.hidesBottomBarWhenPushed) {
+        hei = 0;
+    }else{
+        hei = DEVICE_TABBAR_HEIGTH;
+    }
     [scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.size.equalTo(self.view);
+        make.top.equalTo(self.view).with.offset(64.0f);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).with.offset(-hei);
     }];
     [scrollView release];
     
@@ -255,18 +267,10 @@
     [pageControl addTarget:self
                     action:@selector(handlePageControlFrom:)
           forControlEvents:UIControlEventValueChanged];
-    
     [self.view addSubview:pageControl];
     
-    CGFloat hei;
-    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
-    if (visibleVC.hidesBottomBarWhenPushed) {
-        hei = 0;
-    }else{
-        hei = DEVICE_TABBAR_HEIGTH;
-    }
     [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).with.offset(-hei-36.0f);
+        make.top.equalTo(self.contentView.mas_bottom).with.offset(-36.0f);
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.height.mas_equalTo(30.0f);
@@ -284,7 +288,7 @@
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-hei-64);
+        make.height.equalTo(self.contentView);
     }];
     
     cnt++;
@@ -296,65 +300,60 @@
         make.left.equalTo(detailView.mas_right);
         make.top.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-hei-64);
+        make.height.equalTo(self.contentView);
     }];
     
     
     [historyView release];
     [detailView release];
+
+    CGFloat hei;
+    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
+    if (visibleVC.hidesBottomBarWhenPushed) {
+        hei = 0;
+    }else{
+        hei = DEVICE_TABBAR_HEIGTH;
+    }
     
-    CGFloat contentWidth = self.view.frame.size.width;
-    CGFloat contentHeight = self.view.frame.size.height - hei - 64.0f;
-    [self.contentView setContentSize:CGSizeMake(contentWidth *cnt, contentHeight)];
+    [self.contentView setContentSize:CGSizeMake(DEVICE_MAINSCREEN_WIDTH*cnt, DEVICE_MAINSCREEN_HEIGHT-64-hei)];
     
     [self.contentControl setNumberOfPages:cnt];
+   
     [self.view bringSubviewToFront:self.contentControl];
 }
 
 
 - (void)layoutBasicInfoView
 {
-    CGFloat hei;
-    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
-    if (visibleVC.hidesBottomBarWhenPushed) {
-        hei = 0;
-    }else{
-        hei = DEVICE_TABBAR_HEIGTH;
-    }
     DetailInfoView *detailView = [[DetailInfoView alloc] init];
     detailView.tag = DETAIL_BASE_INFO_VIEW_TAG;
     detailView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:detailView];
     [detailView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView);
-        make.left.equalTo(self.contentView);
-        make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-hei-64);
+        make.center.equalTo(self.contentView);
+        make.size.equalTo(self.contentView);
     }];
+    
+    self.contentView.pagingEnabled = NO;
+    self.contentView.showsHorizontalScrollIndicator = NO;
     
     [detailView release];
 }
 
 - (void)layoutConcactInfoView;
 {
-    CGFloat hei;
-    UIViewController *visibleVC =  [[self.navigationController viewControllers] objectAtIndex:([[self.navigationController viewControllers] count]-2)];
-    if (visibleVC.hidesBottomBarWhenPushed) {
-        hei = 0;
-    }else{
-        hei = DEVICE_TABBAR_HEIGTH;
-    }
-    
     ConcactHistoryView *historyView = [[ConcactHistoryView alloc] init];
     historyView.tag = DETAIL_HISTORY_INFO_VIEW_TAG;
     historyView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:historyView];
     [historyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView);
-        make.top.equalTo(self.contentView);
-        make.width.equalTo(self.contentView);
-        make.height.equalTo(self.contentView).with.offset(-hei-64);
+        make.size.equalTo(self.contentView);
+        make.center.equalTo(self.contentView);
     }];
+    
+    self.contentView.showsHorizontalScrollIndicator = NO;
+    self.contentView.pagingEnabled = NO;
+    
     [historyView release];
 }
 
@@ -901,13 +900,17 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.contentView != nil  && self.contentControl != nil) {
-        if(scrollView == self.contentView){
-            CGFloat pageWidth = scrollView.frame.size.width;
-            int page1 = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-            self.contentControl.currentPage = page1;
-        }
+    if (self.contentView != nil && scrollView == self.contentView ) {
+        CGFloat pageWidth = scrollView.frame.size.width;
+        int page1 = floor(scrollView.contentOffset.x/pageWidth) + 1;
+        NSLog(@"%@,, x===%lf,,page===%d",scrollView,scrollView.contentOffset.x,page1);
+        [self.contentControl setCurrentPage:(page1-1)];
     }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    NSLog(@"OL");
 }
 
 #pragma mark
@@ -917,7 +920,9 @@
     UIPageControl *pageControl = (UIPageControl *)sender;
     NSInteger page = pageControl.currentPage;
     CGPoint currentPoint = self.contentView.contentOffset;
-    [self.contentView setContentOffset:CGPointMake(DEVICE_MAINSCREEN_WIDTH*page, currentPoint.y) animated:YES];
+    [UIView animateWithDuration:0.03f animations:^{
+        [self.contentView setContentOffset:CGPointMake(DEVICE_MAINSCREEN_WIDTH*page, currentPoint.y) animated:YES];
+    }];
 }
 
 

@@ -47,6 +47,7 @@
     tableView.backgroundColor = [UIColor clearColor];
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.pagingEnabled = NO;
     tableView.separatorColor = [UIColor clearColor];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addSubview:tableView];

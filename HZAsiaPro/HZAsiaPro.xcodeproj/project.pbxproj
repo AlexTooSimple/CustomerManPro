@@ -1311,7 +1311,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5f12bc67-69b9-4960-b24e-4e6da73907e7";
+				PROVISIONING_PROFILE = "30659116-3ee4-407c-95a5-eed3302be62b";
 				SWIFT_OBJC_BRIDGING_HEADER = "HZAsiaPro/HZAsiaPro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1334,7 +1334,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5f12bc67-69b9-4960-b24e-4e6da73907e7";
+				PROVISIONING_PROFILE = "30659116-3ee4-407c-95a5-eed3302be62b";
 				SWIFT_OBJC_BRIDGING_HEADER = "HZAsiaPro/HZAsiaPro-Bridging-Header.h";
 			};
 			name = Release;
