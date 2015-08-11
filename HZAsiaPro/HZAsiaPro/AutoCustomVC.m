@@ -66,13 +66,13 @@
 
 - (void)searchSimpleCustomer
 {
-    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
-    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
-                                       fromTable:CUSTOMER_DB_TABLE];
-    
+//    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+//    NSDictionary *usrInfo = [store getObjectById:CUSTOMER_USERINFO
+//                                       fromTable:CUSTOMER_DB_TABLE];
+//    
     NSMutableDictionary *searchCondition = [[NSMutableDictionary alloc] initWithCapacity:0];
-    NSString *operatorCode = [usrInfo objectForKey:@"code"];
-    [searchCondition setObject:operatorCode
+//    NSString *operatorCode = [usrInfo objectForKey:@"code"];
+    [searchCondition setObject:@"100000"
                         forKey:@"operator"];
     
     bussineDataService *bussineService = [bussineDataService sharedDataService];

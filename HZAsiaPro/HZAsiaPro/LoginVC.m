@@ -51,6 +51,17 @@
     [loginView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [loginView release];
     
+    
+    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(DEVICE_MAINSCREEN_WIDTH-100-10, DEVICE_MAINSCREEN_HEIGHT-40, 100, 30)];
+    versionLabel.backgroundColor = [UIColor clearColor];
+    versionLabel.text = [NSString stringWithFormat:@"V%@",[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey]];
+    versionLabel.textColor = [UIColor blackColor];
+    versionLabel.font = [UIFont systemFontOfSize:14.0f];
+    versionLabel.textAlignment = NSTextAlignmentRight;
+    [self.view addSubview:versionLabel];
+    [versionLabel release];
+    
+    
     [NSTimer scheduledTimerWithTimeInterval:0.01f
                                      target:self
                                    selector:@selector(sendUpdateVersion)
@@ -373,7 +384,7 @@
                                                                 options:NSJSONReadingMutableContainers
                                                                   error:nil];
             NSString *version = [dic objectForKey:@"version"];
-            self.updateUrl = [dic objectForKey:@"url"];
+            self.updateUrl = [NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@",[dic objectForKey:@"url"]];
             NSString *currentVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
             if ([version compare:currentVersion] == NSOrderedDescending) {
                 //可选更新

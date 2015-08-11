@@ -94,34 +94,36 @@
 {
     //组装数据
     NSDictionary *concactInfo = [self.contactInfoView commitGetAllCustomerData];
-    
-    YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
-    NSDictionary *usrinfo = [store getObjectById:CUSTOMER_USERINFO
-                                       fromTable:CUSTOMER_DB_TABLE];
-    
-    NSString *visitDate_o = [concactInfo objectForKey:@"日期"];
-    NSString *visitDate = [ComponentsFactory getDateString:visitDate_o
-                                         fromSourceFormate:@"yyyy-MM-dd"
-                                             toDestFormate:@"yyyy-MM-dd hh:mm:ss"];
-    
-//    [ComponentsFactory getCurrentDateWithFormate:@"yyyy-MM-dd hh:mm:ss"],@"created",
-    NSDictionary *requestInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 self.clientCode,@"clientCode",
-                                 [concactInfo objectForKey:@"联系类型"],@"type",
-                                 [concactInfo objectForKey:@"购买意向"],@"intent",
-                                 [concactInfo objectForKey:@"来访形式"],@"visitMode",
-                                 [concactInfo objectForKey:@"来访人数"],@"withManCount",
-                                 [concactInfo objectForKey:@"来访频率"],@"firstVisit",
-                                 [concactInfo objectForKey:@"备注"],@"remarks",
-                                 visitDate,@"visitDateStr",
-                                 [usrinfo objectForKey:@"code"],@"createBy",
-                                 [usrinfo objectForKey:@"ownname"],@"receptionist",nil];
-    [store release];
-    
-    bussineDataService *bussineService = [bussineDataService sharedDataService];
-    bussineService.target = self;
-    [bussineService addVisitHistory:requestInfo];
-    [requestInfo release];
+    if (concactInfo != nil) {
+        YTKKeyValueStore *store = [[YTKKeyValueStore alloc] initDBWithName:CUSTOMER_DATA_BASE_DB];
+        NSDictionary *usrinfo = [store getObjectById:CUSTOMER_USERINFO
+                                           fromTable:CUSTOMER_DB_TABLE];
+        
+        NSString *visitDate_o = [concactInfo objectForKey:@"日期"];
+        NSString *visitDate = [ComponentsFactory getDateString:visitDate_o
+                                             fromSourceFormate:@"yyyy-MM-dd"
+                                                 toDestFormate:@"yyyy-MM-dd hh:mm:ss"];
+        
+        //    [ComponentsFactory getCurrentDateWithFormate:@"yyyy-MM-dd hh:mm:ss"],@"created",
+        NSDictionary *requestInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                     self.clientCode,@"clientCode",
+                                     [concactInfo objectForKey:@"联系类型"],@"type",
+                                     [concactInfo objectForKey:@"购买意向"],@"intent",
+                                     [concactInfo objectForKey:@"来访形式"],@"visitMode",
+                                     [concactInfo objectForKey:@"来访人数"],@"withManCount",
+                                     [concactInfo objectForKey:@"来访频率"],@"firstVisit",
+                                     [concactInfo objectForKey:@"备注"],@"remarks",
+                                     visitDate,@"visitDateStr",
+                                     [usrinfo objectForKey:@"code"],@"createBy",
+                                     [usrinfo objectForKey:@"ownname"],@"receptionist",nil];
+        [store release];
+        
+        bussineDataService *bussineService = [bussineDataService sharedDataService];
+        bussineService.target = self;
+        [bussineService addVisitHistory:requestInfo];
+        [requestInfo release];
+    }
+
 }
 
 #pragma mark

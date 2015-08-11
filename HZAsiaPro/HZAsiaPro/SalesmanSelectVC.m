@@ -78,6 +78,8 @@
         [aler release];
     } else {
         [self.userDic setObject:[[self.tabMArr objectAtIndex:self.selectRow] objectForKey:@"id"] forKey:@"operator"];
+        [self.userDic removeObjectForKey:@"created"];
+        [self.userDic removeObjectForKey:@"lastModify"];
         [self sendUpdateIndvialMessage:self.userDic];
     }
 }

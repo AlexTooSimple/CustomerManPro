@@ -195,7 +195,25 @@ typedef enum ClickedDateType{
         //业务员数据源
         NSArray *allUserList = [store getObjectById:CUSTOMER_USER_ID_LIST
                                           fromTable:CUSTOMER_DB_TABLE];
-        self.userDataSource = allUserList;
+        NSMutableArray *userLists = [[NSMutableArray alloc] initWithArray:allUserList
+                                                                copyItems:YES];
+//        NSInteger cnt = [userLists count];
+//        NSString *usrCode = [NSString stringWithFormat:@"%@",[usrInfo objectForKey:@"code"]];
+//        for (int i=0; i<cnt; i++) {
+//            NSDictionary *oneUserData = [userLists objectAtIndex:i];
+//            if ([[oneUserData objectForKey:SOURCE_DATA_ID_COLUM] isEqualToString:usrCode]) {
+//                [userLists exchangeObjectAtIndex:0 withObjectAtIndex:i];
+//                break;
+//            }
+//        }
+        NSDictionary *allData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 [NSNull null],SOURCE_DATA_ID_COLUM,
+                                 @"全部",SOURCE_DATA_NAME_COULUM,nil];
+        [userLists insertObject:allData atIndex:0];
+        [allData release];
+        
+        self.userDataSource = userLists;
+        [userLists release];
         
     }
     
@@ -921,10 +939,10 @@ typedef enum ClickedDateType{
     
     if (isAdmin) {
         //业务员
-        if(![[[self.userDataSource objectAtIndex:saleManSelectRow] objectForKey:SOURCE_DATA_ID_COLUM] isEqualToString:@""]){
+//        if(![[[self.userDataSource objectAtIndex:saleManSelectRow] objectForKey:SOURCE_DATA_ID_COLUM] isEqualToString:@""]){
             [conditionData setObject:[[self.userDataSource objectAtIndex:saleManSelectRow] objectForKey:SOURCE_DATA_ID_COLUM]
                               forKey:@"operator"];
-        }
+//        }
     }
     
 //    //销售情况

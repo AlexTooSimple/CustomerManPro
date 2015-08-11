@@ -1005,7 +1005,7 @@
 				TargetAttributes = {
 					0229644B1AA6AFE700D5BFE5 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = T2362RFKT6;
+						DevelopmentTeam = K2AA99B75C;
 					};
 					0229645E1AA6AFE700D5BFE5 = {
 						CreatedOnToolsVersion = 6.1;
@@ -1302,7 +1302,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wu hui (ZKPGN57U5Q)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Duoting Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
@@ -1311,7 +1311,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30659116-3ee4-407c-95a5-eed3302be62b";
+				PROVISIONING_PROFILE = "a92c8ac7-3c1c-4c29-a956-5b9b61018f04";
 				SWIFT_OBJC_BRIDGING_HEADER = "HZAsiaPro/HZAsiaPro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1325,7 +1325,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Star VATS Technologies Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Duoting Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
@@ -1334,7 +1334,7 @@
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "30659116-3ee4-407c-95a5-eed3302be62b";
+				PROVISIONING_PROFILE = "a92c8ac7-3c1c-4c29-a956-5b9b61018f04";
 				SWIFT_OBJC_BRIDGING_HEADER = "HZAsiaPro/HZAsiaPro-Bridging-Header.h";
 			};
 			name = Release;

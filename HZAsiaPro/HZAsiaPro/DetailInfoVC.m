@@ -860,7 +860,7 @@
         NSMutableArray *historyOneItem = [[NSMutableArray alloc] initWithCapacity:0];
         NSDictionary *dateDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  @"日期:",DATA_SHOW_TITLE_COLUM,
-                                 @"2014-6-1",DATA_SHOW_VALUE_COLUM ,nil];
+                                 [oneConcactItem objectForKey:@"visitDate"],DATA_SHOW_VALUE_COLUM ,nil];
         [historyOneItem addObject:dateDic];
         [dateDic release];
         

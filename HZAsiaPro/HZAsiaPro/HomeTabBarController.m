@@ -100,5 +100,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark
+#pragma mark - UITabBarDelegate
 
 @end
