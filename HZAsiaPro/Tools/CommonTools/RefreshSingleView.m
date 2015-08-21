@@ -203,9 +203,8 @@
 #pragma mark - Pull To Refresh
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (scrollView.contentOffset.x <=0) {
-        NSLog(@"%lf",scrollView.contentOffset.x);
-        //上拉刷新
+    NSLog(@"%lf",scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y <= -70) {
         [self.contentTable.header beginRefreshing];
     }
     if ([self.dataArray count] < loadIndex) {
@@ -220,7 +219,6 @@
         [self loadDataBegin];
 	}
 }
-
 
 // 开始加载数据
 - (void) loadDataBegin
