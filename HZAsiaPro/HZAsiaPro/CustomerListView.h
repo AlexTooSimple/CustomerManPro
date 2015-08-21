@@ -38,4 +38,6 @@
 @protocol CustomerListViewDelegate <NSObject>
 - (void)customerListView:(CustomerListView *)listView didSelectRow:(NSInteger) row;
 - (void)customerDidSendSMS:(NSArray *)phoneList;
+- (void)customerWillRefresh;
+
 @end

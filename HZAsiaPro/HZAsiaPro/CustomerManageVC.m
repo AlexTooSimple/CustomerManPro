@@ -355,6 +355,13 @@
     }
 }
 
+- (void)customerWillRefresh
+{
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    [bussineService searchCustomerListWithCondition:self.requestCondition];
+}
+
 #pragma mark
 #pragma mark - MFMessageComposeViewControllerDelegate
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result

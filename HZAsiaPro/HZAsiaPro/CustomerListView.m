@@ -49,6 +49,7 @@
     singleView.dataSource = self;
     singleView.delegate = self;
     singleView.backgroundColor = [UIColor clearColor];
+    [singleView addTableViewHeader];
     self.contentTable = singleView;
     [self addSubview:singleView];
     
@@ -67,6 +68,7 @@
     selectRow = -1;
     [self.contentTable resetViewDataStream];
     [self.contentTable reloadViewData:itemData];
+    [self.contentTable endRefresh];
 }
 
 #pragma mark
@@ -209,6 +211,13 @@
 - (void)DataChange:(NSMutableArray *)itemData
 {
     self.customerList = itemData;
+}
+
+- (void)upHeaderRefreshData
+{
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(customerWillRefresh)]) {
+        [self.delegate customerWillRefresh];
+    }
 }
 
 #pragma mark

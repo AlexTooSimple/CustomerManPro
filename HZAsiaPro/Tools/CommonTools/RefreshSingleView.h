@@ -32,6 +32,8 @@
 
 - (void)reloadViewData:(NSArray *)itemDatas;
 - (void)resetViewDataStream;
+- (void)addTableViewHeader;
+- (void)endRefresh;
 @end
 
 @protocol RefreshSingleViewDataSource <NSObject>
@@ -53,5 +55,6 @@
 
 - (void)DataChange:(NSMutableArray *)itemData;
 - (void)refreshLoadData:(NSInteger)pageNumLoad;
+- (void)upHeaderRefreshData;
 @end
 

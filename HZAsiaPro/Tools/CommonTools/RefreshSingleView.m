@@ -9,6 +9,7 @@
 #import "RefreshSingleView.h"
 #import "RefreshTableHeaderView.h"
 #import "Masonry.h"
+#import "MJRefresh.h"
 
 @implementation RefreshSingleView
 @synthesize contentTable;
@@ -46,6 +47,29 @@
         [self layoutContentView];
     }
     return self;
+}
+
+- (void)addTableViewHeader
+{
+    self.contentTable.header = [MJRefreshNormalHeader headerWithRefreshingTarget:self
+                                                          refreshingAction:@selector(refreshHeader)];
+    
+}
+
+- (void)endRefresh
+{
+    if ([self.contentTable.header isRefreshing]) {
+        [self.contentTable.header endRefreshing];
+    }
+}
+
+#pragma mark
+#pragma mark - UIAction
+- (void)refreshHeader
+{
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(upHeaderRefreshData)]) {
+        [self.delegate upHeaderRefreshData];
+    }
 }
 
 #pragma mark
@@ -179,6 +203,11 @@
 #pragma mark - Pull To Refresh
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+    if (scrollView.contentOffset.x <=0) {
+        NSLog(@"%lf",scrollView.contentOffset.x);
+        //上拉刷新
+        [self.contentTable.header beginRefreshing];
+    }
     if ([self.dataArray count] < loadIndex) {
         return;
     }
@@ -188,10 +217,11 @@
     CGFloat off_y = scrollView.contentOffset.y-off;
 	if(!_loadingMore && off_y > 10)
     {
-        NSLog(@"wwwwwwwww");
         [self loadDataBegin];
 	}
 }
+
+
 // 开始加载数据
 - (void) loadDataBegin
 {
