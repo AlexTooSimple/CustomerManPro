@@ -16,6 +16,7 @@
 #define DETAIL_BASE_INFO_VIEW_TAG           202
 #define DETAIL_HISTORY_INFO_VIEW_TAG        201
 
+#define ALTER_DELETE_CUSTOMER_TAG           299
 #define DELETE_CUSTOMER_TAG                 301
 #define ALTER_APPROVE_SUCCESS_TAG           401
 
@@ -482,12 +483,14 @@
 
 - (void)deleteClient
 {
-    bussineDataService *bussineService = [bussineDataService sharedDataService];
-    bussineService.target = self;
-    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 [self.customerInfo objectForKey:@"clientCode"], @"clientCode",nil];
-    [bussineService deleteCustomer:requestData];
-    [requestData release];
+    AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"删除客户"
+                                                                 message:@"删除客户会删除该客户的回访记录，您确定要删除吗？"
+                                                                delegate:self
+                                                                     tag:ALTER_DELETE_CUSTOMER_TAG
+                                                       cancelButtonTitle:@"取消"
+                                                       otherButtonTitles:@"确定",nil];
+    [alert show];
+    [alert release];
 }
 
 
@@ -1100,6 +1103,15 @@
                                                             object:nil];
         
         [self.navigationController popViewControllerAnimated:YES];
+    }else if (ALTER_DELETE_CUSTOMER_TAG == alertView.index){
+        if (buttonIndex == 1) {
+            bussineDataService *bussineService = [bussineDataService sharedDataService];
+            bussineService.target = self;
+            NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                         [self.customerInfo objectForKey:@"clientCode"], @"clientCode",nil];
+            [bussineService deleteCustomer:requestData];
+            [requestData release];
+        }
     }
 }
 
@@ -1116,6 +1128,15 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:CUSTOMER_APPROVE_CLIENT_NOTIFACTION
                                                             object:nil];
         [self.navigationController popViewControllerAnimated:YES];
+    }else if (ALTER_DELETE_CUSTOMER_TAG == alertView.tag){
+        if (buttonIndex == 1) {
+            bussineDataService *bussineService = [bussineDataService sharedDataService];
+            bussineService.target = self;
+            NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                         [self.customerInfo objectForKey:@"clientCode"], @"clientCode",nil];
+            [bussineService deleteCustomer:requestData];
+            [requestData release];
+        }
     }
 }
 

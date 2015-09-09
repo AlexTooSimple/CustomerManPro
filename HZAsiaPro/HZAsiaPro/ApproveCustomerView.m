@@ -65,7 +65,11 @@
 
 - (void)reloadDataView:(NSArray *)itemDatas
 {
-    self.itemList = itemDatas;
+    NSMutableArray *items = [[NSMutableArray alloc] initWithArray:itemDatas
+                                                        copyItems:YES];
+    self.itemList = items;
+    [items release];
+    
     if (approves != NULL) {
         free(approves);
     }
@@ -242,6 +246,24 @@
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(approveView:didShowApproveDetail:)]) {
         [self.delegate approveView:self didShowApproveDetail:row];
     }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSInteger row = indexPath.row;
+        [self.itemList removeObjectAtIndex:row];
+        [self.contentTable reloadData];
+        
+        if (self.delegate != nil && [self.delegate respondsToSelector:@selector(approveView:didDeleteApprove:)]) {
+            [self.delegate approveView:self didDeleteApprove:row];
+        }
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
 }
 
 #pragma mark

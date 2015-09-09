@@ -12,6 +12,9 @@
 
 #define CELL_NAME_LABEL_TAG         121
 #define CELL_PHONE_LABEL_TAG        122
+#define CELL_COUNT_LABEL_TAG        124
+#define HEADER_COUNT_LABEL_TAG      123
+
 
 #define CELL_ROW_HEIGHT             44.0f
 
@@ -56,6 +59,8 @@
     self.contentTable.contentTable.separatorColor = [UIColor clearColor];
     self.contentTable.contentTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    //self.contentTable.contentTable.tableHeaderView = [self layoutContentTableHeader];
+    
     [singleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
         make.size.equalTo(self);
@@ -63,12 +68,33 @@
     [singleView release];
 }
 
-- (void)reloadData:(NSArray *)itemData
+- (void)reloadData:(NSArray *)itemData WithCount:(NSString *)itemCount
 {
     selectRow = -1;
     [self.contentTable resetViewDataStream];
     [self.contentTable reloadViewData:itemData];
+    
+//    UILabel *countLable = (UILabel *)[[self.contentTable.contentTable tableHeaderView] viewWithTag:HEADER_COUNT_LABEL_TAG];
+//    countLable.text = [NSString stringWithFormat:@"共有位%@客户",itemCount];
     [self.contentTable endRefresh];
+}
+
+- (UIView *)layoutContentTableHeader
+{
+    UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, 44)] autorelease];
+    headerView.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *countLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, DEVICE_MAINSCREEN_WIDTH, 44)];
+    countLable.backgroundColor = [UIColor clearColor];
+    countLable.textAlignment = NSTextAlignmentCenter;
+    countLable.tag = HEADER_COUNT_LABEL_TAG;
+    countLable.font = [UIFont systemFontOfSize:28.0f];
+    countLable.textColor = [UIColor blackColor];
+    countLable.contentMode = UIViewContentModeCenter;
+    [headerView addSubview:countLable];
+    [countLable release];
+    
+    return headerView;
 }
 
 #pragma mark
@@ -82,6 +108,33 @@
                                        reuseIdentifier:tableCellCode] autorelease];
         
         cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        
+        UIImageView *countImageView = [[UIImageView alloc] init];
+        countImageView.backgroundColor = [UIColor clearColor];
+        countImageView.image = [[UIImage imageNamed:@"corner.png"] stretchableImageWithLeftCapWidth:10.0f topCapHeight:10.0f];
+        [cell.contentView addSubview:countImageView];
+        [countImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(cell.contentView);
+            make.left.equalTo(cell.contentView);
+            make.size.mas_equalTo(CGSizeMake(25.0f, 25.0f));
+        }];
+       
+        
+        UILabel *countLabel = [[UILabel alloc] init];
+        countLabel.backgroundColor = [UIColor clearColor];
+        countLabel.textAlignment = NSTextAlignmentLeft;
+        countLabel.textColor = [UIColor blackColor];
+        countLabel.contentMode = UIViewContentModeCenter;
+        countLabel.font = [UIFont systemFontOfSize:8.0f];
+        countLabel.tag = CELL_COUNT_LABEL_TAG;
+        [cell.contentView addSubview:countLabel];
+        
+        [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(countImageView);
+        }];
+        
+        [countLabel release];
+        [countImageView release];
         
         UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectZero];
         iconView.backgroundColor = [UIColor clearColor];
@@ -151,8 +204,12 @@
     
     UILabel *nameLabel = (UILabel *)[cell.contentView viewWithTag:CELL_NAME_LABEL_TAG];
     UILabel *phoneLabel = (UILabel *)[cell.contentView viewWithTag:CELL_PHONE_LABEL_TAG];
+    UILabel *countLabel = (UILabel *)[cell.contentView viewWithTag:CELL_COUNT_LABEL_TAG];
+    
     
     NSInteger row = [indexPath row];
+    
+    countLabel.text = [NSString stringWithFormat:@"%ld",row+1];
     NSDictionary *itemData = [self.customerList objectAtIndex:row];
     
 

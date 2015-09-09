@@ -170,7 +170,7 @@
     self.customerDataList = allCustomerItems;
     [allCustomerItems release];
  
-     [self.customerView reloadData:self.customerDataList];
+     [self.customerView reloadData:self.customerDataList WithCount:@"30"];
 }
 
 - (void)setUpdateKeyView
@@ -277,7 +277,7 @@
 //                }
                 self.customerDataList = rspCustomerList;
 //                [itemArray release];
-                [self.customerView reloadData:self.customerDataList];
+                [self.customerView reloadData:self.customerDataList WithCount:@"30"];
             }
         }else{
             AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"

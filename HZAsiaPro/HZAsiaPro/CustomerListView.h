@@ -31,7 +31,7 @@
 @property(nonatomic ,retain)RefreshSingleView *contentTable;
 @property(nonatomic ,retain)NSArray *customerList;
 
-- (void)reloadData:(NSArray *)itemData;
+- (void)reloadData:(NSArray *)itemData WithCount:(NSString *)itemCount;
 @end
 
 

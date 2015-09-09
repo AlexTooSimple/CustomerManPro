@@ -12,13 +12,13 @@
 @interface ApproveCustomerView : UIView<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *contentTable;
-    NSArray *itemList;
+    NSMutableArray *itemList;
     id<ApproveCustomerViewDelegate> delegate;
     
     BOOL *approves;
 }
 @property (nonatomic ,retain)UITableView *contentTable;
-@property (nonatomic ,retain)NSArray *itemList;
+@property (nonatomic ,retain)NSMutableArray *itemList;
 @property (nonatomic ,assign)id<ApproveCustomerViewDelegate> delegate;
 
 - (void)reloadDataView:(NSArray *)itemDatas;
@@ -28,4 +28,5 @@
 @protocol ApproveCustomerViewDelegate <NSObject>
 - (void)approveView:(ApproveCustomerView *)approveView didShowApproveDetail:(NSInteger) row;
 - (void)approveView:(ApproveCustomerView *)approveView didClickedApprove:(NSInteger)row;
+- (void)approveView:(ApproveCustomerView *)approveView didDeleteApprove:(NSInteger)row;
 @end

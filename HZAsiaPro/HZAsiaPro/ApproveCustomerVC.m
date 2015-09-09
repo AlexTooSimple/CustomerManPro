@@ -178,6 +178,16 @@
     [requestData release];
 }
 
+- (void)approveView:(ApproveCustomerView *)approveView didDeleteApprove:(NSInteger)row
+{
+    bussineDataService *bussineService = [bussineDataService sharedDataService];
+    bussineService.target = self;
+    NSDictionary *requestData = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 [[self.approveDataList objectAtIndex:row] objectForKey:@"clientCode"], @"clientCode",
+                                 @"tmp",@"intent",nil];
+    [bussineService deleteCustomer:requestData];
+    [requestData release];
+}
 
 #pragma mark
 #pragma mark - HttpBackDelegate
@@ -241,6 +251,27 @@
             [alert show];
             [alert release];
         }
+    }else if ([[DeleteClientMessage getBizCode]  isEqualToString:bussineCode]){
+        if ([errorCode isEqualToString:RESPONE_RESULT_TRUE]) {
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@""
+                                                                         message:@"客户删除"
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }else{
+            AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                         message:msg
+                                                                        delegate:self
+                                                                             tag:0
+                                                               cancelButtonTitle:@"确定"
+                                                               otherButtonTitles:nil];
+            [alert show];
+            [alert release];
+        }
+
     }
 
     
@@ -268,7 +299,17 @@
                                                            otherButtonTitles:nil];
         [alert show];
         [alert release];
+    }else if([[DeleteClientMessage getBizCode] isEqualToString:bussineCode]){
+        AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
+                                                                     message:msg
+                                                                    delegate:self
+                                                                         tag:0
+                                                           cancelButtonTitle:@"确定"
+                                                           otherButtonTitles:nil];
+        [alert show];
+        [alert release];
     }
+
 
 }
 

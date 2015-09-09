@@ -1159,7 +1159,7 @@ typedef enum ClickedView {
 {
     NSString *bussineCode = [info objectForKey:@"bussineCode"];
     NSString *msg = [info objectForKey:@"MSG"];
-    if([[AddVisitHistoryMessage getBizCode] isEqualToString:bussineCode]){
+    if([[InsertClientMessage getBizCode] isEqualToString:bussineCode]){
         AlertShowView *alert = [[AlertShowView alloc] initWithAlertViewTitle:@"提示"
                                                                      message:msg
                                                                     delegate:self

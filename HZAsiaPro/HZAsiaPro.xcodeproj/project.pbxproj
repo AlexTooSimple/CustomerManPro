@@ -52,6 +52,7 @@
 		024C6B291B26DB7F00B19543 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 024C6B251B26DB7F00B19543 /* Icon.png */; };
 		024C6B2A1B26DB7F00B19543 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 024C6B261B26DB7F00B19543 /* Icon@2x.png */; };
 		024C6B2D1B26E67500B19543 /* CustomerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 024C6B2C1B26E67500B19543 /* CustomerListView.m */; };
+		02553B021BA0753D005E88EC /* corner.png in Resources */ = {isa = PBXBuildFile; fileRef = 02553B011BA0753D005E88EC /* corner.png */; };
 		025760DE1B286C1C00CE588A /* icon_item_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 025760DC1B286C1C00CE588A /* icon_item_right@2x.png */; };
 		025760E11B28828400CE588A /* RefreshSingleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 025760E01B28828400CE588A /* RefreshSingleView.m */; };
 		025760E41B28832600CE588A /* RefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 025760E31B28832600CE588A /* RefreshTableHeaderView.m */; };
@@ -261,6 +262,7 @@
 		024C6B261B26DB7F00B19543 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		024C6B2B1B26E67500B19543 /* CustomerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerListView.h; sourceTree = "<group>"; };
 		024C6B2C1B26E67500B19543 /* CustomerListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerListView.m; sourceTree = "<group>"; };
+		02553B011BA0753D005E88EC /* corner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = corner.png; path = image/corner.png; sourceTree = SOURCE_ROOT; };
 		025760DC1B286C1C00CE588A /* icon_item_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon_item_right@2x.png"; path = "image/icon_item_right@2x.png"; sourceTree = SOURCE_ROOT; };
 		025760DF1B28828400CE588A /* RefreshSingleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RefreshSingleView.h; path = Tools/CommonTools/RefreshSingleView.h; sourceTree = SOURCE_ROOT; };
 		025760E01B28828400CE588A /* RefreshSingleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RefreshSingleView.m; path = Tools/CommonTools/RefreshSingleView.m; sourceTree = SOURCE_ROOT; };
@@ -791,6 +793,7 @@
 		025760DA1B286BF900CE588A /* image */ = {
 			isa = PBXGroup;
 			children = (
+				02553B011BA0753D005E88EC /* corner.png */,
 				02E4AC141B4687EB0081DF51 /* login_button_a.png */,
 				02E4AC151B4687EB0081DF51 /* login_button.png */,
 				02E4AC101B46759C0081DF51 /* login_icon_a.png */,
@@ -1204,6 +1207,7 @@
 				02E4AC161B4687EB0081DF51 /* login_button_a.png in Resources */,
 				024C6B2A1B26DB7F00B19543 /* Icon@2x.png in Resources */,
 				0293A8491B2EF6FC0086C602 /* icon-plus@2x.png in Resources */,
+				02553B021BA0753D005E88EC /* corner.png in Resources */,
 				024C6B281B26DB7F00B19543 /* Icon-60@3x.png in Resources */,
 				0293A83E1B2EF2450086C602 /* icon_login_account.png in Resources */,
 				02C86A2D1B2D4FDA00C37CE7 /* input_bg.png in Resources */,
@@ -1476,12 +1480,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6009b697-f07a-4b49-b80a-3358b3a7fa04";
 				SWIFT_OBJC_BRIDGING_HEADER = "HZAsiaPro/HZAsiaPro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1494,17 +1498,17 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Hangzhou Duoting Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hangzhou Duoting Co., Ltd.";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HZAsiaPro/HZAsiaPro-Prefix.pch";
 				INFOPLIST_FILE = HZAsiaPro/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_CFLAGS = "-I${SDKROOT}/usr/include/libxml2";
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "6009b697-f07a-4b49-b80a-3358b3a7fa04";
 				SWIFT_OBJC_BRIDGING_HEADER = "HZAsiaPro/HZAsiaPro-Bridging-Header.h";
 			};
 			name = Release;
